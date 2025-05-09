@@ -18,10 +18,9 @@
 			<?php
 			echo esc_html(
 				sprintf(
-				/* translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-					__( 'Choose %1$s to Publish to %2$s', 'social-post-flow' ),
-					$post_types[ $post_type ]->labels->name,
-					$this->base->plugin->account
+				/* translators: %1$s: Post Type Name */
+					__( 'Choose %1$s to Publish to Social Post Flow', 'social-post-flow' ),
+					$post_types[ $post_type ]->labels->name
 				)
 			);
 			?>
@@ -34,13 +33,11 @@
 					<?php
 					echo esc_html(
 						sprintf(
-						/* translators: %1$s: Number of Posts, %2$s: Post Type Name, %3$s: Post Type Name, %4$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %5$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-							__( '%1$s %2$s found matching your query.  Choose the %3$s below that you want to Publish to %4$s.  They\'ll be sent to %5$s in the order listed.', 'social-post-flow' ),
+						/* translators: %1$s: Number of Posts, %2$s: Post Type Name, %3$s: Post Type Name */
+							__( '%1$s %2$s found matching your query.  Choose the %3$s below that you want to Publish to Social Post Flow.  They\'ll be sent to Social Post Flow in the order listed.', 'social-post-flow' ),
 							count( $post_ids ),
 							$post_types[ $post_type ]->labels->name,
 							$post_types[ $post_type ]->labels->name,
-							$this->base->plugin->account,
-							$this->base->plugin->account
 						)
 					);
 					?>
@@ -111,15 +108,7 @@
 </div>
 <!-- /post_type -->
 
-<?php
-$button_label = sprintf(
-	/* translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Plugin Name */
-	__( 'Publish to %s Now', 'social-post-flow' ),
-	$this->base->plugin->account
-);
-?>
-
 <!-- Buttons -->
 <input type="hidden" name="post_ids" value="<?php echo esc_attr( implode( ',', $post_ids ) ); ?>" />
 <input type="hidden" name="stage" value="2" />
-<input type="submit" name="submit" value="<?php echo esc_attr( $button_label ); ?>" class="button button-primary" />
+<input type="submit" name="submit" value="<?php echo esc_attr__( 'Publish to Social Post Flow Now', 'social-post-flow' ); ?>" class="button button-primary" />

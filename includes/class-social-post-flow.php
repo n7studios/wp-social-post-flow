@@ -88,9 +88,6 @@ class Social_Post_Flow {
 			$this->plugin->account
 		);
 
-		// Default Settings.
-		$this->plugin->default_schedule = 'queue_bottom';
-
 		// Dashboard Submodule.
 		if ( ! class_exists( 'WPZincDashboardWidget' ) ) {
 			require_once $this->plugin->folder . '_modules/dashboard/class-wpzincdashboardwidget.php';

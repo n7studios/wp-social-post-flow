@@ -18,10 +18,9 @@
 			<?php
 			echo esc_html(
 				sprintf(
-				/* translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-					__( 'Search %1$s to Publish to %2$s', 'social-post-flow' ),
-					$post_types[ $post_type ]->labels->name,
-					$this->base->plugin->account
+					/* translators: %1$s: Post Type Name */
+					__( 'Search %1$s to Publish to Social Post Flow', 'social-post-flow' ),
+					$post_types[ $post_type ]->labels->name
 				)
 			);
 			?>
@@ -47,7 +46,7 @@
 					<label for="authors"><?php esc_html_e( 'Authors', 'social-post-flow' ); ?></label>
 				</div>
 				<div class="right">
-					<input type="text" name="<?php echo esc_attr( 'social-post-flow' ); ?>[authors]" id="authors" class="widefat wpzinc-selectize" style="width:100%;" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_authors" data-nonce-key="search_authors_nonce" />
+					<input type="text" name="<?php echo esc_attr( 'social-post-flow' ); ?>[authors]" id="authors" class="widefat wpzinc-selectize" style="width:100%;" data-action="social_post_flow_search_authors" data-nonce-key="search_authors_nonce" />
 				</div>
 			</div>
 
@@ -140,7 +139,7 @@
 					</div>
 
 					<div class="right">
-						<input type="text" name="<?php echo esc_attr( 'social-post-flow' ); ?>[taxonomies][<?php echo esc_attr( $taxonomy_name ); ?>]" size="1" multiple="multiple" id="<?php echo esc_attr( $taxonomy_name ); ?>" class="widefat wpzinc-selectize" style="width:100%;" data-taxonomy="<?php echo esc_attr( $taxonomy_name ); ?>" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_terms" data-nonce-key="search_terms_nonce">
+						<input type="text" name="<?php echo esc_attr( 'social-post-flow' ); ?>[taxonomies][<?php echo esc_attr( $taxonomy_name ); ?>]" size="1" multiple="multiple" id="<?php echo esc_attr( $taxonomy_name ); ?>" class="widefat wpzinc-selectize" style="width:100%;" data-taxonomy="<?php echo esc_attr( $taxonomy_name ); ?>" data-action="social_post_flow_search_terms" data-nonce-key="search_terms_nonce">
 					</div>
 				</div>
 				<?php
@@ -165,13 +164,7 @@
 
 					<p class="description">
 						<?php
-						echo esc_html(
-							sprintf(
-							/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-								__( 'Defines how to order the Posts that will be added to your %s queue.', 'social-post-flow' ),
-								$this->base->plugin->account
-							)
-						);
+						esc_html_e( 'Defines how to order the Posts that will be added to your Social Post Flow queue.', 'social-post-flow' );
 						?>
 					</p>
 				</div>
@@ -194,13 +187,7 @@
 
 					<p class="description">
 						<?php
-						echo esc_html(
-							sprintf(
-							/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-								__( 'Defines the order in which Posts will be added to your %s queue.', 'social-post-flow' ),
-								$this->base->plugin->account
-							)
-						);
+						esc_html_e( 'Defines the order in which Posts will be added to your Social Post Flow queue.', 'social-post-flow' );
 						?>
 					</p>
 				</div>

@@ -130,12 +130,11 @@ class Social_Post_Flow_Settings {
 			return new WP_Error(
 				'social_post_flow_settings_update_settings_duplicates',
 				sprintf(
-					/* translators: %1$s: Post Type Name, Plural, %2$s: Social Media Profile Name, %3$s: Action (Publish, Update, Repost, Bulk Publish), %4$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-					__( 'Two or more statuses defined in %1$s > %2$s > %3$s are the same. Please correct this to ensure each status update is unique, otherwise your status updates will NOT publish to %4$s as they will be seen as duplicates, which violate Facebook and Twitter\'s Terms of Service.', 'social-post-flow' ),
+					/* translators: %1$s: Post Type Name, Plural, %2$s: Social Media Profile Name, %3$s: Action (Publish, Update, Repost, Bulk Publish) */
+					__( 'Two or more statuses defined in %1$s > %2$s > %3$s are the same. Please correct this to ensure each status update is unique, otherwise your status updates will NOT publish to Social Post Flow as they will be seen as duplicates, which violate Facebook and Twitter\'s Terms of Service.', 'social-post-flow' ),
 					$post_type_object->label,
 					$profile,
-					$action,
-					$this->base->plugin->account
+					$action
 				)
 			);
 		}
@@ -175,13 +174,13 @@ class Social_Post_Flow_Settings {
 				'publish' => array(
 					'enabled' => 1,
 					'status'  => array(
-						$this->get_default_status( $post_type, 'New ' . ucfirst( $post_type ) . ': {title} {url}', $this->base->plugin->default_schedule ),
+						$this->get_default_status( $post_type, 'New ' . ucfirst( $post_type ) . ': {title} {url}', 'queue_end' ),
 					),
 				),
 				'update'  => array(
 					'enabled' => 1,
 					'status'  => array(
-						$this->get_default_status( $post_type, 'Updated ' . ucfirst( $post_type ) . ': {title} {url}', $this->base->plugin->default_schedule ),
+						$this->get_default_status( $post_type, 'Updated ' . ucfirst( $post_type ) . ': {title} {url}', 'queue_end' ),
 					),
 				),
 			),
@@ -214,7 +213,7 @@ class Social_Post_Flow_Settings {
 	 */
 	public function get_status( $status, $post_type ) {
 
-		return array_merge( $this->get_default_status( $post_type, false, $this->base->plugin->default_schedule ), $status );
+		return array_merge( $this->get_default_status( $post_type, false, 'queue_end' ), $status );
 
 	}
 
@@ -410,7 +409,7 @@ class Social_Post_Flow_Settings {
 	 * @param   string $default_schedule   Default Schedule.
 	 * @return  array                       Status
 	 */
-	public function get_default_status( $post_type, $default_message = false, $default_schedule = 'queue_bottom' ) {
+	public function get_default_status( $post_type, $default_message = false, $default_schedule = 'queue_end' ) {
 
 		// Get Taxonomies supported by this Post Type.
 		$conditions = array();

@@ -72,7 +72,7 @@
 						if ( ! is_array( $statuses ) || ! count( $statuses ) ) {
 							// Define default status.
 							$key    = 0;
-							$status = social_post_flow()->get_class( 'settings' )->get_default_status( $post_type, false, $this->base->plugin->default_schedule ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+							$status = social_post_flow()->get_class( 'settings' )->get_default_status( $post_type, false, 'queue_end' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 							$labels = array();
 							$row    = social_post_flow()->get_class( 'settings' )->get_status_row( $status, $post_type, $post_action );
 
