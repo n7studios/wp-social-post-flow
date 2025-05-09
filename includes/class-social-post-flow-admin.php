@@ -355,7 +355,7 @@ class Social_Post_Flow_Admin {
 	/**
 	 * Returns configuration for tribute.js autocomplete instances for Tags, Facebook Pages and Twitter Username mentions.
 	 *
-	 * @since   4.5.7
+	 * @since   1.0.0
 	 *
 	 * @param   string $post_type  Post Type.
 	 * @return  array               Javascript  Autocomplete Configuration
@@ -386,7 +386,7 @@ class Social_Post_Flow_Admin {
 					),
 				),
 			),
-			
+
 			// Facebook Autocomplete mentions.
 			array(
 				'fields'   => array(
@@ -456,7 +456,7 @@ class Social_Post_Flow_Admin {
 	/**
 	 * Define links to display below the Plugin Name on the WP_List_Table at in the Plugins screen.
 	 *
-	 * @since   5.0.2
+	 * @since   1.0.0
 	 *
 	 * @param   array $links      Links.
 	 * @return  array               Links
@@ -496,7 +496,7 @@ class Social_Post_Flow_Admin {
 		social_post_flow()->get_class( 'notices' )->set_key_prefix( 'social_post_flow_' . wp_get_current_user()->ID );
 
 		// Maybe disconnect.
-		if ( isset( $_GET[ 'social-post-flow-disconnect' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( isset( $_GET['social-post-flow-disconnect'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$this->disconnect();
 			social_post_flow()->get_class( 'notices' )->add_success_notice(
 				__( 'Social Post Flow account disconnected successfully.', 'social-post-flow' )
@@ -715,7 +715,7 @@ class Social_Post_Flow_Admin {
 			 */
 			case 1:
 				// Missing nonce.
-				if ( ! isset( $_REQUEST[ 'social_post_flow_nonce' ] ) ) {
+				if ( ! isset( $_REQUEST['social_post_flow_nonce'] ) ) {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Nonce field is missing.', 'social-post-flow' ) );
 
 					// Load view.
@@ -724,7 +724,7 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Invalid nonce.
-				if ( ! wp_verify_nonce( sanitize_key( $_REQUEST[ 'social_post_flow_nonce' ] ), 'social-post-flow' ) ) {
+				if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
 					// Set error notice.
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified.', 'social-post-flow' ) );
 
@@ -735,14 +735,14 @@ class Social_Post_Flow_Admin {
 
 				// Build Search Params.
 				$params = array(
-					'start_date' => ( isset( $_POST[ 'social-post-flow' ]['start_date'] ) && ! empty( $_POST[ 'social-post-flow' ]['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['start_date'] ) ) : false ),
-					'end_date'   => ( isset( $_POST[ 'social-post-flow' ]['end_date'] ) && ! empty( $_POST[ 'social-post-flow' ]['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['end_date'] ) ) : false ),
-					'authors'    => ( isset( $_POST[ 'social-post-flow' ]['authors'] ) && ! empty( $_POST[ 'social-post-flow' ]['authors'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['authors'] ) ) ) : false ),
+					'start_date' => ( isset( $_POST['social-post-flow']['start_date'] ) && ! empty( $_POST['social-post-flow']['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['social-post-flow']['start_date'] ) ) : false ),
+					'end_date'   => ( isset( $_POST['social-post-flow']['end_date'] ) && ! empty( $_POST['social-post-flow']['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['social-post-flow']['end_date'] ) ) : false ),
+					'authors'    => ( isset( $_POST['social-post-flow']['authors'] ) && ! empty( $_POST['social-post-flow']['authors'] ) ? explode( ',', sanitize_text_field( wp_unslash( $_POST['social-post-flow']['authors'] ) ) ) : false ),
 					'meta'       => false,
-					's'          => ( isset( $_POST[ 'social-post-flow' ]['s'] ) && ! empty( $_POST[ 'social-post-flow' ]['s'] ) ? sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['s'] ) ) : false ),
+					's'          => ( isset( $_POST['social-post-flow']['s'] ) && ! empty( $_POST['social-post-flow']['s'] ) ? sanitize_text_field( wp_unslash( $_POST['social-post-flow']['s'] ) ) : false ),
 					'taxonomies' => false,
-					'orderby'    => ( isset( $_POST[ 'social-post-flow' ]['orderby'] ) ? sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['orderby'] ) ) : false ),
-					'order'      => ( isset( $_POST[ 'social-post-flow' ]['order'] ) ? sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['order'] ) ) : false ),
+					'orderby'    => ( isset( $_POST['social-post-flow']['orderby'] ) ? sanitize_text_field( wp_unslash( $_POST['social-post-flow']['orderby'] ) ) : false ),
+					'order'      => ( isset( $_POST['social-post-flow']['order'] ) ? sanitize_text_field( wp_unslash( $_POST['social-post-flow']['order'] ) ) : false ),
 				);
 
 				// If the URL request includes Post IDs, we've come from a WP_List_Table Bulk Action
@@ -759,8 +759,8 @@ class Social_Post_Flow_Admin {
 				// Build Taxonomy Search Params.
 				$taxonomies = array();
 
-				if ( isset( $_POST[ 'social-post-flow' ]['taxonomies'] ) ) {
-					foreach ( wp_unslash( $_POST[ 'social-post-flow' ]['taxonomies'] ) as $taxonomy => $terms ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( isset( $_POST['social-post-flow']['taxonomies'] ) ) {
+					foreach ( wp_unslash( $_POST['social-post-flow']['taxonomies'] ) as $taxonomy => $terms ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						// Ignore if no Terms.
 						if ( empty( $terms ) ) {
 							continue;
@@ -775,24 +775,24 @@ class Social_Post_Flow_Admin {
 
 				// Build Meta Search Params.
 				$meta = array();
-				if ( isset( $_POST[ 'social-post-flow' ]['meta']['key'] ) ) {
-					foreach ( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['key'] ) as $index => $meta_key ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				if ( isset( $_POST['social-post-flow']['meta']['key'] ) ) {
+					foreach ( wp_unslash( $_POST['social-post-flow']['meta']['key'] ) as $index => $meta_key ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 						// Ignore if the key is blank.
-						if ( empty( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['key'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						if ( empty( wp_unslash( $_POST['social-post-flow']['meta']['key'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							continue;
 						}
-						if ( empty( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['value'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						if ( empty( wp_unslash( $_POST['social-post-flow']['meta']['value'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							continue;
 						}
-						if ( empty( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['compare'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						if ( empty( wp_unslash( $_POST['social-post-flow']['meta']['compare'][ $index ] ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							continue;
 						}
 
 						// Add meta condition.
 						$meta[] = array(
-							'key'     => sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['key'][ $index ] ) ),
-							'value'   => sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['value'][ $index ] ) ),
-							'compare' => sanitize_text_field( wp_unslash( $_POST[ 'social-post-flow' ]['meta']['compare'][ $index ] ) ),
+							'key'     => sanitize_text_field( wp_unslash( $_POST['social-post-flow']['meta']['key'][ $index ] ) ),
+							'value'   => sanitize_text_field( wp_unslash( $_POST['social-post-flow']['meta']['value'][ $index ] ) ),
+							'compare' => sanitize_text_field( wp_unslash( $_POST['social-post-flow']['meta']['compare'][ $index ] ) ),
 						);
 					}
 				}
@@ -822,7 +822,7 @@ class Social_Post_Flow_Admin {
 			 */
 			case '2':
 				// Missing nonce.
-				if ( ! isset( $_POST[ 'social_post_flow_nonce' ] ) ) {
+				if ( ! isset( $_POST['social_post_flow_nonce'] ) ) {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Nonce field is missing.', 'social-post-flow' ) );
 
 					// Load view.
@@ -831,7 +831,7 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Invalid nonce.
-				if ( ! wp_verify_nonce( sanitize_key( $_POST[ 'social_post_flow_nonce' ] ), 'social-post-flow' ) ) {
+				if ( ! wp_verify_nonce( sanitize_key( $_POST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
 					// Set error notice.
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified. Settings NOT saved.', 'social-post-flow' ) );
 
@@ -841,7 +841,7 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Check at least one Post has been selected.
-				if ( ! isset( $_POST[ 'social-post-flow' ]['posts'] ) || count( $_POST[ 'social-post-flow' ]['posts'] ) === 0 ) {
+				if ( ! isset( $_POST['social-post-flow']['posts'] ) || count( $_POST['social-post-flow']['posts'] ) === 0 ) {
 					// Revert back a stage with an error message.
 					social_post_flow()->get_class( 'notices' )->add_error_notice(
 						sprintf(
@@ -866,7 +866,7 @@ class Social_Post_Flow_Admin {
 
 				// If here, one or more Post(s) were selected.
 				// Get Posts and Post IDs.
-				$post_ids = wp_unslash( $_POST[ 'social-post-flow' ]['posts'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$post_ids = wp_unslash( $_POST['social-post-flow']['posts'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				// Localize Bulk Publish script.
 				wp_localize_script(
@@ -1002,7 +1002,7 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Missing nonce.
-		if ( ! isset( $_POST[ 'social_post_flow_nonce' ] ) ) {
+		if ( ! isset( $_POST['social_post_flow_nonce'] ) ) {
 			return new WP_Error(
 				'wp_to_social_pro_admin_save_settings_error',
 				__( 'Nonce field is missing. Settings NOT saved.', 'social-post-flow' )
@@ -1010,7 +1010,7 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Invalid nonce.
-		if ( ! wp_verify_nonce( sanitize_key( $_POST[ 'social_post_flow_nonce' ] ), 'social-post-flow' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_POST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
 			return new WP_Error(
 				'wp_to_social_pro_admin_save_settings_error',
 				__( 'Invalid nonce specified. Settings NOT saved.', 'social-post-flow' )
@@ -1093,7 +1093,7 @@ class Social_Post_Flow_Admin {
 			 * Post Type
 			 */
 			default:
-				if ( ! isset( $_POST[ 'social-post-flow' ]['statuses'] ) ) {
+				if ( ! isset( $_POST['social-post-flow']['statuses'] ) ) {
 					return new WP_Error(
 						'wp_to_social_pro_admin_save_settings_error',
 						__( 'Statuses field is missing. Settings NOT saved.', 'social-post-flow' )
@@ -1101,7 +1101,7 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Unslash and decode JSON field.
-				$settings = json_decode( wp_unslash( $_POST[ 'social-post-flow' ]['statuses'] ), true ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$settings = json_decode( wp_unslash( $_POST['social-post-flow']['statuses'] ), true ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				// Save Settings for this Post Type.
 				return social_post_flow()->get_class( 'settings' )->update_settings( $post_type, $settings );

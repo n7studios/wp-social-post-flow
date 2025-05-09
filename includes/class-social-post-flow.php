@@ -146,26 +146,26 @@ class Social_Post_Flow {
 		$this->classes = new stdClass();
 
 		// Initialize required classes.
-		$this->classes->admin      = new Social_Post_Flow_Admin( self::$instance );
+		$this->classes->admin         = new Social_Post_Flow_Admin( self::$instance );
 		$this->classes->ajax          = new Social_Post_Flow_AJAX( self::$instance );
 		$this->classes->api           = new Social_Post_Flow_API( self::$instance );
 		$this->classes->bulk_actions  = new Social_Post_Flow_Bulk_Actions( self::$instance );
 		$this->classes->bulk_publish  = new Social_Post_Flow_Bulk_Publish( self::$instance );
-		$this->classes->common     = new Social_Post_Flow_Common( self::$instance );
-		$this->classes->cron       = new Social_Post_Flow_Cron( self::$instance );
+		$this->classes->common        = new Social_Post_Flow_Common( self::$instance );
+		$this->classes->cron          = new Social_Post_Flow_Cron( self::$instance );
 		$this->classes->date          = new Social_Post_Flow_Date( self::$instance );
 		$this->classes->export        = new Social_Post_Flow_Export( self::$instance );
-		$this->classes->image      = new Social_Post_Flow_Image( self::$instance );
+		$this->classes->image         = new Social_Post_Flow_Image( self::$instance );
 		$this->classes->import        = new Social_Post_Flow_Import( self::$instance );
-		$this->classes->install    = new Social_Post_Flow_Install( self::$instance );
+		$this->classes->install       = new Social_Post_Flow_Install( self::$instance );
 		$this->classes->media_library = new Social_Post_Flow_Media_Library( self::$instance );
-		$this->classes->log        = new Social_Post_Flow_Log( self::$instance );
-		$this->classes->notices    = new Social_Post_Flow_Notices( self::$instance );
+		$this->classes->log           = new Social_Post_Flow_Log( self::$instance );
+		$this->classes->notices       = new Social_Post_Flow_Notices( self::$instance );
 		$this->classes->post          = new Social_Post_Flow_Post( self::$instance );
 		$this->classes->publish       = new Social_Post_Flow_Publish( self::$instance );
-		$this->classes->screen     = new Social_Post_Flow_Screen( self::$instance );
-		$this->classes->settings   = new Social_Post_Flow_Settings( self::$instance );
-		$this->classes->validation = new Social_Post_Flow_Validation( self::$instance );
+		$this->classes->screen        = new Social_Post_Flow_Screen( self::$instance );
+		$this->classes->settings      = new Social_Post_Flow_Settings( self::$instance );
+		$this->classes->validation    = new Social_Post_Flow_Validation( self::$instance );
 
 		// Integrations.
 		$this->classes->aioseo                 = new Social_Post_Flow_AIOSEO( self::$instance );

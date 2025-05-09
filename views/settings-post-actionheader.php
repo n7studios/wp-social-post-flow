@@ -44,58 +44,46 @@
 		?>
 	</header>
 
+	<!-- Account Enabled -->
+	<div class="wpzinc-option">        
+		<div class="left">
+			<label for="<?php echo esc_attr( $profile_id ); ?>_enabled"><?php esc_html_e( 'Account Enabled', 'social-post-flow' ); ?></label>
+		</div>
+		<div class="right">
+			<input type="checkbox" id="<?php echo esc_attr( $profile_id ); ?>_enabled" class="enable" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][enabled]" id="<?php echo esc_attr( $profile_id ); ?>_enabled" value="1"<?php checked( $this->get_setting( $post_type, '[' . $profile_id . '][enabled]', 0 ), 1, true ); ?> data-tab="profile-<?php echo esc_attr( $profile_id ); ?>" />
+			<p class="description"><?php esc_html_e( 'Enabling this social media account means that Posts will be sent to this social media account, if the conditions in the Settings are met.', 'social-post-flow' ); ?></p>
+		</div>
+	</div>
 	<?php
-	if ( ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) ) &&
-		( $profile['service'] === 'instagram' || $profile['service'] === 'pinterest' ) ) {
-		require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-actionheader-upgrade-profile.php';
+	// Force override if a subprofile is required.
+	$override = $this->get_setting( $post_type, '[' . $profile_id . '][override]', 0 );
+	$disabled = false;
+	if ( isset( $profile['service'] ) && $profile['service'] === 'pinterest' ) {
+		if ( ! isset( $profile['can_be_subprofile'] ) || ! $profile['can_be_subprofile'] ) {
+			// Subprofile is required.
+			$override = 1;
+			$disabled = true;
+		}
+	}
+
+	// If Override is Disabled, store the value in a hidden field.
+	if ( $disabled ) {
+		?>
+		<input type="hidden" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][override]" value="<?php echo esc_attr( $override ); ?>" data-conditional="<?php echo esc_attr( $post_type ); ?>-<?php echo esc_attr( $profile_id ); ?>-actions-panel" />
+		<?php
 	} else {
 		?>
-		<!-- Account Enabled -->
-		<div class="wpzinc-option">        
+		<!-- Override Default Settings -->
+		<div class="wpzinc-option">
 			<div class="left">
-				<label for="<?php echo esc_attr( $profile_id ); ?>_enabled"><?php esc_html_e( 'Account Enabled', 'social-post-flow' ); ?></label>
+				<label for="<?php echo esc_attr( $profile_id ); ?>_override"><?php esc_html_e( 'Override Defaults', 'social-post-flow' ); ?></label>
 			</div>
 			<div class="right">
-				<input type="checkbox" id="<?php echo esc_attr( $profile_id ); ?>_enabled" class="enable" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][enabled]" id="<?php echo esc_attr( $profile_id ); ?>_enabled" value="1"<?php checked( $this->get_setting( $post_type, '[' . $profile_id . '][enabled]', 0 ), 1, true ); ?> data-tab="profile-<?php echo esc_attr( $profile_id ); ?>" />
-				<p class="description"><?php esc_html_e( 'Enabling this social media account means that Posts will be sent to this social media account, if the conditions in the Settings are met.', 'social-post-flow' ); ?></p>
+				<input type="checkbox" class="override" id="<?php echo esc_attr( $profile_id ); ?>_override" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][override]" value="1"<?php checked( $override, 1, true ); ?> data-conditional="<?php echo esc_attr( $post_type ); ?>-<?php echo esc_attr( $profile_id ); ?>-actions-panel" />
+				<p class="description"><?php esc_html_e( 'Check this box to define custom settings when publishing or updating to this social media account. Not checking this box will mean that this social media account uses settings from the "Defaults" tab', 'social-post-flow' ); ?></p>
 			</div>
 		</div>
 		<?php
-		// Upgrade Notice.
-		if ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) ) {
-			require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-actionheader-upgrade.php';
-		} else {
-			// Force override if a subprofile is required.
-			$override = $this->get_setting( $post_type, '[' . $profile_id . '][override]', 0 );
-			$disabled = false;
-			if ( isset( $profile['service'] ) && $profile['service'] === 'pinterest' ) {
-				if ( ! isset( $profile['can_be_subprofile'] ) || ! $profile['can_be_subprofile'] ) {
-					// Subprofile is required.
-					$override = 1;
-					$disabled = true;
-				}
-			}
-
-			// If Override is Disabled, store the value in a hidden field.
-			if ( $disabled ) {
-				?>
-				<input type="hidden" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][override]" value="<?php echo esc_attr( $override ); ?>" data-conditional="<?php echo esc_attr( $post_type ); ?>-<?php echo esc_attr( $profile_id ); ?>-actions-panel" />
-				<?php
-			} else {
-				?>
-				<!-- Override Default Settings -->
-				<div class="wpzinc-option">
-					<div class="left">
-						<label for="<?php echo esc_attr( $profile_id ); ?>_override"><?php esc_html_e( 'Override Defaults', 'social-post-flow' ); ?></label>
-					</div>
-					<div class="right">
-						<input type="checkbox" class="override" id="<?php echo esc_attr( $profile_id ); ?>_override" name="social-post-flow[<?php echo esc_attr( $profile_id ); ?>][override]" value="1"<?php checked( $override, 1, true ); ?> data-conditional="<?php echo esc_attr( $post_type ); ?>-<?php echo esc_attr( $profile_id ); ?>-actions-panel" />
-						<p class="description"><?php esc_html_e( 'Check this box to define custom settings when publishing or updating to this social media account. Not checking this box will mean that this social media account uses settings from the "Defaults" tab', 'social-post-flow' ); ?></p>
-					</div>
-				</div>
-				<?php
-			}
-		}
 	}
 	?>
 </div>

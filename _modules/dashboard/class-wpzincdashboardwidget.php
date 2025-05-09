@@ -993,12 +993,6 @@ class WPZincDashboardWidget {
 			die();
 		}
 
-		// Redirect to Upgrade.
-		if ( $page === $this->plugin->name . '-upgrade' ) {
-			wp_safe_redirect( $this->get_upgrade_url( 'menu' ) );
-			die();
-		}
-
 	}
 
 	/**

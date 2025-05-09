@@ -177,16 +177,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	public function get_columns() {
 
 		return array(
-			'cb'                => '<input type="checkbox" class="toggle" />',
-			'post_id'           => __( 'Post ID', 'social-post-flow' ),
-			'request_sent'      => __( 'Request Sent', 'social-post-flow' ),
-			'action'            => __( 'Action', 'social-post-flow' ),
-			'profile_name'      => __( 'Profile', 'social-post-flow' ),
-			'status_text'       => __( 'Status Text', 'social-post-flow' ),
-			'result'            => __( 'Result', 'social-post-flow' ),
-			'result_message'    => __( 'Response', 'social-post-flow' ),
-			'status_created_at' => __( 'Social Post Flow: Status Created At', 'social-post-flow' ),
-			'status_scheduled_at'     => __( 'Social Post Flow: Status Scheduled For', 'social-post-flow' ),
+			'cb'                  => '<input type="checkbox" class="toggle" />',
+			'post_id'             => __( 'Post ID', 'social-post-flow' ),
+			'request_sent'        => __( 'Request Sent', 'social-post-flow' ),
+			'action'              => __( 'Action', 'social-post-flow' ),
+			'profile_name'        => __( 'Profile', 'social-post-flow' ),
+			'status_text'         => __( 'Status Text', 'social-post-flow' ),
+			'result'              => __( 'Result', 'social-post-flow' ),
+			'result_message'      => __( 'Response', 'social-post-flow' ),
+			'status_created_at'   => __( 'Social Post Flow: Status Created At', 'social-post-flow' ),
+			'status_scheduled_at' => __( 'Social Post Flow: Status Scheduled For', 'social-post-flow' ),
 		);
 
 	}
@@ -201,15 +201,15 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	public function get_sortable_columns() {
 
 		return array(
-			'post_id'           => array( 'post_id', true ),
-			'request_sent'      => array( 'request_sent', true ),
-			'action'            => array( 'action', true ),
-			'profile_name'      => array( 'profile_name', true ),
-			'status_text'       => array( 'status_text', true ),
-			'result'            => array( 'result', true ),
-			'result_message'    => array( 'result_message', true ),
-			'status_created_at' => array( 'status_created_at', true ),
-			'status_scheduled_at'     => array( 'status_scheduled_at', true ),
+			'post_id'             => array( 'post_id', true ),
+			'request_sent'        => array( 'request_sent', true ),
+			'action'              => array( 'action', true ),
+			'profile_name'        => array( 'profile_name', true ),
+			'status_text'         => array( 'status_text', true ),
+			'result'              => array( 'result', true ),
+			'result_message'      => array( 'result_message', true ),
+			'status_created_at'   => array( 'status_created_at', true ),
+			'status_scheduled_at' => array( 'status_scheduled_at', true ),
 		);
 
 	}

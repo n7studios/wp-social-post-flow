@@ -11,23 +11,13 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.9.5
  */
 class Social_Post_Flow_Modern_Events_Calendar {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.9.5
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Holds the Post Type for Events.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @var     string
 	 */
@@ -36,13 +26,9 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Constructor
 	 *
-	 * @since   4.9.5
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register Schedule Options.
 		add_filter( 'social_post_flow_get_schedule_options', array( $this, 'register_schedule_options' ), 10, 2 );
@@ -76,7 +62,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Defines the available schedule options for statuses
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   array  $schedule           Schedule Options.
 	 * @param   string $post_type          Post Type.
@@ -108,7 +94,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	 * Outputs schedule option settings when a schedule option belonging to Modern Events Calendar
 	 * has been selected
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   string $post_type  Post Type.
 	 */
@@ -139,7 +125,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Returns the text to display for a status' schedule setting in the table row.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   string $output     Output.
 	 * @param   array  $status     Status.
@@ -197,7 +183,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   array  $tags       Tags.
 	 * @param   stirng $post_type  Post Type.
@@ -246,7 +232,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -273,7 +259,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for Modern Events Calendar.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -338,7 +324,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 		 * Registers any additional status message tags, and their Post data replacements, that are supported
 		 * for Modern Events Calendar
 		 *
-		 * @since   4.1.2
+		 * @since   1.0.0
 		 *
 		 * @param   array       $searches_replacements  Registered Supported Tags and their Replacements.
 		 * @param   WP_Post     $post                   WordPress Post.
@@ -353,7 +339,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Define the UTC date and time for the status to be published when the status' schedule is set to use the Event's Start Date
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   string  $scheduled_at   Schedule Status (yyyy-mm-dd hh:mm:ss format).
 	 * @param   array   $status         Status.
@@ -384,7 +370,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Define the UTC date and time for the status to be published when the status' schedule is set to use the Event's End Date
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   string  $scheduled_at   Schedule Status (yyyy-mm-dd hh:mm:ss format).
 	 * @param   array   $status         Status.
@@ -414,7 +400,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Defines the available schedule options for statuses
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   array  $schedule           Schedule Options.
 	 * @param   string $post_type          Post Type.
@@ -444,7 +430,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Defines the available schedule options for statuses
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   array  $schedule           Schedule Options.
 	 * @param   string $post_type          Post Type.
@@ -474,7 +460,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Define a Google Business Profile status' start date to be the Event's start date.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   bool|string $date                   Date (yyyy-mm-dd hh:mm:ss format).
 	 * @param   array       $google_business_args   Google Business specific arguments for status.
@@ -496,7 +482,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Define a Google Business Profile status' end date to be the Event's start date.
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @param   bool|string $date                   Date (yyyy-mm-dd hh:mm:ss format).
 	 * @param   array       $google_business_args   Google Business specific arguments for status.
@@ -518,7 +504,7 @@ class Social_Post_Flow_Modern_Events_Calendar {
 	/**
 	 * Checks if the Modern Events Calendar Plugin is active
 	 *
-	 * @since   4.9.5
+	 * @since   1.0.0
 	 *
 	 * @return  bool    Modern Events Calendar Plugin Active
 	 */

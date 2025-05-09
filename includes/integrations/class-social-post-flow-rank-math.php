@@ -11,29 +11,15 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.3.8
  */
 class Social_Post_Flow_Rank_Math {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.3.8
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   4.3.8
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register this integration as supporting OpenGraph.
 		add_filter( 'social_post_flow_get_opengraph_seo_plugins', array( $this, 'register_opengraph_seo_plugins' ) );
@@ -51,7 +37,7 @@ class Social_Post_Flow_Rank_Math {
 	 * can check if it's active, and if so offer the "Use OpenGraph Settings"
 	 * image option on statuses.
 	 *
-	 * @since   4.8.4
+	 * @since   1.0.0
 	 *
 	 * @param   array $plugins    Plugins supporting OpenGraph.
 	 * @return  array               Plugins
@@ -68,7 +54,7 @@ class Social_Post_Flow_Rank_Math {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array $tags       Tags.
 	 * @return  array               Tags
@@ -96,7 +82,7 @@ class Social_Post_Flow_Rank_Math {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -118,7 +104,7 @@ class Social_Post_Flow_Rank_Math {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for Rank Math.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -136,7 +122,7 @@ class Social_Post_Flow_Rank_Math {
 		 * Registers any additional status message tags, and their Post data replacements, that are supported
 		 * for Rank Math SEO.
 		 *
-		 * @since   4.3.8
+		 * @since   1.0.0
 		 *
 		 * @param   array       $searches_replacements  Registered Supported Tags and their Replacements.
 		 * @param   WP_Post     $post                   WordPress Post.
@@ -152,7 +138,7 @@ class Social_Post_Flow_Rank_Math {
 	/**
 	 * Return the Title
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              Rank Math Post Title
@@ -167,7 +153,7 @@ class Social_Post_Flow_Rank_Math {
 	/**
 	 * Return the Description
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              Rank Math Post Description
@@ -182,7 +168,7 @@ class Social_Post_Flow_Rank_Math {
 	/**
 	 * Checks if the Rank Math Plugin is active
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @return  bool    Rank Math Plugin Active
 	 */

@@ -11,29 +11,15 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.7.5
  */
 class Social_Post_Flow_Featured_Image_Caption {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.7.5
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   4.7.5
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register Status Tags.
 		add_filter( 'social_post_flow_get_tags', array( $this, 'register_status_tags' ), 10, 1 );
@@ -47,7 +33,7 @@ class Social_Post_Flow_Featured_Image_Caption {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.7.5
+	 * @since   1.0.0
 	 *
 	 * @param   array $tags       Tags.
 	 * @return  array               Tags
@@ -76,7 +62,7 @@ class Social_Post_Flow_Featured_Image_Caption {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.7.5
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -98,7 +84,7 @@ class Social_Post_Flow_Featured_Image_Caption {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for this Plugin.
 	 *
-	 * @since   4.7.5
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -120,7 +106,7 @@ class Social_Post_Flow_Featured_Image_Caption {
 		 * Registers any additional status message tags, and their Post data replacements, that are supported
 		 * for the Featured Image Caption Plugin.
 		 *
-		 * @since   4.7.5
+		 * @since   1.0.0
 		 *
 		 * @param   array       $searches_replacements  Registered Supported Tags and their Replacements..
 		 * @param   WP_Post     $post                   WordPress Post.
@@ -136,7 +122,7 @@ class Social_Post_Flow_Featured_Image_Caption {
 	/**
 	 * Checks if the Plugin is active
 	 *
-	 * @since   4.7.5
+	 * @since   1.0.0
 	 *
 	 * @return  bool    Plugin Active
 	 */

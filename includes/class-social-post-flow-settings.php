@@ -15,6 +15,13 @@
  */
 class Social_Post_Flow_Settings {
 
+	/**
+	 * Settings key name.
+	 *
+	 * @since   3.0.0
+	 *
+	 * @var     string
+	 */
 	public $settings_name = 'social-post-flow';
 
 	/**

@@ -433,7 +433,7 @@ class Social_Post_Flow_Publish {
 		// If a status was last sent within 5 seconds, don't send it again.
 		// Prevents Page Builders that trigger wp_update_post() multiple times on Publish or Update from
 		// causing statuses to send multiple times.
-		$last_sent = get_post_meta( $post_id, '_' . 'social_post_flow_last_sent', true );
+		$last_sent = get_post_meta( $post_id, '_social_post_flow_last_sent', true );
 		if ( ! empty( $last_sent ) ) {
 			$difference = ( current_time( 'timestamp' ) - $last_sent ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp
 			if ( $difference < 5 ) {
@@ -1591,11 +1591,11 @@ class Social_Post_Flow_Publish {
 		// Build each API argument.
 		// @TODO Build to match API logic.
 		$args = array(
-			'post_type' => $status['update_type'] ?? 'post', // @TODO set to text,link,image,story.
-			'text' => $this->parse_text( $post, $status['message'] ),
-			'url' => $this->get_permalink( $post ),
+			'post_type'   => $status['update_type'] ?? 'post', // @TODO set to text,link,image,story.
+			'text'        => $this->parse_text( $post, $status['message'] ),
+			'url'         => $this->get_permalink( $post ),
 			'profile_ids' => array( $profile_id ),
-			'media_urls' => $this->parse_media_urls( $post, $status['media_urls'] ),
+			'media_urls'  => $this->parse_media_urls( $post, $status['media_urls'] ),
 		);
 
 		// Schedule.
@@ -4020,15 +4020,15 @@ class Social_Post_Flow_Publish {
 			// If this is a test, add to the log array only.
 			if ( $test_mode ) {
 				$logs[] = array(
-					'action'            => $action,
-					'request_sent'      => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'profile_id'        => $status['profile_ids'][0],
-					'profile_name'      => $profiles[ $status['profile_ids'][0] ]['formatted_service'] . ': ' . $profiles[ $status['profile_ids'][0] ]['formatted_username'],
-					'result'            => 'test',
-					'result_message'    => '',
-					'status_text'       => $status['text'],
-					'status_created_at' => date( 'Y-m-d H:i:s', strtotime( 'now' ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'status_scheduled_at'     => ( isset( $status['scheduled_at'] ) ? $status['scheduled_at'] : '' ),
+					'action'              => $action,
+					'request_sent'        => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					'profile_id'          => $status['profile_ids'][0],
+					'profile_name'        => $profiles[ $status['profile_ids'][0] ]['formatted_service'] . ': ' . $profiles[ $status['profile_ids'][0] ]['formatted_username'],
+					'result'              => 'test',
+					'result_message'      => '',
+					'status_text'         => $status['text'],
+					'status_created_at'   => date( 'Y-m-d H:i:s', strtotime( 'now' ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					'status_scheduled_at' => ( isset( $status['scheduled_at'] ) ? $status['scheduled_at'] : '' ),
 				);
 
 				continue;
@@ -4054,21 +4054,21 @@ class Social_Post_Flow_Publish {
 			} else {
 				// OK.
 				$logs[] = array(
-					'action'            => $action,
-					'request_sent'      => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'profile_id'        => $result['profile_id'],
-					'profile_name'      => $profiles[ $status['profile_ids'][0] ]['formatted_service'] . ': ' . $profiles[ $status['profile_ids'][0] ]['formatted_username'],
-					'result'            => 'success',
-					'result_message'    => $result['message'],
-					'status_text'       => $result['status_text'],
-					'status_created_at' => date( 'Y-m-d H:i:s', $result['status_created_at'] ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'status_scheduled_at'     => ( $result['scheduled_at'] !== '0000-00-00 00:00:00' ? date( 'Y-m-d H:i:s', $result['scheduled_at'] ) : '0000-00-00 00:00:00' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					'action'              => $action,
+					'request_sent'        => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					'profile_id'          => $result['profile_id'],
+					'profile_name'        => $profiles[ $status['profile_ids'][0] ]['formatted_service'] . ': ' . $profiles[ $status['profile_ids'][0] ]['formatted_username'],
+					'result'              => 'success',
+					'result_message'      => $result['message'],
+					'status_text'         => $result['status_text'],
+					'status_created_at'   => date( 'Y-m-d H:i:s', $result['status_created_at'] ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					'status_scheduled_at' => ( $result['scheduled_at'] !== '0000-00-00 00:00:00' ? date( 'Y-m-d H:i:s', $result['scheduled_at'] ) : '0000-00-00 00:00:00' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 				);
 			}
 		}
 
 		// Set the last sent timestamp, which we may use to prevent duplicate statuses.
-		update_post_meta( $post_id, '_' . 'social_post_flow_last_sent', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp
+		update_post_meta( $post_id, '_social_post_flow_last_sent', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp
 
 		// If we're reposting, update the last reposted date against the Post.
 		// We do this here to ensure the Post isn't reposting again where e.g. one profile status worked + one profile status failed,
@@ -4082,18 +4082,18 @@ class Social_Post_Flow_Publish {
 		if ( ! $errors ) {
 			// Only set a success message if test mode is disabled.
 			if ( ! $test_mode ) {
-				update_post_meta( $post_id, '_' . 'social_post_flow_success', 1 );
+				update_post_meta( $post_id, '_social_post_flow_success', 1 );
 			}
-			delete_post_meta( $post_id, '_' . 'social_post_flow_error' );
-			delete_post_meta( $post_id, '_' . 'social_post_flow_errors' );
+			delete_post_meta( $post_id, '_social_post_flow_error' );
+			delete_post_meta( $post_id, '_social_post_flow_errors' );
 
 			// Request that the user review the plugin. Notification displayed later,
 			// can be called multiple times and won't re-display the notification if dismissed.
 			social_post_flow()->dashboard->request_review();
 		} else {
-			update_post_meta( $post_id, '_' . 'social_post_flow_success', 0 );
-			update_post_meta( $post_id, '_' . 'social_post_flow_error', 1 );
-			update_post_meta( $post_id, '_' . 'social_post_flow_errors', $log_error );
+			update_post_meta( $post_id, '_social_post_flow_success', 0 );
+			update_post_meta( $post_id, '_social_post_flow_error', 1 );
+			update_post_meta( $post_id, '_social_post_flow_errors', $log_error );
 		}
 
 		// Save the log, if logging is enabled.

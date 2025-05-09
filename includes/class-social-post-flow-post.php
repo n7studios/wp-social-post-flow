@@ -62,14 +62,14 @@ class Social_Post_Flow_Post {
 		$post_id = absint( $_GET['post'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 		// Check if this Post has a success or error meta key set by this plugin.
-		$success = get_post_meta( $post_id, '_' . 'social_post_flow_success', true );
-		$error   = get_post_meta( $post_id, '_' . 'social_post_flow_error', true );
-		$errors  = get_post_meta( $post_id, '_' . 'social_post_flow_errors', true );
+		$success = get_post_meta( $post_id, '_social_post_flow_success', true );
+		$error   = get_post_meta( $post_id, '_social_post_flow_error', true );
+		$errors  = get_post_meta( $post_id, '_social_post_flow_errors', true );
 
 		// Check for success.
 		if ( $success ) {
 			// Show notice and clear meta key, so we don't display this notice again.
-			delete_post_meta( $post_id, '_' . 'social_post_flow_success' );
+			delete_post_meta( $post_id, '_social_post_flow_success' );
 			?>
 			<div class="notice notice-success is-dismissible">
 				<p>
@@ -84,8 +84,8 @@ class Social_Post_Flow_Post {
 		// Check for error.
 		if ( $error ) {
 			// Show notice and clear meta key, so we don't display this notice again.
-			delete_post_meta( $post_id, '_' . 'social_post_flow_error' );
-			delete_post_meta( $post_id, '_' . 'social_post_flow_errors' );
+			delete_post_meta( $post_id, '_social_post_flow_error' );
+			delete_post_meta( $post_id, '_social_post_flow_errors' );
 			?>
 			<div class="notice notice-error is-dismissible">
 				<p>
@@ -441,17 +441,17 @@ class Social_Post_Flow_Post {
 	public function save_post( $post_id ) {
 
 		// Missing nonce.
-		if ( ! isset( $_POST[ 'social_post_flow_nonce' ] ) ) {
+		if ( ! isset( $_POST['social_post_flow_nonce'] ) ) {
 			return false;
 		}
 
 		// Invalid nonce.
-		if ( ! wp_verify_nonce( sanitize_key( $_POST[ 'social_post_flow_nonce' ] ), 'social-post-flow' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_POST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
 			return false;
 		}
 
 		// Bail if no settings are being saved.
-		if ( ! isset( $_POST[ 'social-post-flow' ] ) ) {
+		if ( ! isset( $_POST['social-post-flow'] ) ) {
 			return true;
 		}
 
@@ -463,7 +463,7 @@ class Social_Post_Flow_Post {
 		}
 
 		// Save.
-		return $this->save_settings( $post_id, $_POST[ 'social-post-flow' ] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		return $this->save_settings( $post_id, $_POST['social-post-flow'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	}
 

@@ -11,29 +11,15 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.3.8
  */
 class Social_Post_Flow_The_Events_Calendar {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.3.8
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   4.3.8
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register Schedule Options.
 		add_filter( 'social_post_flow_get_schedule_options', array( $this, 'register_schedule_options' ), 10, 2 );
@@ -67,7 +53,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	/**
 	 * Defines the available schedule options for statuses
 	 *
-	 * @since   4.4.0
+	 * @since   1.0.0
 	 *
 	 * @param   array  $schedule           Schedule Options.
 	 * @param   string $post_type          Post Type.
@@ -99,7 +85,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	 * Outputs schedule option settings when a schedule option belonging to The Events Calendar
 	 * has been selected
 	 *
-	 * @since   4.4.0
+	 * @since   1.0.0
 	 *
 	 * @param   string $post_type  Post Type.
 	 */
@@ -130,7 +116,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	/**
 	 * Returns the text to display for a status' schedule setting in the table row.
 	 *
-	 * @since   4.4.0
+	 * @since   1.0.0
 	 *
 	 * @param   string $output     Output.
 	 * @param   array  $status     Status.
@@ -188,7 +174,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array  $tags       Tags.
 	 * @param   stirng $post_type  Post Type.
@@ -243,7 +229,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -270,7 +256,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for The Events Calendar.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -503,7 +489,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	 * Returns the Event's Venue's Address, converting from HTML to text
 	 * comma separated
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              Address
@@ -536,7 +522,7 @@ class Social_Post_Flow_The_Events_Calendar {
 	/**
 	 * Checks if the The Events Calendar Plugin is active
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @return  bool    The Events Calendar Plugin Active
 	 */

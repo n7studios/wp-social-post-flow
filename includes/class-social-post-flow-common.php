@@ -50,6 +50,37 @@ class Social_Post_Flow_Common {
 	}
 
 	/**
+	 * Helper method to retrieve status post type options
+	 *
+	 * @since   3.0.0
+	 *
+	 * @return  array   Status Post Type Options
+	 */
+	public function get_status_post_type_options() {
+
+		// Build status post type options.
+		$status_post_type_options = array(
+			'text'  => __( 'Text', 'social-post-flow' ),
+			'link'  => __( 'Link', 'social-post-flow' ),
+			'image' => __( 'Image', 'social-post-flow' ),
+			'story' => __( 'Story', 'social-post-flow' ),
+		);
+
+		/**
+		 * Defines the available status post type options.
+		 *
+		 * @since   3.0.0
+		 *
+		 * @param   array   $status_post_type_options   Status Post Type Options.
+		 */
+		$status_post_type_options = apply_filters( 'social_post_flow_get_status_post_type_options', $status_post_type_options );
+
+		// Return filtered results.
+		return $status_post_type_options;
+
+	}
+
+	/**
 	 * Helper method to retrieve schedule options
 	 *
 	 * @since   3.0.0
@@ -62,9 +93,9 @@ class Social_Post_Flow_Common {
 
 		// Build schedule options.
 		$schedule = array(
-			'queue_end'    => __( 'Add to End of Social Post Flow Queue', 'social-post-flow' ),
-			'queue_start'       => __( 'Add to Start of Social Post Flow Queue', 'social-post-flow' ),
-			'immediate'             => __( 'Post Immediately', 'social-post-flow' ),
+			'queue_end'       => __( 'Add to End of Social Post Flow Queue', 'social-post-flow' ),
+			'queue_start'     => __( 'Add to Start of Social Post Flow Queue', 'social-post-flow' ),
+			'immediate'       => __( 'Post Immediately', 'social-post-flow' ),
 			'custom'          => __( 'Custom Time', 'social-post-flow' ),
 			'custom_relative' => __( 'Custom Time (Relative Format)', 'social-post-flow' ),
 			'custom_field'    => __( 'Custom Time (based on Custom Field / Post Meta Value)', 'social-post-flow' ),

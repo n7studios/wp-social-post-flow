@@ -12,29 +12,15 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 5.1.2
  */
 class Social_Post_Flow_WPML {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   5.1.2
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   5.1.2
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Add WPML as a status condition.
 		add_filter( 'social_post_flow_settings_get_default_status', array( $this, 'get_default_status' ) );
@@ -50,7 +36,7 @@ class Social_Post_Flow_WPML {
 	/**
 	 * Adds the WPML array key to the status array, if WPML is active.
 	 *
-	 * @since   5.1.2
+	 * @since   1.0.0
 	 *
 	 * @param   array $status     Default Status Settings.
 	 * @return  array
@@ -75,7 +61,7 @@ class Social_Post_Flow_WPML {
 	/**
 	 * Outputs the WPML conditional field on statuses, if WPML is active.
 	 *
-	 * @since   5.1.2
+	 * @since   1.0.0
 	 *
 	 * @param   string $post_type  Post Type.
 	 */
@@ -125,7 +111,7 @@ class Social_Post_Flow_WPML {
 	/**
 	 * Determine the language of the Post in WPML, to decide whether to send a status.
 	 *
-	 * @since   5.1.2
+	 * @since   1.0.0
 	 *
 	 * @param   bool    $conditions_met             Conditions met.
 	 * @param   array   $status                     Parsed Status Message Settings.

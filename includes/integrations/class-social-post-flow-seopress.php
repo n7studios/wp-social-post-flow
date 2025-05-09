@@ -11,29 +11,15 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.3.8
  */
 class Social_Post_Flow_SEOPress {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.3.8
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   4.3.8
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register Status Tags.
 		add_filter( 'social_post_flow_get_tags', array( $this, 'register_status_tags' ), 10, 1 );
@@ -47,7 +33,7 @@ class Social_Post_Flow_SEOPress {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array $tags       Tags.
 	 * @return  array               Tags
@@ -75,7 +61,7 @@ class Social_Post_Flow_SEOPress {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -97,7 +83,7 @@ class Social_Post_Flow_SEOPress {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for SEOPress.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -115,7 +101,7 @@ class Social_Post_Flow_SEOPress {
 		 * Registers any additional status message tags, and their Post data replacements, that are supported
 		 * for SEOPress.
 		 *
-		 * @since   3.8.1
+		 * @since   1.0.0
 		 *
 		 * @param   array       $searches_replacements  Registered Supported Tags and their Replacements.
 		 * @param   WP_Post     $post                   WordPress Post.
@@ -131,7 +117,7 @@ class Social_Post_Flow_SEOPress {
 	/**
 	 * Return the Title
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              SEOPress Post Title
@@ -146,7 +132,7 @@ class Social_Post_Flow_SEOPress {
 	/**
 	 * Return the Description
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              SEOPress Post Description
@@ -160,7 +146,7 @@ class Social_Post_Flow_SEOPress {
 	/**
 	 * Checks if the SEOPress Plugin is active
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @return  bool    SEOPress Plugin Active
 	 */

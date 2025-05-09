@@ -121,9 +121,9 @@ class Social_Post_Flow_Bulk_Actions {
 				// Redirect to Bulk Publishing, with the chosen Post IDs preselected
 				// and the required nonce verification.
 				$args        = array(
-					'page'                               => 'social-post-flow-bulk-publish',
-					'post_ids'                           => implode( ',', $post_ids ),
-					'type'                               => $screen->post_type,
+					'page'                   => 'social-post-flow-bulk-publish',
+					'post_ids'               => implode( ',', $post_ids ),
+					'type'                   => $screen->post_type,
 					'social_post_flow_nonce' => wp_create_nonce( 'social-post-flow' ),
 				);
 				$redirect_to = admin_url( add_query_arg( $args, 'admin.php' ) );

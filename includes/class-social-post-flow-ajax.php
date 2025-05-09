@@ -23,18 +23,18 @@ class Social_Post_Flow_Ajax {
 	 */
 	public function __construct() {
 
-		add_action( 'wp_ajax_' . 'social_post_flow_usernames_search_facebook', array( $this, 'usernames_search_facebook' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_save_statuses', array( $this, 'save_statuses' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_save_statuses_post', array( $this, 'save_statuses_post' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_get_status_row', array( $this, 'get_status_row' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_character_count', array( $this, 'character_count' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_get_log', array( $this, 'get_log' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_clear_log', array( $this, 'clear_log' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_search_terms', array( $this, 'search_terms' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_search_authors', array( $this, 'search_authors' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_search_roles', array( $this, 'search_roles' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_bulk_publish', array( $this, 'bulk_publish' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_repost_test', array( $this, 'repost_test' ) );
+		add_action( 'wp_ajax_social_post_flow_usernames_search_facebook', array( $this, 'usernames_search_facebook' ) );
+		add_action( 'wp_ajax_social_post_flow_save_statuses', array( $this, 'save_statuses' ) );
+		add_action( 'wp_ajax_social_post_flow_save_statuses_post', array( $this, 'save_statuses_post' ) );
+		add_action( 'wp_ajax_social_post_flow_get_status_row', array( $this, 'get_status_row' ) );
+		add_action( 'wp_ajax_social_post_flow_character_count', array( $this, 'character_count' ) );
+		add_action( 'wp_ajax_social_post_flow_get_log', array( $this, 'get_log' ) );
+		add_action( 'wp_ajax_social_post_flow_clear_log', array( $this, 'clear_log' ) );
+		add_action( 'wp_ajax_social_post_flow_search_terms', array( $this, 'search_terms' ) );
+		add_action( 'wp_ajax_social_post_flow_search_authors', array( $this, 'search_authors' ) );
+		add_action( 'wp_ajax_social_post_flow_search_roles', array( $this, 'search_roles' ) );
+		add_action( 'wp_ajax_social_post_flow_bulk_publish', array( $this, 'bulk_publish' ) );
+		add_action( 'wp_ajax_social_post_flow_repost_test', array( $this, 'repost_test' ) );
 
 	}
 

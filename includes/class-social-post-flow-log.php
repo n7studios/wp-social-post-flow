@@ -354,7 +354,7 @@ class Social_Post_Flow_Log {
 	public function export() {
 
 		// Check the user requested a log.
-		if ( ! isset( $_GET[ 'social-post-flow-export-log' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ! isset( $_GET['social-post-flow-export-log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 

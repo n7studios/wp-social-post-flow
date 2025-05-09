@@ -753,13 +753,7 @@
 
 							<p class="description">
 								<?php
-								echo esc_html(
-									sprintf(
-									/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-										__( 'For each day(s) and time(s) specified, repost statuses will be sent to %s via this Plugin\'s WordPress Cron event.', 'social-post-flow' ),
-										$this->base->plugin->account
-									)
-								);
+								esc_html_e( 'For each day(s) and time(s) specified, repost statuses will be sent to Social Post Flow via this Plugin\'s WordPress Cron event.', 'social-post-flow' );
 								?>
 								<br />
 								<?php esc_html_e( 'Use "Don\'t Repost" for a given day if you do not want to repost statuses.', 'social-post-flow' ); ?>
@@ -808,13 +802,7 @@
 									'%1$s <strong>%2$s</strong> %3$s',
 									esc_html__( 'Once you have defined a Repost schedule and settings for each Post Type, click Save, and then optionally click the Test button above to simulate what the Repost Cron event would do if run by WordPress now. This does', 'social-post-flow' ),
 									esc_html__( 'not', 'social-post-flow' ),
-									esc_html(
-										sprintf(
-											/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-											__( 'post to %s', 'social-post-flow' ),
-											$this->base->plugin->account
-										)
-									)
+									esc_html__( 'post to Social Post Flow', 'social-post-flow' )
 								);
 								?>
 							</p>
@@ -843,10 +831,9 @@
 								<?php
 								echo esc_html(
 									sprintf(
-										/* translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-										__( 'Defines conditions for when %1$s are eligible to be automatically reposted to %2$s.', 'social-post-flow' ),
-										$repost_post_type->labels->name,
-										$this->base->plugin->account
+										/* translators: %1$s: Post Type Name */
+										__( 'Defines conditions for when %1$s are eligible to be automatically reposted to Social Post Flow.', 'social-post-flow' ),
+										$repost_post_type->labels->name
 									)
 								);
 								?>
@@ -855,10 +842,9 @@
 								printf(
 									'%1$s <a href="%2$s" target="_blank">%3$s</a>',
 									sprintf(
-										/* translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Link to Status Settings, %4$s: Post Type Name */
-										esc_html__( 'To enable Automatic Reposting of %1$s, and define the status(es) to send to %2$s, visit', 'social-post-flow' ),
+										/* translators: %1$s: Post Type Name */
+										esc_html__( 'To enable Automatic Reposting of %1$s, and define the status(es) to send to Social Post Flow, visit', 'social-post-flow' ),
 										esc_html( $repost_post_type->labels->name ),
-										esc_html( $this->base->plugin->account )
 									),
 									esc_html( admin_url( 'admin.php?page=social-post-flow-settings&tab=post&type=' . $repost_post_type->name ) ),
 									sprintf(
@@ -894,10 +880,9 @@
 									<?php
 									echo esc_html(
 										sprintf(
-											/* translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-											__( 'The maximum number of %1$s to automatically repost to %2$s each time the Repost Cron event is run.  This limit applies across the entire Post Type.', 'social-post-flow' ),
-											$repost_post_type->labels->name,
-											$this->base->plugin->account
+											/* translators: %1$s: Post Type Name */
+											__( 'The maximum number of %1$s to automatically repost to Social Post Flow each time the Repost Cron event is run.  This limit applies across the entire Post Type.', 'social-post-flow' ),
+											$repost_post_type->labels->name
 										)
 									);
 									?>

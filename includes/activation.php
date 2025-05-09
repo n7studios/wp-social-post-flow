@@ -9,7 +9,7 @@
 /**
  * Runs the installation and update routines when the plugin is activated.
  *
- * @since   3.0.0
+ * @since   1.0.0
  *
  * @param   bool $network_wide   Is network wide activation.
  */

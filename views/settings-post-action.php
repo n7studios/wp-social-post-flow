@@ -96,19 +96,8 @@
 			</div>
 		</div>
 
-		<?php
-		// Upgrade Notice.
-		if ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) || class_exists( 'WP_To_SocialPilot' ) ) {
-			if ( $post_action === 'publish' ) {
-				require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-action-status-upgrade.php';
-			}
-		} else {
-			?>
-			<div class="wpzinc-option last">
-				<a href="#" class="button add-status" data-status-index="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( 'Add Status Update', 'social-post-flow' ); ?></a>
-			</div>
-			<?php
-		}
-		?>
+		<div class="wpzinc-option last">
+			<a href="#" class="button add-status" data-status-index="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( 'Add Status Update', 'social-post-flow' ); ?></a>
+		</div>
 	</div>
 </div>

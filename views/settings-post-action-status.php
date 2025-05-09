@@ -11,17 +11,6 @@
 <div id="social-post-flow-status-form-container" class="hidden">
 	<div id="social-post-flow-status-form" class="wp-to-social-pro-status-form">
 		<div class="wpzinc-option">
-			<div class="notice-inline notice-warning pinterest hidden">
-				<p>
-					<?php
-					esc_html_e( 'You need to create at least one Pinterest Board, and then refresh the screen to choose the board to post this status to.', 'social-post-flow' );
-					?>
-					<a href="https://www.socialpostflow.com/documentation/wordpress/status-settings/#status--choose-a-pinterest-board" target="_blank">
-						<?php echo esc_html_e( 'Click here for instructions on creating a Pinterest board.', 'social-post-flow' ); ?>
-					</a>
-				</p>
-			</div>
-
 			<!-- Status Message -->
 			<div class="full status">
 				<h3><?php esc_html_e( 'Status Text', 'social-post-flow' ); ?></h3>
@@ -33,17 +22,16 @@
 				// Tags.
 				$textarea = 'textarea.message';
 				require 'settings-post-action-status-tags.php';
-
-				// Instagram update type.
-				if ( $this->base->supports( 'instagram_update_type' ) ) {
-					?>
-					<select name="social-post-flow_update_type" size="1" class="right">
-						<option value=""><?php esc_html_e( 'Post', 'social-post-flow' ); ?></option>
-						<option value="story"><?php esc_html_e( 'Story', 'social-post-flow' ); ?></option>
-					</select>
-					<?php
-				}
 				?>
+				<select name="social-post-flow_post_type" size="1" class="right">
+					<?php
+					foreach ( social_post_flow()->get_class( 'common' )->get_status_post_type_options() as $status_post_type => $label ) {
+						?>
+						<option value="<?php echo esc_attr( $status_post_type ); ?>"><?php echo esc_attr( $label ); ?></option>
+						<?php
+					}
+					?>
+				</select>
 
 				<textarea name="social-post-flow_message" rows="3" class="widefat wpzinc-autosize-js message"></textarea>
 
@@ -129,200 +117,6 @@
 					</span>
 				</div>
 			</div>
-
-			<!-- Pinterest -->
-			<div class="full section conditional pinterest hidden">
-				<h3><?php esc_html_e( 'Pinterest', 'social-post-flow' ); ?></h3>
-				<p class="description">
-					<?php
-					esc_html_e( 'Define the Pinterest Board for this status to be sent to.', 'social-post-flow' );
-					?>
-				</p>
-
-				<div class="wpzinc-option no-styling">
-					<div class="full">
-						<table class="widefat fixed striped">
-							<tbody>
-								<tr>
-									<td width="20%">
-										<label for="social-post-flow_sub_profile">
-											<?php esc_html_e( 'Board', 'social-post-flow' ); ?>
-										</label>
-									</td>
-									<td>
-										<!-- Pinterest: Sub Profile -->
-										<select name="social-post-flow_sub_profile" id="social-post-flow_sub_profile" size="1" class="widefat"></select> 
-										<input type="url" name="social-post-flow_sub_profile" id="social-post-flow_sub_profile" placeholder="<?php esc_attr_e( 'Pinterest Board URL', 'social-post-flow' ); ?>" class="widefat" />
-									</td>
-								</tr>
-
-								<?php
-								if ( $this->base->supports( 'pinterest_title' ) ) {
-									?>
-									<tr>
-										<td>
-											<label for="pinterest_title">
-												<?php esc_html_e( 'Pin Title', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<input type="text" name="social-post-flow_title" id="pinterest_title" placeholder="<?php esc_attr_e( 'Pin Title', 'social-post-flow' ); ?>" class="widefat" />
-											<p class="description">
-												<?php esc_html_e( 'An optional title. Text Tags are supported.', 'social-post-flow' ); ?>
-											</p>
-										</td>
-									</tr>
-									<?php
-								}
-
-								if ( $this->base->supports( 'pinterest_source_url' ) ) {
-									?>
-									<tr>
-										<td>
-											<label for="pinterest_source_url">
-												<?php esc_html_e( 'Destination Link', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<input type="text" name="social-post-flow_source_url" id="pinterest_source_url" placeholder="<?php esc_attr_e( 'e.g. https://example.com or use {url}', 'social-post-flow' ); ?>" class="widefat" />
-											<p class="description">
-												<?php esc_html_e( 'The URL to link the Pin to. If no URL is entered, the Post\'s URL will be used. Text Tags are supported.', 'social-post-flow' ); ?>
-											</p>
-										</td>
-									</tr>
-									<?php
-								}
-								?>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-
-			<?php
-			if ( $this->base->supports( 'googlebusiness' ) ) {
-				?>
-				<!-- Google Business Profile -->
-				<div class="full section conditional googlebusiness hidden">
-					<h3><?php esc_html_e( 'Google Business Profile', 'social-post-flow' ); ?></h3>
-					<p class="description">
-						<?php
-						echo esc_html_e( 'Optional: Define the status type (What\'s New, Offer or Event) and additional structured fields / data.', 'social-post-flow' );
-						?>
-					</p>
-
-					<div class="wpzinc-option no-styling">
-						<div class="full">
-							<table class="widefat fixed striped">
-								<tbody>
-									<tr>
-										<td width="20%">
-											<label for="googlebusiness_post_type">
-												<?php esc_html_e( 'Post Type', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="social-post-flow_googlebusiness[post_type]" id="googlebusiness_post_type" size="1" class="widefat">
-												<option value="whats_new"><?php esc_attr_e( 'What\'s New', 'social-post-flow' ); ?></option>
-												<option value="offer"><?php esc_attr_e( 'Offer', 'social-post-flow' ); ?></option>
-												<option value="event"><?php esc_attr_e( 'Event', 'social-post-flow' ); ?></option>
-											</select>
-										</td>
-									</tr>
-									<tr class="whats_new event">
-										<td>
-											<label for="googlebusiness_cta">
-												<?php esc_html_e( 'Call to Action', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="social-post-flow_googlebusiness[cta]" id="googlebusiness_cta" size="1" class="widefat">
-												<option value="book"><?php esc_attr_e( 'Book', 'social-post-flow' ); ?></option>
-												<option value="order"><?php esc_attr_e( 'Order', 'social-post-flow' ); ?></option>
-												<option value="shop"><?php esc_attr_e( 'Shop', 'social-post-flow' ); ?></option>
-												<option value="learn_more"><?php esc_attr_e( 'Learn More', 'social-post-flow' ); ?></option>
-												<option value="signup"><?php esc_attr_e( 'Sign Up', 'social-post-flow' ); ?></option>
-											</select>
-										</td>
-									</tr>
-									<tr class="offer event">
-										<td>
-											<label for="googlebusiness_start_date_option">
-												<?php esc_html_e( 'Start Date', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="social-post-flow_googlebusiness[start_date_option]" id="googlebusiness_start_date_option" size="1" class="widefat">
-												<?php
-												foreach ( social_post_flow()->get_class( 'common' )->get_google_business_start_date_options( $post_type ) as $schedule_option => $label ) {
-													?>
-													<option value="<?php echo esc_attr( $schedule_option ); ?>"><?php echo esc_attr( $label ); ?></option>
-													<?php
-												}
-												?>
-											</select>
-
-											<input type="text" name="social-post-flow_googlebusiness[start_date]" id="googlebusiness_start_date" placeholder="<?php esc_attr_e( 'Custom Meta Field Name', 'social-post-flow' ); ?>" />
-										</td>
-									</tr>
-									<tr class="offer event">
-										<td>
-											<label for="googlebusiness_end_date_option">
-												<?php esc_html_e( 'End Date', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="social-post-flow_googlebusiness[end_date_option]" id="googlebusiness_end_date_option" size="1" class="widefat">
-												<?php
-												foreach ( social_post_flow()->get_class( 'common' )->get_google_business_end_date_options( $post_type ) as $schedule_option => $label ) {
-													?>
-													<option value="<?php echo esc_attr( $schedule_option ); ?>"><?php echo esc_attr( $label ); ?></option>
-													<?php
-												}
-												?>
-											</select>
-
-											<input type="text" name="social-post-flow_googlebusiness[end_date]" id="googlebusiness_end_date" placeholder="<?php esc_attr_e( 'Custom Meta Field Name', 'social-post-flow' ); ?>" />
-										</td>
-									</tr>
-									<tr class="offer event">
-										<td>
-											<label for="googlebusiness_title">
-												<?php esc_html_e( 'Event / Offer Title', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<input type="text" name="social-post-flow_googlebusiness[title]" id="googlebusiness_title" class="widefat" />
-										</td>
-									</tr>
-									<tr class="offer">
-										<td>
-											<label for="googlebusiness_code">
-												<?php esc_html_e( 'Coupon Code', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<input type="text" name="social-post-flow_googlebusiness[code]" id="googlebusiness_code" class="widefat" />
-										</td>
-									</tr>
-									<tr class="offer">
-										<td>
-											<label for="googlebusiness_terms">
-												<?php esc_html_e( 'Terms and Conditions Text', 'social-post-flow' ); ?>
-											</label>
-										</td>
-										<td>
-											<input type="text" name="social-post-flow_googlebusiness[terms]" id="googlebusiness_terms" class="widefat" />
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<?php
-			}
-			?>
 
 			<!-- Images -->
 			<div class="full section images">

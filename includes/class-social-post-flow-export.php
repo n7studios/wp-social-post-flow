@@ -20,8 +20,6 @@ class Social_Post_Flow_Export {
 	 * Constructor.
 	 *
 	 * @since   4.2.2
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
 

@@ -11,29 +11,16 @@
  *
  * @package Social_Post_Flow
  * @author  WP Zinc
- * @version 4.3.8
+ * @version 1.0.0
  */
 class Social_Post_Flow_Yoast_SEO {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.3.8
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
-	 * @since   4.3.8
-	 *
-	 * @param   object $base    Base Plugin Class.
+	 * @since   1.0.0
 	 */
 	public function __construct() {
-
-		
 
 		// Register this integration as supporting OpenGraph.
 		add_filter( 'social_post_flow_get_opengraph_seo_plugins', array( $this, 'register_opengraph_seo_plugins' ) );
@@ -51,7 +38,7 @@ class Social_Post_Flow_Yoast_SEO {
 	 * can check if it's active, and if so offer the "Use OpenGraph Settings"
 	 * image option on statuses.
 	 *
-	 * @since   4.8.4
+	 * @since   1.0.0
 	 *
 	 * @param   array $plugins    Plugins supporting OpenGraph.
 	 * @return  array               Plugins
@@ -68,7 +55,7 @@ class Social_Post_Flow_Yoast_SEO {
 	 * Defines Dynamic Status Tags that can be inserted into status(es) for the given Post Type.
 	 * These tags are also added to any 'Insert Tag' dropdowns.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array $tags       Tags.
 	 * @return  array               Tags
@@ -100,7 +87,7 @@ class Social_Post_Flow_Yoast_SEO {
 	/**
 	 * Registers any additional status message tags, and their Post data replacements, that are supported.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   array   $searches_replacements  Registered Supported Tags and their Replacements.
 	 * @param   WP_Post $post                   WordPress Post.
@@ -122,7 +109,7 @@ class Social_Post_Flow_Yoast_SEO {
 	/**
 	 * Returns tags and their Post data replacements, that are supported for Yoast SEO.
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post                   WordPress Post.
 	 * @param   WP_User $author                 WordPress User (Author of the Post).
@@ -167,7 +154,7 @@ class Social_Post_Flow_Yoast_SEO {
 		 * Registers any additional status message tags, and their Post data replacements, that are supported
 		 * for Yoast SEO.
 		 *
-		 * @since   3.8.1
+		 * @since   1.0.0
 		 *
 		 * @param   array       $searches_replacements  Registered Supported Tags and their Replacements.
 		 * @param   WP_Post     $post                   WordPress Post.
@@ -183,7 +170,7 @@ class Social_Post_Flow_Yoast_SEO {
 	/**
 	 * Return the Title
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              Yoast Post Title
@@ -205,7 +192,7 @@ class Social_Post_Flow_Yoast_SEO {
 	/**
 	 * Return the Description
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @param   WP_Post $post   WordPress Post.
 	 * @return  string              Yoast Post Description
@@ -227,7 +214,7 @@ class Social_Post_Flow_Yoast_SEO {
 	/**
 	 * Checks if the Yoast SEO Plugin is active
 	 *
-	 * @since   4.3.8
+	 * @since   1.0.0
 	 *
 	 * @return  bool    Yoast SEO Plugin Active
 	 */
