@@ -16,24 +16,11 @@
 class Social_Post_Flow_Log_Table extends WP_List_Table {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.9.6
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since   3.9.6
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		parent::__construct(
 			array(

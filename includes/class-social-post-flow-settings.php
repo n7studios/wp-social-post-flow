@@ -16,37 +16,6 @@
 class Social_Post_Flow_Settings {
 
 	/**
-	 * Holds the class object.
-	 *
-	 * @since   3.1.4
-	 *
-	 * @var     object
-	 */
-	public static $instance;
-
-	/**
-	 * Holds the base object.
-	 *
-	 * @since   3.4.7
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   3.4.7
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Migrates settings from the free version or Pro version 2.x
 	 *
 	 * @since   3.0.0

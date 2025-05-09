@@ -16,28 +16,6 @@
 class Social_Post_Flow_Install {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   1.0.0
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   1.0.0
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Runs installation routines for first time users
 	 *
 	 * @since   1.0.0

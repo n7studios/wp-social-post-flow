@@ -19,28 +19,6 @@
 class Social_Post_Flow_Cron {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.7.2
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   3.7.2
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Schedules the log cleanup event in the WordPress CRON on a daily basis
 	 *
 	 * @since   3.9.8

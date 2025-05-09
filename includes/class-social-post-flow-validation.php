@@ -17,28 +17,6 @@
 class Social_Post_Flow_Validation {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.8.1
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   3.8.1
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Checks if an Access Token exists, meaning that the API service is connected
 	 * to the Plugin.
 	 *

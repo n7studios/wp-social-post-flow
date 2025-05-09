@@ -28,12 +28,8 @@ class Social_Post_Flow_Import {
 	 * Constructor.
 	 *
 	 * @since   4.2.2
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Import.
 		add_action( 'social_post_flow_import', array( $this, 'import' ), 10, 2 );

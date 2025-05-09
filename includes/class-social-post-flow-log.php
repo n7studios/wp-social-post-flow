@@ -46,12 +46,8 @@ class Social_Post_Flow_Log {
 	 * Constructor
 	 *
 	 * @since   3.0.0
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Define the database table name.
 		$this->table = 'to_' . strtolower( $this->base->plugin->account ) . '_log';
@@ -362,7 +358,7 @@ class Social_Post_Flow_Log {
 		$log = $this->get( $post->ID );
 
 		// Load View.
-		include_once $this->base->plugin->folder . 'lib/views/post-log.php';
+		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/post-log.php';
 
 	}
 

@@ -68,7 +68,7 @@
 						<div id="normal-sortables" class="meta-box-sortables ui-sortable publishing-defaults">  
 							<?php
 							// Load sub view.
-							require_once $this->base->plugin->folder . 'lib/views/bulk-publish-' . $stage . '.php';
+							require_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-' . $stage . '.php';
 
 							// Nonce.
 							wp_nonce_field( 'social-post-flow', 'social_post_flow_nonce' );

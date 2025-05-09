@@ -22,7 +22,7 @@ if ( class_exists( 'Social_Post_Flow' ) ) {
 
 // Define Plugin version and build date.
 define( 'SOCIAL_POST_FLOW_PLUGIN_VERSION', '1.0.0' );
-define( 'SOCIAL_POST_FLOW_PLUGIN_BUILD_DATE', '2025-05-01 18:00:00' );
+define( 'SOCIAL_POST_FLOW_PLUGIN_BUILD_DATE', '2025-07-01 18:00:00' );
 
 // Define Plugin paths.
 define( 'SOCIAL_POST_FLOW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -68,9 +68,8 @@ function social_post_flow_autoloader( $class_name ) {
 
 	// Define the paths to search for the file.
 	$include_paths = array(
-		SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/includes',
-		SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/includes/integrations',
 		SOCIAL_POST_FLOW_PLUGIN_PATH . 'includes',
+		SOCIAL_POST_FLOW_PLUGIN_PATH . 'includes/integrations',
 	);
 
 	// Iterate through the include paths to find the file.

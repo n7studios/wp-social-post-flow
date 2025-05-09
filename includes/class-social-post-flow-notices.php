@@ -17,15 +17,6 @@
 class Social_Post_Flow_Notices {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   3.9.6
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Holds success and error notices to be displayed
 	 *
 	 * @since   3.9.6
@@ -57,19 +48,6 @@ class Social_Post_Flow_Notices {
 	 * @var     string
 	 */
 	private $key_prefix = '';
-
-	/**
-	 * Constructor.
-	 *
-	 * @since   3.9.6
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
 
 	/**
 	 * Enable persistence on notices

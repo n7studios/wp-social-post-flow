@@ -18,15 +18,6 @@
 class Social_Post_Flow_Publish {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.2.4
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Holds all supported Tags and their Post data replacements.
 	 *
 	 * @since   3.7.8
@@ -48,12 +39,8 @@ class Social_Post_Flow_Publish {
 	 * Constructor
 	 *
 	 * @since   3.0.0
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Actions.
 		add_action( 'wp_loaded', array( $this, 'register_publish_hooks' ), 1 );
@@ -2391,14 +2378,14 @@ class Social_Post_Flow_Publish {
 		}
 
 		// Get Font.
-		$font = $this->base->plugin->folder . 'lib/assets/fonts/OpenSans-Regular.ttf';
+		$font = SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/assets/fonts/OpenSans-Regular.ttf';
 		if ( isset( $settings['font'] ) ) {
 			if ( ! $settings['font'] ) {
 				// Custom Font.
 				$font = get_attached_file( $settings['font_custom'] );
 			} else {
 				// Plugin Font.
-				$font = $this->base->plugin->folder . 'lib/assets/fonts/' . $settings['font'] . '.ttf';
+				$font = SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/assets/fonts/' . $settings['font'] . '.ttf';
 			}
 		}
 
@@ -2440,12 +2427,6 @@ class Social_Post_Flow_Publish {
 	 * @return  string                          Parsed Status Message
 	 */
 	public function parse_text( $post, $message ) {
-
-		// Perform spintax.
-		$spintax = social_post_flow()->get_class( 'spintax' )->process( $message );
-		if ( ! is_wp_error( $spintax ) ) {
-			$message = $spintax;
-		}
 
 		// Get Author.
 		$author = get_user_by( 'id', $post->post_author );

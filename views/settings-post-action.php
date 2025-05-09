@@ -77,7 +77,7 @@
 							$row    = social_post_flow()->get_class( 'settings' )->get_status_row( $status, $post_type, $post_action );
 
 							// Load sub view.
-							require $this->base->plugin->folder . 'lib/views/settings-post-action-status-row.php';
+							require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-action-status-row.php';
 						} else {
 							// Iterate through saved statuses.
 							foreach ( $statuses as $key => $status ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
@@ -86,7 +86,7 @@
 								$row    = social_post_flow()->get_class( 'settings' )->get_status_row( $status, $post_type, $post_action );
 
 								// Load sub view.
-								require $this->base->plugin->folder . 'lib/views/settings-post-action-status-row.php';
+								require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-action-status-row.php';
 							}
 						}
 						?>
@@ -100,7 +100,7 @@
 		// Upgrade Notice.
 		if ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) || class_exists( 'WP_To_SocialPilot' ) ) {
 			if ( $post_action === 'publish' ) {
-				require $this->base->plugin->folder . 'lib/views/settings-post-action-status-upgrade.php';
+				require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-action-status-upgrade.php';
 			}
 		} else {
 			?>

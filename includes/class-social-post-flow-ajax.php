@@ -17,28 +17,13 @@
 class Social_Post_Flow_Ajax {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.4.7
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
 	 * @since   3.0.0
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
 
-		
-
-		// Actions.
 		add_action( 'wp_ajax_' . 'social_post_flow_usernames_search_facebook', array( $this, 'usernames_search_facebook' ) );
-		add_action( 'wp_ajax_' . 'social_post_flow_username_save_twitter', array( $this, 'username_save_twitter' ) );
 		add_action( 'wp_ajax_' . 'social_post_flow_save_statuses', array( $this, 'save_statuses' ) );
 		add_action( 'wp_ajax_' . 'social_post_flow_save_statuses_post', array( $this, 'save_statuses_post' ) );
 		add_action( 'wp_ajax_' . 'social_post_flow_get_status_row', array( $this, 'get_status_row' ) );
@@ -73,7 +58,7 @@ class Social_Post_Flow_Ajax {
 		$search = sanitize_text_field( wp_unslash( $_REQUEST['search'] ) );
 
 		// Run search.
-		$results = social_post_flow()->get_class( 'facebook_api' )->usernames_search( $search );
+		$results = social_post_flow()->get_class( 'api' )->facebook_usernames_search( $search );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $results ) ) {
@@ -91,35 +76,6 @@ class Social_Post_Flow_Ajax {
 
 		// Return usernames.
 		wp_send_json_success( $usernames );
-
-	}
-
-	/**
-	 * Saves the given Twitter username and user ID to the API.
-	 *
-	 * @since   ?
-	 */
-	public function username_save_twitter() {
-
-		// Run a security check first.
-		check_ajax_referer( 'social-post-flow-username-save-twitter', 'nonce' );
-
-		// Bail if no user ID or username was provided.
-		if ( ! isset( $_REQUEST['user_id'] ) ) {
-			wp_send_json_error( __( 'No user ID was provided.', 'social-post-flow' ) );
-		}
-		if ( ! isset( $_REQUEST['username'] ) ) {
-			wp_send_json_error( __( 'No username was provided.', 'social-post-flow' ) );
-		}
-
-		// Sanitize inputs.
-		$user_id  = sanitize_text_field( wp_unslash( $_REQUEST['user_id'] ) );
-		$username = sanitize_text_field( wp_unslash( $_REQUEST['username'] ) );
-
-		// Save.
-		$results = social_post_flow()->get_class( 'twitter_api' )->username_save( $user_id, $username );
-
-		wp_send_json_success( $results );
 
 	}
 

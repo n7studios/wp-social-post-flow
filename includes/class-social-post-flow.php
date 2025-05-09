@@ -84,9 +84,9 @@ class Social_Post_Flow {
 		// Review.
 		$this->plugin->review_name   = 'social-post-flow';
 		$this->plugin->review_notice = sprintf(
-			/* translators: Plugin Name */
-			__( 'Thanks for using %s to schedule your social media statuses on Social Post Flow!', 'social-post-flow' ),
-			$this->plugin->displayName
+			'Thanks for using %s to schedule your social media statuses on %s!',
+			$this->plugin->displayName,
+			$this->plugin->account
 		);
 
 		// Default Settings.
@@ -150,17 +150,15 @@ class Social_Post_Flow {
 		$this->classes = new stdClass();
 
 		// Initialize required classes.
-		$this->classes->access     = new Social_Post_Flow_Access( self::$instance );
 		$this->classes->admin      = new Social_Post_Flow_Admin( self::$instance );
 		$this->classes->ajax          = new Social_Post_Flow_AJAX( self::$instance );
-		$this->classes->api           = new Social_Post_Flow_Buffer_API( self::$instance );
+		$this->classes->api           = new Social_Post_Flow_API( self::$instance );
 		$this->classes->bulk_actions  = new Social_Post_Flow_Bulk_Actions( self::$instance );
 		$this->classes->bulk_publish  = new Social_Post_Flow_Bulk_Publish( self::$instance );
 		$this->classes->common     = new Social_Post_Flow_Common( self::$instance );
 		$this->classes->cron       = new Social_Post_Flow_Cron( self::$instance );
 		$this->classes->date          = new Social_Post_Flow_Date( self::$instance );
 		$this->classes->export        = new Social_Post_Flow_Export( self::$instance );
-		$this->classes->facebook_api  = new Social_Post_Flow_Facebook_API( self::$instance );
 		$this->classes->image      = new Social_Post_Flow_Image( self::$instance );
 		$this->classes->import        = new Social_Post_Flow_Import( self::$instance );
 		$this->classes->install    = new Social_Post_Flow_Install( self::$instance );
@@ -171,7 +169,6 @@ class Social_Post_Flow {
 		$this->classes->publish       = new Social_Post_Flow_Publish( self::$instance );
 		$this->classes->screen     = new Social_Post_Flow_Screen( self::$instance );
 		$this->classes->settings   = new Social_Post_Flow_Settings( self::$instance );
-		$this->classes->twitter_api   = new Social_Post_Flow_Twitter_API( self::$instance );
 		$this->classes->validation = new Social_Post_Flow_Validation( self::$instance );
 
 		// Integrations.

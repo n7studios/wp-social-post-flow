@@ -47,7 +47,7 @@
 	<?php
 	if ( ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) ) &&
 		( $profile['service'] === 'instagram' || $profile['service'] === 'pinterest' ) ) {
-		require $this->base->plugin->folder . 'lib/views/settings-post-actionheader-upgrade-profile.php';
+		require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-actionheader-upgrade-profile.php';
 	} else {
 		?>
 		<!-- Account Enabled -->
@@ -63,7 +63,7 @@
 		<?php
 		// Upgrade Notice.
 		if ( class_exists( 'WP_To_Buffer' ) || class_exists( 'WP_To_Hootsuite' ) ) {
-			require $this->base->plugin->folder . 'lib/views/settings-post-actionheader-upgrade.php';
+			require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-actionheader-upgrade.php';
 		} else {
 			// Force override if a subprofile is required.
 			$override = $this->get_setting( $post_type, '[' . $profile_id . '][override]', 0 );

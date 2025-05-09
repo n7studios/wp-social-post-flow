@@ -16,15 +16,6 @@
 class Social_Post_Flow_API {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   1.0.0
-	 *
-	 * @var     object.
-	 */
-	public $base;
-
-	/**
 	 * Holds the Proxy endpoint, which might be used to pass requests through
 	 *
 	 * @since   1.0.0

@@ -16,28 +16,6 @@
 class Social_Post_Flow_Bulk_Publish {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   4.1.4
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   4.1.4
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Fetches matching Posts, Pages and/or Custom Post Types that are eligible
 	 * to be bulk published to the API.
 	 *

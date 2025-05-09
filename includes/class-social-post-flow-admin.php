@@ -57,11 +57,7 @@ class Social_Post_Flow_Admin {
 		// Show an error if cURL hasn't been installed.
 		if ( ! function_exists( 'curl_init' ) ) {
 			social_post_flow()->get_class( 'notices' )->add_error_notice(
-				sprintf(
-					/* translators: Plugin Name */
-					__( '%s requires the PHP cURL extension to be installed and enabled by your web host.', 'social-post-flow' ),
-					$this->base->plugin->displayName
-				)
+				__( 'Social Post Flow requires the PHP cURL extension to be installed and enabled by your web host.', 'social-post-flow' )
 			);
 		}
 
@@ -154,11 +150,7 @@ class Social_Post_Flow_Admin {
 			'character_count_nonce'    => wp_create_nonce( 'social-post-flow-character-count' ),
 
 			'clear_log_nonce'          => wp_create_nonce( 'social-post-flow-clear-log' ),
-			'clear_log_completed'      => sprintf(
-				/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-				__( 'No log entries exist, or no status updates have been sent to %s.', 'social-post-flow' ),
-				$this->base->plugin->account
-			),
+			'clear_log_completed'      => __( 'No log entries exist, or no status updates have been sent to Social Post Flow.', 'social-post-flow' ),
 
 			'get_log_nonce'            => wp_create_nonce( 'social-post-flow-get-log' ),
 
@@ -394,11 +386,9 @@ class Social_Post_Flow_Admin {
 					),
 				),
 			),
-		);
-
-		// Add Facebook Autocompleter, if supported by the Plugin.
-		if ( $this->base->supports( 'facebook_mentions' ) ) {
-			$autocomplete_configuration[] = array(
+			
+			// Facebook Autocomplete mentions.
+			array(
 				'fields'   => array(
 					'div.facebook textarea.message',
 				),
@@ -413,8 +403,8 @@ class Social_Post_Flow_Admin {
 						'menuShowMinLength' => 3,
 					),
 				),
-			);
-		}
+			),
+		);
 
 		/**
 		 * Defines configuration for tribute.js autocomplete instances for Tags, Facebook Pages and Twitter Username mentions.
@@ -509,11 +499,7 @@ class Social_Post_Flow_Admin {
 		if ( isset( $_GET[ 'social-post-flow-disconnect' ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$this->disconnect();
 			social_post_flow()->get_class( 'notices' )->add_success_notice(
-				sprintf(
-					/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-					__( '%s account disconnected successfully.', 'social-post-flow' ),
-					$this->base->plugin->account
-				)
+				__( 'Social Post Flow account disconnected successfully.', 'social-post-flow' )
 			);
 		}
 
@@ -544,25 +530,7 @@ class Social_Post_Flow_Admin {
 		// Profiles.
 		$profiles = social_post_flow()->get_class( 'api' )->profiles( true, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
 		if ( is_wp_error( $profiles ) ) {
-			// If the error is a 401, the user revoked access to the plugin.
-			// Disconnect the Plugin, and explain why this happened.
-			if ( $profiles->get_error_code() === 401 ) {
-				// Disconnect the Plugin.
-				$this->disconnect();
-
-				// Error notice.
-				social_post_flow()->get_class( 'notices' )->add_error_notice(
-					sprintf(
-						/* translators: %1$s: Plugin Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Hmm, it looks like you revoked access to %1$s through your %2$s account, or your account no longer exists. This means we can no longer post updates to your social networks.  To re-authorize, click the Authorize Plugin button.', 'social-post-flow' ),
-						$this->base->plugin->displayName,
-						$this->base->plugin->account
-					)
-				);
-			} else {
-				// Some other error.
-				social_post_flow()->get_class( 'notices' )->add_error_notice( $profiles->get_error_message() );
-			}
+			social_post_flow()->get_class( 'notices' )->add_error_notice( $profiles->get_error_message() );
 		}
 
 		// Get Settings Tab and Post Type we're managing settings for.
@@ -601,7 +569,7 @@ class Social_Post_Flow_Admin {
 				$roles = social_post_flow()->get_class( 'common' )->get_user_roles();
 
 				// Documentation URL.
-				$documentation_url = $this->base->plugin->documentation_url . '/authentication-settings';
+				$documentation_url = 'https://www.socialpostflow.com/documentation/wordpress/authentication-settings/';
 				break;
 
 			/**
@@ -612,7 +580,7 @@ class Social_Post_Flow_Admin {
 				$disable_save_button = true;
 
 				// Documentation URL.
-				$documentation_url = $this->base->plugin->documentation_url . '/status-settings';
+				$documentation_url = 'https://www.socialpostflow.com/documentation/wordpress/status-settings/';
 				break;
 
 			/**
@@ -623,7 +591,7 @@ class Social_Post_Flow_Admin {
 				$disable_save_button = true;
 
 				// Documentation URL.
-				$documentation_url = $this->base->plugin->documentation_url . '/status-settings';
+				$documentation_url = 'https://www.socialpostflow.com/documentation/wordpress/status-settings/';
 				break;
 
 			/**
@@ -641,7 +609,7 @@ class Social_Post_Flow_Admin {
 				$post_type_object  = get_post_type_object( $post_type );
 				$actions_plural    = social_post_flow()->get_class( 'common' )->get_post_actions_past_tense();
 				$post_actions      = social_post_flow()->get_class( 'common' )->get_post_actions();
-				$documentation_url = $this->base->plugin->documentation_url . '/status-settings';
+				$documentation_url = 'https://www.socialpostflow.com/documentation/wordpress/status-settings/';
 				$is_post_screen    = false; // Disables the 'specific' schedule option, which can only be used on individual Per-Post Settings.
 
 				// Check if this Post Type is enabled.
@@ -650,10 +618,9 @@ class Social_Post_Flow_Admin {
 						sprintf(
 							'%1$s <a href="%2$s" target="_blank">%3$s</a>',
 							sprintf(
-								/* translators: %1$s: Post Type, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Documentation URL */
-								__( 'To send %1$s to %2$s, at least one action on the Defaults tab must be enabled with a status defined, and at least one social media profile must be enabled below by clicking the applicable profile name and ticking the "Account Enabled" box.', 'social-post-flow' ),
-								$post_type_object->label,
-								$this->base->plugin->account
+								/* translators: %1$s: Post Type */
+								__( 'To send %1$s to Social Post Flow, at least one action on the Defaults tab must be enabled with a status defined, and at least one social media profile must be enabled below by clicking the applicable profile name and ticking the "Account Enabled" box.', 'social-post-flow' ),
+								$post_type_object->label
 							),
 							$documentation_url,
 							__( 'See Documentation', 'social-post-flow' )
@@ -664,7 +631,7 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Load View.
-		include_once $this->base->plugin->folder . 'lib/views/settings.php';
+		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings.php';
 
 		// Add footer action to output overlay modal markup.
 		add_action( 'admin_footer', array( $this, 'output_modal' ) );
@@ -680,7 +647,7 @@ class Social_Post_Flow_Admin {
 	public function auth_screen() {
 
 		// Load View.
-		include_once $this->base->plugin->folder . 'lib/views/settings-auth-required.php';
+		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-auth-required.php';
 
 	}
 
@@ -692,7 +659,7 @@ class Social_Post_Flow_Admin {
 	public function output_modal() {
 
 		// Load view.
-		require_once $this->base->plugin->folder . '_modules/dashboard/views/modal.php';
+		require_once SOCIAL_POST_FLOW_PLUGIN_PATH . '_modules/dashboard/views/modal.php';
 
 	}
 
@@ -720,7 +687,7 @@ class Social_Post_Flow_Admin {
 			social_post_flow()->get_class( 'notices' )->add_error_notice( $profiles->get_error_message() );
 
 			// Load view.
-			include_once $this->base->plugin->folder . 'lib/views/bulk-publish-error.php';
+			include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-error.php';
 			return;
 		}
 
@@ -752,7 +719,7 @@ class Social_Post_Flow_Admin {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Nonce field is missing.', 'social-post-flow' ) );
 
 					// Load view.
-					include_once $this->base->plugin->folder . 'lib/views/bulk-publish-error.php';
+					include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-error.php';
 					return;
 				}
 
@@ -762,7 +729,7 @@ class Social_Post_Flow_Admin {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified.', 'social-post-flow' ) );
 
 					// Load view.
-					include_once $this->base->plugin->folder . 'lib/views/bulk-publish-error.php';
+					include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-error.php';
 					return;
 				}
 
@@ -859,7 +826,7 @@ class Social_Post_Flow_Admin {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Nonce field is missing.', 'social-post-flow' ) );
 
 					// Load view.
-					include_once $this->base->plugin->folder . 'lib/views/bulk-publish-error.php';
+					include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-error.php';
 					return;
 				}
 
@@ -869,7 +836,7 @@ class Social_Post_Flow_Admin {
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified. Settings NOT saved.', 'social-post-flow' ) );
 
 					// Load view.
-					include_once $this->base->plugin->folder . 'lib/views/bulk-publish-error.php';
+					include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish-error.php';
 					return;
 				}
 
@@ -920,7 +887,7 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Load View.
-		include_once $this->base->plugin->folder . 'lib/views/bulk-publish.php';
+		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/bulk-publish.php';
 
 	}
 
@@ -961,7 +928,7 @@ class Social_Post_Flow_Admin {
 		$table->prepare_items();
 
 		// Load View.
-		include_once $this->base->plugin->folder . 'lib/views/log.php';
+		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/log.php';
 
 	}
 

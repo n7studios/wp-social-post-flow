@@ -17,24 +17,11 @@
 class Social_Post_Flow_Bulk_Actions {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.3.8
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
 	 * @since   3.3.8
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Actions.
 		add_action( 'admin_init', array( $this, 'register_bulk_action_filters' ) );

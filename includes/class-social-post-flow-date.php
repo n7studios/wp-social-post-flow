@@ -17,28 +17,6 @@
 class Social_Post_Flow_Date {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   4.6.9
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   4.6.9
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Helper method to return the adjusted date and time based on the given parameters
 	 *
 	 * @since   4.6.9

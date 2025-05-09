@@ -16,28 +16,6 @@
 class Social_Post_Flow_Common {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   3.4.7
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   3.4.7
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Helper method to retrieve three character day names and their full names
 	 *
 	 * @since   4.1.1
@@ -82,97 +60,27 @@ class Social_Post_Flow_Common {
 	 */
 	public function get_schedule_options( $post_type = false, $is_post_screen = false ) {
 
-		// Build schedule options, depending on the Plugin.
-		switch ( 'social-post-flow' ) {
+		// Build schedule options.
+		$schedule = array(
+			'queue_bottom'    => sprintf(
+				/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
+				__( 'Add to End of %s Queue', 'social-post-flow' ),
+				$this->base->plugin->account
+			),
+			'queue_top'       => sprintf(
+				/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
+				__( 'Add to Start of %s Queue', 'social-post-flow' ),
+				$this->base->plugin->account
+			),
+			'now'             => __( 'Post Immediately', 'social-post-flow' ),
+			'custom'          => __( 'Custom Time', 'social-post-flow' ),
+			'custom_relative' => __( 'Custom Time (Relative Format)', 'social-post-flow' ),
+			'custom_field'    => __( 'Custom Time (based on Custom Field / Post Meta Value)', 'social-post-flow' ),
+		);
 
-			case 'wp-to-buffer':
-				$schedule = array(
-					'queue_bottom' => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to End of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-				);
-				break;
-
-			case 'wp-to-buffer-pro':
-				$schedule = array(
-					'queue_bottom'    => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to End of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-					'queue_top'       => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to Start of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-					'now'             => __( 'Post Immediately', 'social-post-flow' ),
-					'custom'          => __( 'Custom Time', 'social-post-flow' ),
-					'custom_relative' => __( 'Custom Time (Relative Format)', 'social-post-flow' ),
-					'custom_field'    => __( 'Custom Time (based on Custom Field / Post Meta Value)', 'social-post-flow' ),
-				);
-
-				// If we're on the Post Screen, add a specific option now.
-				if ( $is_post_screen ) {
-					$schedule['specific'] = __( 'Specific Date and Time', 'social-post-flow' );
-				}
-				break;
-
-			case 'wp-to-hootsuite':
-				$schedule = array(
-					'now' => __( 'Post Immediately', 'social-post-flow' ),
-				);
-				break;
-
-			case 'wp-to-hootsuite-pro':
-				$schedule = array(
-					'now'             => __( 'Post Immediately', 'social-post-flow' ),
-					'custom'          => __( 'Custom Time', 'social-post-flow' ),
-					'custom_relative' => __( 'Custom Time (Relative Format)', 'social-post-flow' ),
-					'custom_field'    => __( 'Custom Time (based on Custom Field / Post Meta Value)', 'social-post-flow' ),
-				);
-
-				// If we're on the Post Screen, add a specific option now.
-				if ( $is_post_screen ) {
-					$schedule['specific'] = __( 'Specific Date and Time', 'social-post-flow' );
-				}
-				break;
-
-			case 'wp-to-socialpilot':
-				$schedule = array(
-					'queue_bottom' => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to End of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-				);
-				break;
-
-			case 'wp-to-socialpilot-pro':
-				$schedule = array(
-					'queue_bottom'    => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to End of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-					'queue_top'       => sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-						__( 'Add to Start of %s Queue', 'social-post-flow' ),
-						$this->base->plugin->account
-					),
-					'now'             => __( 'Post Immediately', 'social-post-flow' ),
-					'custom'          => __( 'Custom Time', 'social-post-flow' ),
-					'custom_relative' => __( 'Custom Time (Relative Format)', 'social-post-flow' ),
-					'custom_field'    => __( 'Custom Time (based on Custom Field / Post Meta Value)', 'social-post-flow' ),
-				);
-
-				// If we're on the Post Screen, add a specific option now.
-				if ( $is_post_screen ) {
-					$schedule['specific'] = __( 'Specific Date and Time', 'social-post-flow' );
-				}
-				break;
-
+		// If we're on the Post Screen, add a specific option now.
+		if ( $is_post_screen ) {
+			$schedule['specific'] = __( 'Specific Date and Time', 'social-post-flow' );
 		}
 
 		/**

@@ -16,24 +16,11 @@
 class Social_Post_Flow_Post {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since 3.2.0
-	 *
-	 * @var object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
 	 * @since   3.0.0
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Admin Notices.
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -252,7 +239,7 @@ class Social_Post_Flow_Post {
 		<div id="<?php echo esc_attr( 'social-post-flow' ); ?>-override" class="wpzinc-option">
 			<?php
 			// Load Post Settings View (Tabs + Statuses for each Profile).
-			require $this->base->plugin->folder . 'lib/views/settings-post.php';
+			require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post.php';
 			?>
 		</div>
 		<div class="wpzinc-option">
@@ -288,7 +275,7 @@ class Social_Post_Flow_Post {
 		$supports_opengraph = social_post_flow()->get_class( 'image' )->supports_opengraph();
 
 		// Render view.
-		require $this->base->plugin->folder . 'lib/views/settings-post-image.php';
+		require SOCIAL_POST_FLOW_PLUGIN_PATH . 'lib/views/settings-post-image.php';
 
 	}
 
@@ -596,7 +583,7 @@ class Social_Post_Flow_Post {
 	public function output_modal() {
 
 		// Load view.
-		require_once $this->base->plugin->folder . '_modules/dashboard/views/modal.php';
+		require_once SOCIAL_POST_FLOW_PLUGIN_PATH . '_modules/dashboard/views/modal.php';
 
 	}
 

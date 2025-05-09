@@ -16,28 +16,6 @@
 class Social_Post_Flow_Screen {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   3.9.6
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor
-	 *
-	 * @since   3.9.6
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Returns an array comprising of the Plugin Top Level Screen and Section
 	 *
 	 * For example:

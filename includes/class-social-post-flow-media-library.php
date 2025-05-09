@@ -16,28 +16,6 @@
 class Social_Post_Flow_Media_Library {
 
 	/**
-	 * Holds the base object.
-	 *
-	 * @since   4.2.0
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
-	 * Constructor.
-	 *
-	 * @since   4.2.0
-	 *
-	 * @param   object $base    Base Plugin Class.
-	 */
-	public function __construct() {
-
-		
-
-	}
-
-	/**
 	 * Uploads the given image path and file into the WordPress Media Library
 	 *
 	 * @since   4.2.0

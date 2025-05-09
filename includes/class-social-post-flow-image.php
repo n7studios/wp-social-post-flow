@@ -19,24 +19,11 @@
 class Social_Post_Flow_Image {
 
 	/**
-	 * Holds the base class object.
-	 *
-	 * @since   4.6.6
-	 *
-	 * @var     object
-	 */
-	public $base;
-
-	/**
 	 * Constructor
 	 *
 	 * @since   4.6.6
-	 *
-	 * @param   object $base    Base Plugin Class.
 	 */
 	public function __construct() {
-
-		
 
 		// Load WordPress image libraries.
 		require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
@@ -63,87 +50,23 @@ class Social_Post_Flow_Image {
 			$label            = $post_type_object->labels->featured_image;
 		}
 
-		// Build featured image options, depending on the Plugin.
-		switch ( 'social-post-flow' ) {
-
-			case 'wp-to-buffer':
-				$options = array(
-					-1 => __( 'No Image', 'social-post-flow' ),
-					0  => __( 'Use OpenGraph Settings', 'social-post-flow' ),
-					2  => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-				);
-				break;
-
-			case 'wp-to-buffer-pro':
-				$options = array(
-					-1 => __( 'No Image', 'social-post-flow' ),
-					0  => __( 'Use OpenGraph Settings', 'social-post-flow' ),
-					1  => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, Linked to Post', 'social-post-flow' ),
-						$label
-					),
-					2  => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-					3  => __( 'Use Text to Image, Linked to Post', 'social-post-flow' ),
-					4  => __( 'Use Text to Image, not Linked to Post', 'social-post-flow' ),
-				);
-				break;
-
-			case 'wp-to-hootsuite':
-				$options = array(
-					-1 => __( 'No Image', 'social-post-flow' ),
-					2  => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-				);
-				break;
-
-			case 'wp-to-hootsuite-pro':
-				$options = array(
-					-1 => __( 'No Image', 'social-post-flow' ),
-					2  => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-					4  => __( 'Use Text to Image, not Linked to Post', 'social-post-flow' ),
-				);
-				break;
-
-			case 'wp-to-socialpilot':
-				$options = array(
-					0 => __( 'Use OpenGraph Settings', 'social-post-flow' ),
-					2 => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-				);
-				break;
-
-			case 'wp-to-socialpilot-pro':
-				$options = array(
-					0 => __( 'Use OpenGraph Settings', 'social-post-flow' ),
-					2 => sprintf(
-						/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
-						__( 'Use %s, not Linked to Post', 'social-post-flow' ),
-						$label
-					),
-					4 => __( 'Use Text to Image, not Linked to Post', 'social-post-flow' ),
-				);
-				break;
-
-		}
+		// Build featured image options.
+		$options = array(
+			-1 => __( 'No Image', 'social-post-flow' ),
+			0  => __( 'Use OpenGraph Settings', 'social-post-flow' ),
+			1  => sprintf(
+				/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
+				__( 'Use %s, Linked to Post', 'social-post-flow' ),
+				$label
+			),
+			2  => sprintf(
+				/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
+				__( 'Use %s, not Linked to Post', 'social-post-flow' ),
+				$label
+			),
+			3  => __( 'Use Text to Image, Linked to Post', 'social-post-flow' ),
+			4  => __( 'Use Text to Image, not Linked to Post', 'social-post-flow' ),
+		);
 
 		// Depending on the network, remove some options that aren't supported.
 		switch ( $network ) {
