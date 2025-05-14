@@ -34,24 +34,71 @@ class Social_Post_Flow_API {
 	private $api_endpoint = 'https://socialpostflow.local/api/';
 
 	/**
-	 * Holds the API Key
+	 * Holds the OAuth Client ID
+	 *
+	 * @since   1.0.0
+	 *
+	 * @var     string.
+	 */
+	private $client_id = '0196ce3f-f4e8-7316-97f3-347dc3ad060c';
+	
+	/**
+	 * Access Token
 	 *
 	 * @since   1.0.0
 	 *
 	 * @var     string
 	 */
-	public $api_key = '';
+	public $access_token = '';
 
 	/**
-	 * Sets the API Key
+	 * Refresh Token
 	 *
 	 * @since   1.0.0
 	 *
-	 * @param   string $api_key   API Key.
+	 * @var     string
 	 */
-	public function set_api_key( $api_key ) {
+	public $refresh_token = '';
 
-		$this->api_key = $api_key;
+	/**
+	 * Token Expiry Timestamp
+	 *
+	 * @since   1.0.0
+	 *
+	 * @var     int
+	 */
+	public $token_expires = false;
+
+	/**
+	 * Outputs an Authorize Plugin button on Settings > General when the Plugin needs to be authenticated with Social Post Flow.
+	 *
+	 * @since   1.0.0
+	 */
+	public function output_oauth() {
+
+		?>
+		<div class="wpzinc-option">
+			<div class="full">
+				<a href="<?php echo esc_attr( $this->get_oauth_url() ); ?>" class="button button-primary">
+					<?php esc_html_e( 'Authorize Plugin', 'social-post-flow' ); ?>
+				</a>
+			</div>
+		</div>
+		<?php
+
+	}
+
+	/**
+	 * Returns the OAuth URL used to begin the authentication process.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @return  string
+	 */
+	public function get_oauth_url() {
+
+		// @TODO Build PKCE code etc as we do for Kit.
+		return 'https://bufferapp.com/oauth2/authorize?client_id=' . $this->client_id . '&redirect_uri=' . rawurlencode( $this->oauth_gateway_endpoint ) . '&response_type=code&state=' . rawurlencode( admin_url( 'admin.php?page=' . $this->base->plugin->name . '-settings' ) );
 
 	}
 
@@ -78,6 +125,59 @@ class Social_Post_Flow_API {
 	public function get_connect_profiles_url() {
 
 		return 'https://app.socialpostflow.com/profiles';
+
+	}
+
+	/**
+	 * Sets this class' access and refresh tokens
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   string $access_token    Access Token.
+	 * @param   string $refresh_token   Refresh Token.
+	 * @param   mixed  $token_expires   Token Expires (false | timestamp).
+	 */
+	public function set_tokens( $access_token = '', $refresh_token = '', $token_expires = false ) {
+
+		$this->access_token  = $access_token;
+		$this->refresh_token = $refresh_token;
+		$this->token_expires = $token_expires;
+
+	}
+
+	/**
+	 * Checks if an access token was set.  Called by any function which
+	 * performs a call to the API
+	 *
+	 * @since   1.0.0
+	 *
+	 * @return  bool    Token Exists
+	 */
+	private function check_access_token_exists() {
+
+		if ( empty( $this->access_token ) ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Checks if a refresh token was set.  Called by any function which
+	 * performs a call to the API
+	 *
+	 * @since   1.0.0
+	 *
+	 * @return  bool    Token Exists
+	 */
+	private function check_refresh_token_exists() {
+
+		if ( empty( $this->refresh_token ) ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
