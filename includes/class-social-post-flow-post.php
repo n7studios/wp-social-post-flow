@@ -179,7 +179,7 @@ class Social_Post_Flow_Post {
 		$is_post_screen = true; // Enables the 'specific' schedule option, which can only be used on individual Per-Post Settings.
 
 		// Authentication.
-		social_post_flow()->get_class( 'api' )->set_access_token(
+		social_post_flow()->get_class( 'api' )->set_tokens(
 			social_post_flow()->get_class( 'settings' )->get_access_token()
 		);
 

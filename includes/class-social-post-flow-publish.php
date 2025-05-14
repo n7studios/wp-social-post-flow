@@ -642,7 +642,7 @@ class Social_Post_Flow_Publish {
 		}
 
 		// Setup API.
-		social_post_flow()->get_class( 'api' )->set_access_token( $access_token );
+		social_post_flow()->get_class( 'api' )->set_tokens( $access_token );
 
 		// Get Profiles.
 		$profiles = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
@@ -3973,7 +3973,7 @@ class Social_Post_Flow_Publish {
 		$errors = false;
 
 		// Setup API.
-		social_post_flow()->get_class( 'api' )->set_access_token(
+		social_post_flow()->get_class( 'api' )->set_tokens(
 			social_post_flow()->get_class( 'settings' )->get_access_token()
 		);
 

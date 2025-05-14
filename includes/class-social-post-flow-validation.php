@@ -54,8 +54,9 @@ class Social_Post_Flow_Validation {
 		}
 
 		// Fetch timezones for WordPress, Server and API.
-		social_post_flow()->get_class( 'api' )->set_access_token(
-			social_post_flow()->get_class( 'settings' )->get_access_token()
+		social_post_flow()->get_class( 'api' )->set_tokens(
+			social_post_flow()->get_class( 'settings' )->get_access_token(),
+			social_post_flow()->get_class( 'settings' )->get_refresh_token()
 		);
 		$wordpress_timezone = social_post_flow()->get_class( 'date' )->convert_wordpress_gmt_offset_to_offset_value( get_option( 'gmt_offset' ) );
 

@@ -87,15 +87,6 @@ class Social_Post_Flow_API {
 	 */
 	public $refresh_token = '';
 
-	/**
-	 * Token Expiry Timestamp
-	 *
-	 * @since   1.0.0
-	 *
-	 * @var     int
-	 */
-	public $token_expires = false;
-
 	public function get_registration_url() {
 
 		return 'https://socialpostflow.local/register';
@@ -155,8 +146,8 @@ class Social_Post_Flow_API {
 					'redirect_uri'  => $this->oauth_redirect_uri,
 					'code_verifier' => $this->get_code_verifier(),
 				),
-				'timeout' => 20,
-				'sslverify' => false,
+				'timeout' => $this->get_timeout(),
+				'sslverify' => $this->enable_ssl_verification(),
 			)
 		);
 
@@ -171,12 +162,14 @@ class Social_Post_Flow_API {
 			return $response;
 		}
 
-		// Fetch HTTP code and body.
-		$http_code = wp_remote_retrieve_response_code( $response );
+		// Fetch and decode body.
 		$response  = wp_remote_retrieve_body( $response );
-
-		// Decode response.
 		$result = json_decode( $response, true );
+
+		// If an error occured, return it now.
+		if ( isset( $result['error'] ) ) {
+			return new WP_Error( $result['error'], $result['error_description'] );
+		}
 
 		/**
 		 * Perform any actions with the new access token, such as saving it.
@@ -197,6 +190,8 @@ class Social_Post_Flow_API {
 	 * Fetches a new access token using the supplied refresh token.
 	 *
 	 * @since   1.0.0
+	 * 
+	 * @return  WP_Error|array
 	 */
 	public function refresh_token() {
 
@@ -209,8 +204,8 @@ class Social_Post_Flow_API {
 					'grant_type'    => 'refresh_token',
 					'refresh_token' => $this->refresh_token,
 				),
-				'timeout' => 20,
-				'sslverify' => false,
+				'timeout' => $this->get_timeout(),
+				'sslverify' => $this->enable_ssl_verification(),
 			)
 		);
 
@@ -219,12 +214,14 @@ class Social_Post_Flow_API {
 			return $result;
 		}
 
-		// Fetch HTTP code and body.
-		$http_code = wp_remote_retrieve_response_code( $response );
+		// Fetch and decode body.
 		$response  = wp_remote_retrieve_body( $response );
-
-		// Decode response.
 		$result = json_decode( $response, true );
+
+		// If an error occured, return it now.
+		if ( isset( $result['error'] ) ) {
+			return new WP_Error( $result['error'], $result['error_description'] );
+		}
 
 		// Store existing access and refresh tokens.
 		$previous_access_token  = $this->access_token;
@@ -363,13 +360,11 @@ class Social_Post_Flow_API {
 	 *
 	 * @param   string $access_token    Access Token.
 	 * @param   string $refresh_token   Refresh Token.
-	 * @param   mixed  $token_expires   Token Expires (false | timestamp).
 	 */
-	public function set_tokens( $access_token = '', $refresh_token = '', $token_expires = false ) {
+	public function set_tokens( $access_token = '', $refresh_token = '' ) {
 
 		$this->access_token  = $access_token;
 		$this->refresh_token = $refresh_token;
-		$this->token_expires = $token_expires;
 
 	}
 
@@ -429,6 +424,9 @@ class Social_Post_Flow_API {
 
 			// Get profiles.
 			$results = $this->get( 'profiles' );
+
+			var_dump( $results );
+			die();
 
 			// Check for errors.
 			if ( is_wp_error( $results ) ) {
@@ -526,18 +524,6 @@ class Social_Post_Flow_API {
 		// Build endpoint URL.
 		$url = $this->api_endpoint . '/' . $cmd;
 
-		// Define the timeout.
-		$timeout = 20;
-
-		/**
-		 * Defines the number of seconds before timing out a request to the Buffer API.
-		 *
-		 * @since   3.0.0
-		 *
-		 * @param   int     $timeout    Timeout, in seconds
-		 */
-		$timeout = apply_filters( 'social_post_flow_api_request', $timeout );
-
 		// If proxy is enabled, send the request to our proxy with the URL, method and parameters.
 		if ( social_post_flow()->get_class( 'settings' )->get_option( 'proxy', false ) ) {
 			$response = wp_remote_get(
@@ -564,7 +550,8 @@ class Social_Post_Flow_API {
 								'Bearer' => $this->access_token,
 							),
 							'body'    => $params,
-							'timeout' => $timeout,
+							'timeout' => $this->get_timeout(),
+							'sslverify' => $this->enable_ssl_verification(),
 						)
 					);
 					break;
@@ -580,7 +567,8 @@ class Social_Post_Flow_API {
 								'Authorization' => 'Bearer ' . $this->access_token,
 							),
 							'body'    => $params,
-							'timeout' => $timeout,
+							'timeout' => $this->get_timeout(),
+							'sslverify' => $this->enable_ssl_verification(),
 						)
 					);
 					break;
@@ -616,5 +604,42 @@ class Social_Post_Flow_API {
 		);
 
 	}
+
+	private function get_timeout() {
+
+		// Define the timeout.
+		$timeout = 20;
+
+		/**
+		 * Defines the number of seconds before timing out a request to the Social Post Flow API.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   int     $timeout    Timeout, in seconds
+		 */
+		$timeout = apply_filters( 'social_post_flow_api_get_timeout', $timeout );
+
+		return $timeout;
+
+	}
+
+	private function enable_ssl_verification() {
+
+		$enable_ssl_verification = false; // @TODO Change to true.
+
+		/**
+		 * Defines whether to enable SSL verification for the Social Post Flow API.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   bool    $enable_ssl_verification    Enable SSL verification.
+		 */
+		$enable_ssl_verification = apply_filters( 'social_post_flow_api_enable_ssl_verification', $enable_ssl_verification );
+
+		return $enable_ssl_verification;
+
+	}
+	
+	
 
 }

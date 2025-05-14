@@ -69,13 +69,10 @@ class Social_Post_Flow_Admin {
 		// Exchange the authorization code and verifier for an access token.
 		$result = social_post_flow()->get_class( 'api' )->get_access_token( $authorization_code );
 
-		var_dump( $authorization_code );
-		var_dump( $result );
-		die();
-
 		// If an error occured, add it to the notices.
 		if ( is_wp_error( $result ) ) {
 			social_post_flow()->get_class( 'notices' )->add_error_notice( $result->get_error_message() );
+			return;
 		}
 
 		// Store success message.
@@ -101,7 +98,7 @@ class Social_Post_Flow_Admin {
 	 */
 	public function save_oauth_tokens( $tokens ) {
 
-		social_post_flow()->get_class( 'settings' )->update_tokens( $tokens['access_token'], $tokens['refresh_token'], time() + $token['expires_in'] );
+		social_post_flow()->get_class( 'settings' )->update_tokens( $tokens['access_token'], $tokens['refresh_token'], time() + $tokens['expires_in'] );
 
 	}
 
@@ -583,7 +580,7 @@ class Social_Post_Flow_Admin {
 		// Authentication.
 		$access_token = social_post_flow()->get_class( 'settings' )->get_access_token();
 		if ( ! empty( $access_token ) ) {
-			social_post_flow()->get_class( 'api' )->set_access_token( $access_token );
+			social_post_flow()->get_class( 'api' )->set_tokens( $access_token );
 		}
 
 		// Profiles.
@@ -733,7 +730,7 @@ class Social_Post_Flow_Admin {
 		social_post_flow()->get_class( 'notices' )->set_key_prefix( 'social_post_flow_' . wp_get_current_user()->ID );
 
 		// Set access and refresh tokens.
-		social_post_flow()->get_class( 'api' )->set_access_token(
+		social_post_flow()->get_class( 'api' )->set_tokens(
 			social_post_flow()->get_class( 'settings' )->get_access_token()
 		);
 
