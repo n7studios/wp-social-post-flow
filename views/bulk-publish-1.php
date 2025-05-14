@@ -52,7 +52,7 @@
 						)
 					);
 					?>
-					<a href="<?php echo esc_attr( admin_url( 'admin.php?page=social-post-flow-settings&tab=post&type=' . $post_type ) ); ?>" target="_blank">
+					<a href="<?php echo esc_attr( admin_url( 'admin.php?page=social-post-flow&tab=post&type=' . $post_type ) ); ?>" target="_blank">
 						<?php
 						esc_html_e( 'click here', 'social-post-flow' );
 						?>

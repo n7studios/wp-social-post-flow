@@ -34,6 +34,33 @@ class Social_Post_Flow_API {
 	private $api_endpoint = 'https://socialpostflow.local/api/';
 
 	/**
+	 * Holds the OAuth Authorize URL
+	 *
+	 * @since   1.0.0
+	 *
+	 * @var     string.
+	 */
+	private $oauth_authorize_url = 'https://socialpostflow.local/oauth/authorize';
+
+	/**
+	 * Holds the OAuth Redirect URL
+	 *
+	 * @since   1.0.0
+	 *
+	 * @var     string.
+	 */
+	private $oauth_redirect_uri = 'https://socialpostflow.local/oauth/callback';
+
+	/**
+	 * Holds the OAuth Token URL
+	 *
+	 * @since   1.0.0
+	 *
+	 * @var     string.
+	 */
+	private $oauth_token_url = 'https://socialpostflow.local/oauth/token';
+
+	/**
 	 * Holds the OAuth Client ID
 	 *
 	 * @since   1.0.0
@@ -69,62 +96,263 @@ class Social_Post_Flow_API {
 	 */
 	public $token_expires = false;
 
-	/**
-	 * Outputs an Authorize Plugin button on Settings > General when the Plugin needs to be authenticated with Social Post Flow.
-	 *
-	 * @since   1.0.0
-	 */
-	public function output_oauth() {
+	public function get_registration_url() {
 
-		?>
-		<div class="wpzinc-option">
-			<div class="full">
-				<a href="<?php echo esc_attr( $this->get_oauth_url() ); ?>" class="button button-primary">
-					<?php esc_html_e( 'Authorize Plugin', 'social-post-flow' ); ?>
-				</a>
-			</div>
-		</div>
-		<?php
+		return 'https://socialpostflow.local/register';
 
 	}
 
 	/**
-	 * Returns the OAuth URL used to begin the authentication process.
+	 * Returns the URL used to begin the OAuth process
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   string $return_url   Return URL.
+	 * @return  string                 OAuth URL
+	 */
+	public function get_oauth_url( $return_url ) {
+
+		// Generate and store code verifier and challenge.
+		$code_verifier  = $this->generate_and_store_code_verifier();
+		$code_challenge = $this->generate_code_challenge( $code_verifier );
+
+		// Build args.
+		$args = array(
+			'client_id'             => $this->client_id,
+			'response_type'         => 'code',
+			'redirect_uri'			=> rawurlencode( $this->oauth_redirect_uri ),
+			'state'          		=> rawurlencode( $return_url ),
+			'code_challenge'        => $code_challenge,
+			'code_challenge_method' => 'S256',
+		);
+
+		// Return OAuth URL.
+		return add_query_arg(
+			$args,
+			$this->oauth_authorize_url
+		);
+
+	}
+
+	/**
+	 * Exchanges the given code for an access token, refresh token and other data.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   string $authorization_code     Authorization Code, returned from get_oauth_url() flow.
+	 * @return  WP_Error|array
+	 */
+	public function get_access_token( $authorization_code ) {
+
+		// Exchange the code for an access token, refresh token and other data.
+		$response = wp_remote_post(
+			$this->oauth_token_url,
+			array(
+				'body' => array(
+					'client_id'     => $this->client_id,
+					'grant_type'    => 'authorization_code',
+					'code'          => $authorization_code,
+					'redirect_uri'  => $this->oauth_redirect_uri,
+					'code_verifier' => $this->get_code_verifier(),
+				),
+				'timeout' => 20,
+				'sslverify' => false,
+			)
+		);
+
+		// Delete code verifier, as it's no longer needed.
+		// If the access token request fails, the user
+		// will begin the process again, which generates a
+		// new code verifier.
+		$this->delete_code_verifier();
+
+		// If an error occured, return it now.
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		// Fetch HTTP code and body.
+		$http_code = wp_remote_retrieve_response_code( $response );
+		$response  = wp_remote_retrieve_body( $response );
+
+		// Decode response.
+		$result = json_decode( $response, true );
+
+		/**
+		 * Perform any actions with the new access token, such as saving it.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   array   $result     access_token, refresh_token, token_type, expires_in
+		 * @param   string  $client_id  OAuth Client ID.
+		 */
+		do_action( 'social_post_flow_api_get_access_token', $result, $this->client_id );
+
+		// Return.
+		return $result;
+
+	}
+
+	/**
+	 * Fetches a new access token using the supplied refresh token.
+	 *
+	 * @since   1.0.0
+	 */
+	public function refresh_token() {
+
+		// Exchange the code for an access token, refresh token and other data.
+		$response = wp_remote_post(
+			$this->oauth_token_url,
+			array(
+				'body' => array(
+					'client_id'     => $this->client_id,
+					'grant_type'    => 'refresh_token',
+					'refresh_token' => $this->refresh_token,
+				),
+				'timeout' => 20,
+				'sslverify' => false,
+			)
+		);
+
+		// If an error occured, return it now.
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		// Fetch HTTP code and body.
+		$http_code = wp_remote_retrieve_response_code( $response );
+		$response  = wp_remote_retrieve_body( $response );
+
+		// Decode response.
+		$result = json_decode( $response, true );
+
+		// Store existing access and refresh tokens.
+		$previous_access_token  = $this->access_token;
+		$previous_refresh_token = $this->refresh_token;
+
+		// Update the access and refresh tokens in this class.
+		$this->access_token  = $result['access_token'];
+		$this->refresh_token = $result['refresh_token'];
+
+		/**
+		 * Perform any actions with the new access token, such as saving it.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   array   $result                  New access_token, refresh_token, token_type, expires_in
+		 * @param   string  $client_id               OAuth Client ID.
+		 * @param   string  $previous_access_token   Existing Access Token.
+		 * @param   string  $previous_refresh_token  Existing Refresh Token.
+		 */
+		do_action( 'social_post_flow_api_refresh_token', $result, $this->client_id, $previous_access_token, $previous_refresh_token );
+
+		// Return.
+		return $result;
+
+	}
+
+	/**
+	 * Generates and stores a code verifier for PKCE authentication flow.
 	 *
 	 * @since   1.0.0
 	 *
 	 * @return  string
 	 */
-	public function get_oauth_url() {
+	private function generate_and_store_code_verifier() {
 
-		// @TODO Build PKCE code etc as we do for Kit.
-		return 'https://bufferapp.com/oauth2/authorize?client_id=' . $this->client_id . '&redirect_uri=' . rawurlencode( $this->oauth_gateway_endpoint ) . '&response_type=code&state=' . rawurlencode( admin_url( 'admin.php?page=' . $this->base->plugin->name . '-settings' ) );
+		// If a code verifier already exists, use it.
+		$code_verifier = $this->get_code_verifier();
+		if ( $code_verifier ) {
+			return $code_verifier;
+		}
+
+		// Generate a random string.
+		$code_verifier = random_bytes( 64 );
+
+		// Encode to Base64 string.
+		$code_verifier = $this->base64_urlencode( $code_verifier );
+
+		// Store in database for later use.
+		update_option( 'social_post_flow_code_verifier', $code_verifier );
+
+		// Return.
+		return $code_verifier;
 
 	}
 
 	/**
-	 * Returns the Buffer URL where the user can register for a Buffer account
+	 * Base64URL the given code verifier, as PHP has no built in function for this.
 	 *
 	 * @since   1.0.0
 	 *
-	 * @return  string  URL
+	 * @param   string $code_verifier  Code Verifier.
+	 * @return  string                  Code Challenge.
 	 */
-	public function get_registration_url() {
+	private function generate_code_challenge( $code_verifier ) {
 
-		return 'https://app.socialpostflow.com/register';
+		// Hash using S256.
+		$code_challenge = hash( 'sha256', $code_verifier, true );
+
+		// Encode to Base64 string.
+		$code_challenge = base64_encode( $code_challenge ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
+
+		// Convert Base64 to Base64URL by replacing “+” with “-” and “/” with “_”.
+		$code_challenge = strtr( $code_challenge, '+/', '-_' );
+
+		// Remove padding character from the end of line.
+		$code_challenge = rtrim( $code_challenge, '=' );
+
+		// Return.
+		return $code_challenge;
 
 	}
 
 	/**
-	 * Returns the URL where the user can connect their social media accounts
+	 * Returns the stored code verifier generated by generate_and_store_code_verifier().
 	 *
 	 * @since   1.0.0
 	 *
-	 * @return  string  URL
+	 * @return  bool|string
 	 */
-	public function get_connect_profiles_url() {
+	private function get_code_verifier() {
 
-		return 'https://app.socialpostflow.com/profiles';
+		return get_option( 'social_post_flow_code_verifier' );
+
+	}
+
+	/**
+	 * Deletes the stored code verifier generated by generate_code_verifier().
+	 *
+	 * @since   1.0.0
+	 *
+	 * @return  bool
+	 */
+	private function delete_code_verifier() {
+
+		return delete_option( 'social_post_flow_code_verifier' );
+
+	}
+
+	/**
+	 * Base64URL encode the given string.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   string $str    String to encode.
+	 * @return  string         Encoded string.
+	 */
+	private function base64_urlencode( $str ) {
+
+		// Encode to Base64 string.
+		$str = base64_encode( $str ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
+
+		// Convert Base64 to Base64URL by replacing “+” with “-” and “/” with “_”.
+		$str = strtr( $str, '+/', '-_' );
+
+		// Remove padding character from the end of line.
+		$str = rtrim( $str, '=' );
+
+		return $str;
 
 	}
 
@@ -279,7 +507,7 @@ class Social_Post_Flow_API {
 	}
 
 	/**
-	 * Main function which handles sending requests to the Buffer API
+	 * Main function which handles sending requests to the Social Post Flow API
 	 *
 	 * @since   1.0.0
 	 *
@@ -291,8 +519,8 @@ class Social_Post_Flow_API {
 	private function request( $cmd, $method = 'get', $params = array() ) {
 
 		// Check required parameters exist.
-		if ( empty( $this->api_key ) ) {
-			return new WP_Error( 'social_post_flow_no_api_key', __( 'No API Key was specified', 'social-post-flow' ) );
+		if ( empty( $this->access_token ) ) {
+			return new WP_Error( 'social_post_flow_no_access_token', __( 'No access token was specified', 'social-post-flow' ) );
 		}
 
 		// Build endpoint URL.
@@ -333,7 +561,7 @@ class Social_Post_Flow_API {
 						$url,
 						array(
 							'headers' => array(
-								'X-API-Key' => $this->api_key,
+								'Bearer' => $this->access_token,
 							),
 							'body'    => $params,
 							'timeout' => $timeout,
@@ -349,7 +577,7 @@ class Social_Post_Flow_API {
 						$url,
 						array(
 							'headers' => array(
-								'X-API-Key' => $this->api_key,
+								'Authorization' => 'Bearer ' . $this->access_token,
 							),
 							'body'    => $params,
 							'timeout' => $timeout,

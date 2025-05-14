@@ -35,11 +35,73 @@ class Social_Post_Flow_Admin {
 	public function __construct() {
 
 		// Actions.
+		// @TODO These token actions might be better somewhere global.
+		add_action( 'social_post_flow_api_get_access_token', array( $this, 'save_oauth_tokens' ), 10, 1 );
+		add_action( 'social_post_flow_api_refresh_token', array( $this, 'save_oauth_tokens' ), 10, 1 );
+
+		add_action( 'init', array( $this, 'maybe_get_access_token' ) );
 		add_action( 'init', array( $this, 'check_plugin_setup' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts_css' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'plugin_action_links_social-post-flow-/social-post-flow-.php', array( $this, 'plugin_action_links_settings_page' ) );
+
+	}
+
+	/**
+	 * Exchanges the authorization code for an access token, if included in the request.
+	 *
+	 * @since   1.0.0
+	 */
+	public function maybe_get_access_token() {
+
+		// If a code is included in the request, exchange it for an access token.
+		if ( ! isset( $_REQUEST['code'] ) ) {
+			return;
+		}
+
+		// Setup notices class.
+		social_post_flow()->get_class( 'notices' )->set_key_prefix( 'social_post_flow_' . wp_get_current_user()->ID );
+
+		// Sanitize token.
+		$authorization_code = sanitize_text_field( wp_unslash( $_REQUEST['code'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+
+		// Exchange the authorization code and verifier for an access token.
+		$result = social_post_flow()->get_class( 'api' )->get_access_token( $authorization_code );
+
+		var_dump( $authorization_code );
+		var_dump( $result );
+		die();
+
+		// If an error occured, add it to the notices.
+		if ( is_wp_error( $result ) ) {
+			social_post_flow()->get_class( 'notices' )->add_error_notice( $result->get_error_message() );
+		}
+
+		// Store success message.
+		social_post_flow()->get_class( 'notices' )->enable_store();
+		social_post_flow()->get_class( 'notices' )->add_success_notice(
+			__( 'Thanks! You\'ve connected the Plugin to your Social Post Flow account. Now select profiles below to enable, and define your statuses to start sending Posts to your social media profiles.', 'social-post-flow' )
+		);
+
+		// Redirect to Post tab.
+		wp_safe_redirect( 'admin.php?page=social-post-flow&tab=post&type=post' );
+		die();
+
+	}
+
+	/**
+	 * Saves the OAuth tokens to the Plugin settings, whenever
+	 * the authorization code is exchanged for an access token,
+	 * or an existing access token is refreshed.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   array $tokens  OAuth Tokens.
+	 */
+	public function save_oauth_tokens( $tokens ) {
+
+		social_post_flow()->get_class( 'settings' )->update_tokens( $tokens['access_token'], $tokens['refresh_token'], time() + $token['expires_in'] );
 
 	}
 
@@ -73,7 +135,7 @@ class Social_Post_Flow_Admin {
 				sprintf(
 					'%1$s <a href="%2$s">%3$s</a>',
 					esc_html__( 'Social Post Flow needs to be authorized before you can start sending Posts.', 'social-post-flow' ),
-					admin_url( 'admin.php?page=social-post-flow-settings' ),
+					admin_url( 'admin.php?page=social-post-flow' ),
 					esc_html__( 'Click here to Authorize.', 'social-post-flow' )
 				)
 			);
@@ -519,9 +581,9 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Authentication.
-		$api_key = social_post_flow()->get_class( 'settings' )->get_api_key();
-		if ( ! empty( $api_key ) ) {
-			social_post_flow()->get_class( 'api' )->set_api_key( $api_key );
+		$access_token = social_post_flow()->get_class( 'settings' )->get_access_token();
+		if ( ! empty( $access_token ) ) {
+			social_post_flow()->get_class( 'api' )->set_access_token( $access_token );
 		}
 
 		// Profiles.
@@ -671,8 +733,8 @@ class Social_Post_Flow_Admin {
 		social_post_flow()->get_class( 'notices' )->set_key_prefix( 'social_post_flow_' . wp_get_current_user()->ID );
 
 		// Set access and refresh tokens.
-		social_post_flow()->get_class( 'api' )->set_api_key(
-			social_post_flow()->get_class( 'settings' )->get_api_key()
+		social_post_flow()->get_class( 'api' )->set_access_token(
+			social_post_flow()->get_class( 'settings' )->get_access_token()
 		);
 
 		// Get Profiles.
@@ -944,8 +1006,8 @@ class Social_Post_Flow_Admin {
 		}
 
 		// Access token.
-		if ( $key === 'api_key' ) {
-			return social_post_flow()->get_class( 'settings' )->get_api_key();
+		if ( $key === 'access_token' ) {
+			return social_post_flow()->get_class( 'settings' )->get_access_token();
 		}
 
 		// Depending on the type, return settings / options.
@@ -973,7 +1035,7 @@ class Social_Post_Flow_Admin {
 	 */
 	public function disconnect() {
 
-		return social_post_flow()->get_class( 'settings' )->delete_api_key();
+		return social_post_flow()->get_class( 'settings' )->delete_tokens();
 
 	}
 

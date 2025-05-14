@@ -36,8 +36,8 @@
 		<h2 class="nav-tab-wrapper wpzinc-horizontal-tabbed-ui">
 			<?php
 			// Go through all Post Types, if API is authenticated.
-			$api_key = social_post_flow()->get_class( 'settings' )->get_api_key();
-			if ( ! empty( $api_key ) ) {
+			$access_token = social_post_flow()->get_class( 'settings' )->get_access_token();
+			if ( ! empty( $access_token ) ) {
 				foreach ( $post_types as $public_post_type => $post_type_obj ) {
 					// Work out the icon to display.
 					$icon = '';

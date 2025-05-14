@@ -633,16 +633,16 @@ class Social_Post_Flow_Publish {
 		$this->clear_search_replacements();
 
 		// Check a valid access token exists.
-		$api_key = social_post_flow()->get_class( 'settings' )->get_api_key();
-		if ( ! $api_key ) {
+		$access_token = social_post_flow()->get_class( 'settings' )->get_access_token();
+		if ( ! $access_token ) {
 			return new WP_Error(
-				'social_post_flow_no_api_key',
+				'social_post_flow_no_access_token',
 				__( 'The Plugin has not been authorized with Social Post Flow. Go to Social Post Flow > Settings to setup the plugin.', 'social-post-flow' )
 			);
 		}
 
 		// Setup API.
-		social_post_flow()->get_class( 'api' )->set_api_key( $api_key );
+		social_post_flow()->get_class( 'api' )->set_access_token( $access_token );
 
 		// Get Profiles.
 		$profiles = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
@@ -815,7 +815,7 @@ class Social_Post_Flow_Publish {
 		if ( count( $statuses ) === 0 ) {
 			// Fetch Post Type object and Settings URL.
 			$post_type_object = get_post_type_object( $post->post_type );
-			$plugin_url       = admin_url( 'admin.php?page=social-post-flow-settings&tab=post&type=' . $post->post_type );
+			$plugin_url       = admin_url( 'admin.php?page=social-post-flow&tab=post&type=' . $post->post_type );
 			$post_url         = admin_url( 'post.php?post=' . $post_id . '&action=edit' );
 
 			// Return an error, depending on why no statuses were found.
@@ -3973,8 +3973,8 @@ class Social_Post_Flow_Publish {
 		$errors = false;
 
 		// Setup API.
-		social_post_flow()->get_class( 'api' )->set_api_key(
-			social_post_flow()->get_class( 'settings' )->get_api_key()
+		social_post_flow()->get_class( 'api' )->set_access_token(
+			social_post_flow()->get_class( 'settings' )->get_access_token()
 		);
 
 		// Setup logging.

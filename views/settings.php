@@ -24,7 +24,7 @@
 	social_post_flow()->get_class( 'notices' )->output_notices();
 
 	// Get access token.
-	$api_key = social_post_flow()->get_class( 'settings' )->get_api_key();
+	$access_token = social_post_flow()->get_class( 'settings' )->get_access_token();
 	?>
 
 	<!-- Container for JS notices -->
@@ -37,10 +37,10 @@
 		<!-- Tabs -->
 		<h2 class="nav-tab-wrapper wpzinc-horizontal-tabbed-ui">
 			<!-- Settings -->
-			<a href="admin.php?page=social-post-flow-settings" class="nav-tab<?php echo esc_attr( $tab === 'auth' ? ' nav-tab-active' : '' ) . ( ! empty( $api_key ) ? ' enabled' : ' error' ); ?>" title="<?php esc_attr_e( 'Settings', 'social-post-flow' ); ?>">
+			<a href="admin.php?page=social-post-flow" class="nav-tab<?php echo esc_attr( $tab === 'auth' ? ' nav-tab-active' : '' ) . ( ! empty( $access_token ) ? ' enabled' : ' error' ); ?>" title="<?php esc_attr_e( 'Settings', 'social-post-flow' ); ?>">
 				<span class="dashicons dashicons-lock"></span> 
 				<?php
-				if ( ! empty( $api_key ) ) {
+				if ( ! empty( $access_token ) ) {
 					?>
 					<span class="dashicons dashicons-yes"></span>
 					<?php
@@ -58,7 +58,7 @@
 			<!-- Public Post Types -->
 			<?php
 			// Go through all Post Types, if authenticated.
-			if ( ! empty( $api_key ) ) {
+			if ( ! empty( $access_token ) ) {
 				foreach ( $post_types as $public_post_type => $post_type_obj ) {
 					// Work out the icon to display.
 					$icon = '';
@@ -71,7 +71,7 @@
 					// Determine if the Post Type is set to post.
 					$is_post_type_enabled = social_post_flow()->get_class( 'settings' )->is_post_type_enabled( $public_post_type );
 					?>
-					<a href="admin.php?page=social-post-flow-settings&amp;tab=post&amp;type=<?php echo esc_attr( $public_post_type ); ?>" class="nav-tab<?php echo esc_attr( $post_type === $public_post_type ? ' nav-tab-active' : '' ) . ( $is_post_type_enabled ? ' enabled' : '' ); ?>" title="<?php echo esc_attr( $post_type_obj->labels->name ); ?>" data-post-type="<?php echo esc_attr( $public_post_type ); ?>">
+					<a href="admin.php?page=social-post-flow&amp;tab=post&amp;type=<?php echo esc_attr( $public_post_type ); ?>" class="nav-tab<?php echo esc_attr( $post_type === $public_post_type ? ' nav-tab-active' : '' ) . ( $is_post_type_enabled ? ' enabled' : '' ); ?>" title="<?php echo esc_attr( $post_type_obj->labels->name ); ?>" data-post-type="<?php echo esc_attr( $public_post_type ); ?>">
 						<span class="<?php echo esc_attr( $icon ); ?>"></span>
 						<span class="dashicons dashicons-yes"></span>
 						<span class="text">

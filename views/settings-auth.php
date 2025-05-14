@@ -38,7 +38,7 @@
 		</li>
 		<?php
 		// Only display if we've auth'd and have profiles.
-		if ( ! empty( $api_key ) ) {
+		if ( ! empty( $access_token ) ) {
 			?>
 			<li class="wpzinc-nav-tab users">
 				<a href="#user-access" data-documentation="https://www.socialpostflow.com/documentation/wordpress/user-access-settings/">
@@ -79,7 +79,7 @@
 				</div>
 				<div class="wpzinc-option">
 					<div class="full">
-						<a href="admin.php?page=social-post-flow-settings&amp;social-post-flow-disconnect=1" class="button wpzinc-button-red">
+						<a href="admin.php?page=social-post-flow&amp;social-post-flow-disconnect=1" class="button wpzinc-button-red">
 							<?php esc_html_e( 'Deauthorize Plugin', 'social-post-flow' ); ?>
 						</a>
 					</div>
@@ -846,7 +846,7 @@
 										esc_html__( 'To enable Automatic Reposting of %1$s, and define the status(es) to send to Social Post Flow, visit', 'social-post-flow' ),
 										esc_html( $repost_post_type->labels->name ),
 									),
-									esc_html( admin_url( 'admin.php?page=social-post-flow-settings&tab=post&type=' . $repost_post_type->name ) ),
+									esc_html( admin_url( 'admin.php?page=social-post-flow&tab=post&type=' . $repost_post_type->name ) ),
 									sprintf(
 										/* translators: Post Type Name, Plural */
 										esc_html__( '%s &gt; Repost', 'social-post-flow' ),
@@ -1028,7 +1028,7 @@
 
 	<?php
 	// Only display if we've auth'd and have profiles.
-	if ( ! empty( $api_key ) ) {
+	if ( ! empty( $access_token ) ) {
 		// User Access.
 		?>
 		<!-- User Access -->

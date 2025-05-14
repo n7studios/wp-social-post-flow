@@ -44,10 +44,11 @@
 								</p>
 							</div>
 
-
 							<div class="wpzinc-option">
 								<div class="full">
-									<input type="text" name="social_post_flow_api_key" id="social_post_flow_api_key" value="<?php echo esc_attr( social_post_flow()->get_class( 'settings' )->get_api_key() ); ?>" />
+									<a href="<?php echo esc_attr( social_post_flow()->get_class( 'api' )->get_oauth_url( admin_url( 'admin.php?page=social-post-flow' ) ) ); ?>" class="button button-primary">
+										<?php esc_html_e( 'Authorize Plugin', 'wp-to-social-pro' ); ?>
+									</a>
 								</div>
 							</div>
 						</div>
