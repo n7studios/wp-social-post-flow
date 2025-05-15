@@ -429,66 +429,44 @@ function socialPostFlowUpdateImageOptions() {
 		}
 
 		switch ( $( 'select.image', $( social_post_flow.status_form ) ).val() ) {
-			/**
-			 * Use Feat. Image, not linked to Post
-			 */
-			case '2':
+			case 'featured_image':
 				$( '.additional-images', $( social_post_flow.status_form ) ).show();
 				$( '.text-to-image', $( social_post_flow.status_form ) ).hide();
 				break;
 
 			/**
-			 * Use Text to Image, linked to Post
-			 */
-			case '3':
-				$( '.additional-images', $( social_post_flow.status_form ) ).hide();
-				$( '.text-to-image', $( social_post_flow.status_form ) ).show();
-				break;
-
-			/**
 			 * Use Text to Image, not linked to Post
 			 */
-			case '4':
+			case 'text_to_image':
 				$( '.additional-images', $( social_post_flow.status_form ) ).hide();
 				$( '.text-to-image', $( social_post_flow.status_form ) ).show();
 				break;
 
-			/**
-			 * No Image
-			 * Use OpenGraph Settings
-			 * Use Feat. Image, linked to Post
-			 */
-			default:
-				$( '.additional-images', $( social_post_flow.status_form ) ).hide();
-				$( '.text-to-image', $( social_post_flow.status_form ) ).hide();
-				break;
 		}
 
 	} )( jQuery );
 
 }
 
-/**
- * Show/hide Google Business options based on the chosen Google Business Post Type option
- *
- * @since 	4.9.0
- */
-function socialPostFlowUpdateGoogleBusinessOptions() {
+function socialPostFlowUpdateStatusOptions() {
 
 	( function ( $ ) {
 
-		// Bail if no Google Business Post Type dropdown exists.
-		if ( $( 'select#googlebusiness_post_type', $( social_post_flow.status_form ) ).length == 0 ) {
-			return;
+		switch ( $( 'select.post_type', $( social_post_flow.status_form ) ).val() ) {
+			case 'featured_image':
+				$( '.additional-images', $( social_post_flow.status_form ) ).show();
+				$( '.text-to-image', $( social_post_flow.status_form ) ).hide();
+				break;
+
+			/**
+			 * Use Text to Image, not linked to Post
+			 */
+			case 'text_to_image':
+				$( '.additional-images', $( social_post_flow.status_form ) ).hide();
+				$( '.text-to-image', $( social_post_flow.status_form ) ).show();
+				break;
+
 		}
-
-		// Hide all table rows.
-		$( 'tr.whats_new', $( social_post_flow.status_form ) ).hide();
-		$( 'tr.event', $( social_post_flow.status_form ) ).hide();
-		$( 'tr.offer', $( social_post_flow.status_form ) ).hide();
-
-		// Show table rows matching the post type.
-		$( 'tr.' + $( 'select#googlebusiness_post_type', $( social_post_flow.status_form ) ).val(), $( social_post_flow.status_form ) ).show();
 
 	} )( jQuery );
 
@@ -553,8 +531,8 @@ function socialPostFlowEditStatus( profile_id, profile, action, status_index, st
 	// Update image options.
 	socialPostFlowUpdateImageOptions();
 
-	// Update Google Business options.
-	socialPostFlowUpdateGoogleBusinessOptions();
+	// Update status options, depending on the status' post type.
+	socialPostFlowUpdateStatusOptions();
 
 	// Display form.
 	socialPostFlowDisplayStatusForm( profile_id, action, status_index );
@@ -870,28 +848,14 @@ function socialPostFlowPopulateStatusForm( profile_id, profile, action, status_i
 				switch ( field ) {
 
 					/**
-					 * Image
-					 * Depending on the Profile's service, enable/disable some options for the image dropdown.
+					 * Post Type
+					 * Depending on the Profile's provider, enable/disable some options for the Post Type dropdown.
 					 */
-					case 'image':
-						switch ( profile.service ) {
-							case 'twitter':
-								$( 'option[value="1"]', $( this ) ).attr( 'disabled', true );
-								$( 'option[value="3"]', $( this ) ).attr( 'disabled', true );
-								break;
-
-							case 'pinterest':
+					case 'post_type':
+						switch ( profile.provider ) {
 							case 'instagram':
-							case 'googlebusiness':
-								$( 'option[value="0"]', $( this ) ).prop( 'disabled', true );
-								$( 'option[value="1"]', $( this ) ).prop( 'disabled', true );
-								$( 'option[value="3"]', $( this ) ).prop( 'disabled', true );
-								break;
-
-							case 'mastodon':
-								$( 'option[value="-1"]', $( this ) ).prop( 'disabled', true );
-								$( 'option[value="1"]', $( this ) ).prop( 'disabled', true );
-								$( 'option[value="3"]', $( this ) ).prop( 'disabled', true );
+								$( 'option[value="text"]', $( this ) ).attr( 'disabled', true );
+								$( 'option[value="link"]', $( this ) ).attr( 'disabled', true );
 								break;
 
 							default:
@@ -902,79 +866,6 @@ function socialPostFlowPopulateStatusForm( profile_id, profile, action, status_i
 
 						// Set value.
 						$( this ).val( status[ field ] );
-						break;
-
-					/**
-					 * Pinterest: the user will need to specify the board to use
-					 * Buffer: The API gives us a list of subprofiles, comprising of boards
-					 * Hootsuite: The API gives us nothing, so we ask for a board URL, which we'll convert to a board ID later
-					 * SocialPilot: The API gives us each board as a profile, so we don't need to ask for a board
-					 */
-					case 'sub_profile':
-						// Hide field if the Profile isn't for Pinterest.
-						if ( profile.service !== 'pinterest' ) {
-							$( this ).addClass( 'hidden' );
-							$( this ).closest( 'div.pinterest' ).addClass( 'hidden' );
-							break;
-						}
-
-						// Hide field if the Profile can be a seperate subprofile.
-						if ( profile.can_be_subprofile ) {
-							$( this ).addClass( 'hidden' );
-							$( this ).closest( 'div.pinterest' ).addClass( 'hidden' );
-							break;
-						}
-
-						// Populate and show either the <select> or <input> sub_profile field.
-						if ( typeof profile.subprofiles !== typeof undefined ) {
-							// The API provides the Boards we can post to.
-							// Show a <select> allowing the user to choose one.
-
-							// If there are no submprofiles, the Pinterest account has no boards attached to it yet.
-							// Show a message.
-							if ( ! Object.keys( profile.subprofiles ).length ) {
-								$( 'div.notice-inline.pinterest', $( social_post_flow.status_form ) ).removeClass( 'hidden' );
-								$( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).addClass( 'hidden' );
-								$( 'input[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).addClass( 'hidden' );
-							} else {
-								// Populate <select> dropdown of subprofiles.
-								$( 'option', $( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ) ).remove();
-								for ( let key in profile.subprofiles ) {
-									$( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).append(
-										$( '<option></option>' ).attr( 'value', profile.subprofiles[ key ].id ).text( profile.subprofiles[ key ].name )
-									);
-								}
-
-								// Show <select> to allow Pinterest Board selection.
-								$( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).removeClass( 'hidden' );
-								$( 'input[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).addClass( 'hidden' );
-								$( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).val( status[ field ] );
-							}
-						} else {
-							// The API doesn't provide the Boards we can post to.
-							// Show <input> to allow Pinterest Board URL instead.
-							$( 'select[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).addClass( 'hidden' );
-							$( 'input[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).removeClass( 'hidden' );
-							$( 'input[name="' + social_post_flow.plugin_name + '_sub_profile"]', $( social_post_flow.status_form ) ).val( status[ field ] );
-						}
-						break;
-
-					/**
-					 * Instagram: the user can specify whether this is a post or story.
-					 * Buffer: Supports this.
-					 * Hootsuite: Unsupported.
-					 * SocialPilot: Unsupported.
-					 */
-					case 'update_type':
-						// Hide field if the Profile isn't for Instagram.
-						if ( profile.service != 'instagram' ) {
-							$( this ).addClass( 'hidden' );
-							break;
-						}
-
-						// Show <select> to allow Update Type selection.
-						$( 'select[name="' + social_post_flow.plugin_name + '_update_type"]', $( social_post_flow.status_form ) ).removeClass( 'hidden' );
-						$( 'select[name="' + social_post_flow.plugin_name + '_update_type"]', $( social_post_flow.status_form ) ).val( status[ field ] );
 						break;
 
 					/**
@@ -1811,7 +1702,7 @@ jQuery( document ).ready(
 		 * @since 	3.0.0
 		 */
 		if ( social_post_flow.post_id > 0 ) {
-			$( 'textarea.message', $( social_post_flow.status_form ) ).on(
+			$( 'textarea.text', $( social_post_flow.status_form ) ).on(
 				'keyup change',
 				function ( e ) {
 

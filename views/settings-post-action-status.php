@@ -19,7 +19,7 @@
 					<?php esc_html_e( 'The type of status to create and its text.', 'social-post-flow' ); ?>
 				</p>
 
-				<select name="social-post-flow_post_type" size="1">
+				<select name="social-post-flow_post_type" class="post_type" size="1">
 					<?php
 					foreach ( social_post_flow()->get_class( 'common' )->get_status_post_type_options() as $status_post_type_key => $status_post_type ) {
 						?>
@@ -58,15 +58,15 @@
 			<div class="full">
 				<h3><?php esc_html_e( 'Link', 'social-post-flow' ); ?></h3>
 				<p class="description">
-					<?php esc_html_e( 'The URL to link to.', 'social-post-flow' ); ?>
+					<?php esc_html_e( 'The "primary" URL to use for the link preview / card. Additional links can be included in the status text above.', 'social-post-flow' ); ?>
 				</p>
 
-				<input type="text" name="social-post-flow_url" class="widefat" />
+				<input type="text" name="social-post-flow_url" class="widefat url" />
 			</div>
 		</div>
 
 		<!-- Schedule -->
-		<div class="wpzinc-option schedule">
+		<div class="wpzinc-option">
 			<div class="full">
 				<h3><?php esc_html_e( 'Schedule', 'social-post-flow' ); ?></h3>
 				<p class="description">

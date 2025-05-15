@@ -422,7 +422,8 @@ class Social_Post_Flow_Admin {
 			// Tags.
 			array(
 				'fields'   => array(
-					'textarea.message',
+					'textarea.text',
+					'input.url',
 					'textarea.text-to-image',
 
 					// Pinterest.
@@ -446,7 +447,7 @@ class Social_Post_Flow_Admin {
 			// Facebook Autocomplete mentions.
 			array(
 				'fields'   => array(
-					'div.facebook textarea.message',
+					'div.facebook textarea.text',
 				),
 				'triggers' => array(
 					// Usernames.

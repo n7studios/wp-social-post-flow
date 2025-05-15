@@ -431,7 +431,9 @@ class Social_Post_Flow_Settings {
 			// All Profiles.
 			'post_type'                      => 'text',
 			'text'                           => ( ! $default_message ? '{title}' : $default_message ),
+			'url'                            => '{url}',
 			'schedule'                       => $default_schedule,
+			'image'                          => 'featured_image',
 			'days'                           => 0,
 			'hours'                          => 0,
 			'minutes'                        => 0,
