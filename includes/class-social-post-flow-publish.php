@@ -899,9 +899,6 @@ class Social_Post_Flow_Publish {
 		 */
 		$statuses = apply_filters( 'social_post_flow_publish_statuses', $statuses, $post_id, $action );
 
-		var_dump( $statuses );
-		die();
-
 		// Debugging.
 		social_post_flow()->get_class( 'log' )->add_to_debug_log( 'Statuses: ' . print_r( $statuses, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 
@@ -1597,7 +1594,7 @@ class Social_Post_Flow_Publish {
 			case 'link':
 				$args['url'] = $this->get_permalink( $post );
 				break;
-			
+
 			/**
 			 * Image
 			 * IG: Story
@@ -1622,7 +1619,7 @@ class Social_Post_Flow_Publish {
 						$args['media_urls'] = array( $image );
 
 						// Additional Images.
-						$additional_images = $this->get_additional_images( $post, $service, $status, $format );
+						$additional_images = $this->get_additional_images( $post, $service, $status );
 						if ( $additional_images !== false ) {
 							$args['media_urls'] = array_merge( $args['media_urls'], $additional_images );
 						}
@@ -1631,7 +1628,7 @@ class Social_Post_Flow_Publish {
 						$text_to_image = $this->parse_text( $post, $status['text_to_image'] );
 
 						// Generate Image from Text.
-						$image = $this->get_text_to_image( $text_to_image, $service, $profile_id, $post->ID, $status, $format );
+						$image = $this->get_text_to_image( $text_to_image, $service, $profile_id, $post->ID, $status, $status['post_type'] );
 
 						// If the image is a WP_Error object, log it and return.
 						if ( is_wp_error( $image ) ) {
@@ -1819,8 +1816,6 @@ class Social_Post_Flow_Publish {
 		 */
 		$args = apply_filters( 'social_post_flow_publish_build_args', $args, $post, $profile_id, $service, $status, $action );
 
-		var_dump( $args );
-
 		// Return args.
 		return $args;
 
@@ -1873,13 +1868,12 @@ class Social_Post_Flow_Publish {
 	 *
 	 * @since   5.2.2
 	 *
-	 * @param   WP_Post     $post       Post.
-	 * @param   string      $service    Service.
-	 * @param   array       $status     Status Settings.
-	 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
+	 * @param   WP_Post $post       Post.
+	 * @param   string  $service    Service.
+	 * @param   array   $status     Status Settings.
 	 * @return  bool|array
 	 */
-	private function get_additional_images( $post, $service, $status, $format ) {
+	private function get_additional_images( $post, $service, $status ) {
 
 		// Additional images are only supported if the status' image setting = Use Feat. Image, not linked to Post.
 		if ( $status['image'] != 2 ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseNotEqual
@@ -1893,7 +1887,6 @@ class Social_Post_Flow_Publish {
 		switch ( $service ) {
 			case 'facebook':
 			case 'instagram':
-			case 'threads':
 				// 9 additional images (10 total).
 				$additional_images_limit = min( $status_additional_images_limit, 9 );
 				break;
@@ -1903,15 +1896,13 @@ class Social_Post_Flow_Publish {
 				$additional_images_limit = min( $status_additional_images_limit, 8 );
 				break;
 
-			case 'twitter':
-			case 'mastodon':
-			case 'bluesky':
+			case 'x':
 				// 3 additional images (4 total).
 				$additional_images_limit = min( $status_additional_images_limit, 3 );
 				break;
 
 			default:
-				// A network e.g. Google Business, Pinterest that does not support additional images.
+				// A network that does not support additional images.
 				return false;
 		}
 
@@ -1959,14 +1950,13 @@ class Social_Post_Flow_Publish {
 		 *
 		 * @since   5.2.2
 		 *
-		 * @param   bool|array  $images         Images.
+		 * @param   bool|array  $images     Images.
 		 * @param   WP_Post     $post       Post.
 		 * @param   string      $service    Service.
 		 * @param   array       $status     Status Settings.
-		 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
 		 * @return  bool|array
 		 */
-		$images = apply_filters( 'social_post_flow_publish_get_additional_images', $images, $post, $service, $status, $format );
+		$images = apply_filters( 'social_post_flow_publish_get_additional_images', $images, $post, $service, $status );
 
 		// Return.
 		return $images;

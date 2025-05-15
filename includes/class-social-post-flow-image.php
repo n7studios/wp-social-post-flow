@@ -358,13 +358,8 @@ class Social_Post_Flow_Image {
 
 		// Return URLs only.
 		return array(
-			'id'        => $image_id,
-			'image'     => ( is_array( $image ) ? strtok( $image[0], '?' ) : false ), // Strip query parameters that might break some APIs.
-			'thumbnail' => ( is_array( $thumbnail ) ? strtok( $thumbnail[0], '?' ) : false ), // Strip query parameters that might break some APIs.
-			'alt_text'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
-			'source'    => $source,
-			'width'     => ( is_array( $image ) ? $image[1] : '' ),
-			'height'    => ( is_array( $image ) ? $image[2] : '' ),
+			'image'    => ( is_array( $image ) ? strtok( $image[0], '?' ) : false ), // Strip query parameters that might break some APIs.
+			'alt_text' => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
 		);
 
 	}
@@ -383,7 +378,7 @@ class Social_Post_Flow_Image {
 			'x'               => array( 1600, 900 ),
 			'pinterest'       => array( 1000, 1500 ), // also 1000 x 1000.
 			'instagram'       => array( 1080, 1080 ),
-			'instagram_post'  => array( 1080, 1080 ),
+			'instagram_image' => array( 1080, 1080 ),
 			'instagram_story' => array( 900, 1600 ),
 			'facebook'        => array( 1200, 630 ),
 			'linkedin'        => array( 1200, 627 ),
