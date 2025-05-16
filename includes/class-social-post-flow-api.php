@@ -464,7 +464,7 @@ class Social_Post_Flow_API {
 	 */
 	public function create_post( $params ) {
 
-		return $this->post( 'post', $params );
+		return $this->post( 'posts', $params );
 
 	}
 
@@ -587,13 +587,15 @@ class Social_Post_Flow_API {
 		if ( isset( $body['message'] ) ) {
 			// OAuth and non-authenticated requests will just return a `message` key.
 			// Authenticated requests will return a `message` key and an `errors` array.
-			$error_message = array(
-				$body['message'],
-			);
 			if ( isset( $body['errors'] ) ) {
+				$error_message = array();
 				foreach ( $body['errors'] as $error_key => $errors ) {
 					$error_message = array_merge( $error_message, $errors );
 				}
+			} else {
+				$error_message = array(
+					$body['message'],
+				);
 			}
 
 			return new WP_Error(

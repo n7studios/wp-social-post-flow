@@ -346,7 +346,7 @@ class Social_Post_Flow_Image {
 	 * @param   int    $image_id   Image ID.
 	 * @param   string $source     Source Image ID was derived from (plugin, featured_image, post_content, text_to_image).
 	 * @param   string $size       WordPress Registered Image Size to return the image as.
-	 * @return  array               Image ID, Image URLs, Source
+	 * @return  string             Image URL
 	 */
 	public function get_image_source_by_size( $image_id, $source, $size = 'large' ) {
 
@@ -357,10 +357,7 @@ class Social_Post_Flow_Image {
 		$thumbnail = wp_get_attachment_image_src( $image_id, 'thumbnail' );
 
 		// Return URLs only.
-		return array(
-			'image'    => ( is_array( $image ) ? strtok( $image[0], '?' ) : false ), // Strip query parameters that might break some APIs.
-			'alt_text' => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
-		);
+		return ( is_array( $image ) ? strtok( $image[0], '?' ) : false ); // Strip query parameters that might break some APIs.
 
 	}
 

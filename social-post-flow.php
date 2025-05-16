@@ -13,6 +13,8 @@
  * Author URI: http://www.socialpostflow.com
  * Description: Send WordPress Pages, Posts or Custom Post Types to your Social Post Flow account for scheduled publishing to social networks.
  * Text Domain: social-post-flow
+ * License:     GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 // Bail if Plugin is alread loaded.

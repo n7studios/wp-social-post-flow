@@ -1620,6 +1620,7 @@ class Social_Post_Flow_Publish {
 
 						// Additional Images.
 						$additional_images = $this->get_additional_images( $post, $service, $status );
+
 						if ( $additional_images !== false ) {
 							$args['media_urls'] = array_merge( $args['media_urls'], $additional_images );
 						}
@@ -1875,13 +1876,8 @@ class Social_Post_Flow_Publish {
 	 */
 	private function get_additional_images( $post, $service, $status ) {
 
-		// Additional images are only supported if the status' image setting = Use Feat. Image, not linked to Post.
-		if ( $status['image'] != 2 ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseNotEqual
-			return false;
-		}
-
 		// Get the status' additional images limit, if defined.
-		$status_additional_images_limit = ( array_key_exists( 'image_additional_limit', $status ) ? ( absint( $status['image_additional_limit'] ) - 1 ) : 9 );
+		$status_additional_images_limit = ( array_key_exists( 'image_additional_limit', $status ) && ! empty( $status['image_additional_limit'] ) ? ( absint( $status['image_additional_limit'] ) - 1 ) : 9 );
 
 		// Determine the maximum number of additional images that are supported, depending on the service.
 		switch ( $service ) {
@@ -1930,20 +1926,13 @@ class Social_Post_Flow_Publish {
 		}
 
 		// Remove duplicate images.
-		$extra_media = array_unique( array_column( $images, 'id' ) );
-		$images      = array_intersect_key( $images, $extra_media );
+		$images = array_unique( $images );
 
 		// Re-key the array to a zero based index.
 		$images = array_values( $images );
 
 		// Limit the number of additional images based on the social network.
 		$images = array_slice( $images, 0, $additional_images_limit );
-
-		// Change 'image' key in each image to 'photo'.
-		foreach ( $images as $index => $image ) {
-			$images[ $index ]['photo'] = $image['image'];
-			unset( $images[ $index ]['image'] );
-		}
 
 		/**
 		 * Defines the additional Post Images to attach to the status.
@@ -3882,7 +3871,7 @@ class Social_Post_Flow_Publish {
 			}
 
 			// Send request.
-			$result = social_post_flow()->get_class( 'api' )->updates_create( $status );
+			$result = social_post_flow()->get_class( 'api' )->create_post( $status );
 
 			// Store result in log array.
 			if ( is_wp_error( $result ) ) {
@@ -3900,17 +3889,20 @@ class Social_Post_Flow_Publish {
 				$log_error[] = ( $profiles[ $status['profile_ids'][0] ]['provider'] . ': ' . $profiles[ $status['profile_ids'][0] ]['profile_name'] . ': ' . $result->get_error_message() );
 			} else {
 				// OK.
-				$logs[] = array(
-					'action'              => $action,
-					'request_sent'        => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'profile_id'          => $result['profile_id'],
-					'profile_name'        => $profiles[ $status['profile_ids'][0] ]['provider'] . ': ' . $profiles[ $status['profile_ids'][0] ]['profile_name'],
-					'result'              => 'success',
-					'result_message'      => $result['message'],
-					'status_text'         => $result['status_text'],
-					'status_created_at'   => date( 'Y-m-d H:i:s', $result['status_created_at'] ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'status_scheduled_at' => ( $result['scheduled_at'] !== '0000-00-00 00:00:00' ? date( 'Y-m-d H:i:s', $result['scheduled_at'] ) : '0000-00-00 00:00:00' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-				);
+				// Iterate through the results (as more than one post may have been sent in this request, as the API always returns a collection).
+				foreach ( $result['data'] as $status_result ) {
+					$logs[] = array(
+						'action'              => $action,
+						'request_sent'        => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'profile_id'          => $status_result['social_profile_id'],
+						'profile_name'        => $status_result['provider'] . ': ' . $status_result['profile_name'],
+						'result'              => 'success',
+						'result_message'      => $status_result['status'],
+						'status_text'         => $status_result['text'],
+						'status_created_at'   => $status_result['created_at'], // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'status_scheduled_at' => $status_result['scheduled_at'], // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+					);
+				}
 			}
 		}
 
@@ -3933,10 +3925,6 @@ class Social_Post_Flow_Publish {
 			}
 			delete_post_meta( $post_id, '_social_post_flow_error' );
 			delete_post_meta( $post_id, '_social_post_flow_errors' );
-
-			// Request that the user review the plugin. Notification displayed later,
-			// can be called multiple times and won't re-display the notification if dismissed.
-			social_post_flow()->dashboard->request_review();
 		} else {
 			update_post_meta( $post_id, '_social_post_flow_success', 0 );
 			update_post_meta( $post_id, '_social_post_flow_error', 1 );

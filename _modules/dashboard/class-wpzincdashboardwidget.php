@@ -232,18 +232,6 @@ class WPZincDashboardWidget {
 	}
 
 	/**
-	 * Disables the Review Request Notification, regardless of whether
-	 * it has been set by the Plugin calling request_review()
-	 *
-	 * @since   1.0.0
-	 */
-	public function disable_review_request() {
-
-		$this->show_review_request = false;
-
-	}
-
-	/**
 	 * Adds the WP Zinc CSS class to the <body> tag when we're in the WordPress Admin interface
 	 * and viewing a Plugin Screen
 	 *

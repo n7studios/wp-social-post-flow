@@ -13,7 +13,7 @@
 	<div class="wpzinc-option">
 		<p class="description">
 			<?php
-			esc_html_e__( 'You must connect at least one social media account in Social Post Flow for this Plugin to send status updates to it.', 'social-post-flow' );
+			esc_html_e( 'You must connect at least one social media account in Social Post Flow for this Plugin to send status updates to it.', 'social-post-flow' );
 			?>
 		</p>
 		<p class="description">

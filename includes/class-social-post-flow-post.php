@@ -74,7 +74,7 @@ class Social_Post_Flow_Post {
 			<div class="notice notice-success is-dismissible">
 				<p>
 					<?php
-					esc_html_e__( 'Social Post Flow: Post successfully added to Social Post Flow.', 'social-post-flow' );
+					esc_html_e( 'Social Post Flow: Post successfully added to Social Post Flow.', 'social-post-flow' );
 					?>
 				</p>
 			</div>
