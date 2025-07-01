@@ -1618,6 +1618,13 @@ class Social_Post_Flow_Publish {
 		// URL / Image.
 		switch ( $status['post_type'] ) {
 			/**
+			 * Text
+			 */
+			case 'text':
+				// No image or URL.
+				break;
+
+			/**
 			 * Link
 			 */
 			case 'link':
@@ -1654,6 +1661,7 @@ class Social_Post_Flow_Publish {
 							$args['media_urls'] = array_merge( $args['media_urls'], $additional_images );
 						}
 						break;
+
 					case 'text_to_image':
 						$text_to_image = $this->parse_text( $post, $status['text_to_image'] );
 
@@ -1669,6 +1677,42 @@ class Social_Post_Flow_Publish {
 						// Add image to media_urls.
 						$args['media_urls'] = array( $image );
 						break;
+
+					default:
+						$image = false;
+
+						/**
+						 * Allows third party integrations to define the image to use for the status.
+						 *
+						 * @since   1.0.0
+						 *
+						 * @param   false       $image                      Image.
+						 * @param   int         $image_setting              Image Setting.
+						 * @param   WP_Post     $post                       WordPress Post.
+						 * @param   string      $profile_id                 Social Media Profile ID.
+						 * @param   string      $service                    Social Media Service.
+						 * @param   array       $status                     Parsed Status Message Settings.
+						 * @param   string      $action                     Action (publish|update|repost|bulk_publish).
+						 */
+						$image = apply_filters( 'social_post_flow_publish_build_args_image', $image, $status['image'], $post, $profile_id, $service, $status, $action );
+
+						// If the image is a WP_Error object, log it and return.
+						if ( is_wp_error( $image ) ) {
+							social_post_flow()->get_class( 'log' )->add_to_debug_log( 'Image Error: ' . $image->get_error_message() );
+							return $image;
+						}
+
+						// Add image to media_urls.
+						$args['media_urls'] = array( $image );
+
+						// Additional Images.
+						$additional_images = $this->get_additional_images( $post, $service, $status );
+
+						if ( $additional_images !== false ) {
+							$args['media_urls'] = array_merge( $args['media_urls'], $additional_images );
+						}
+						break;
+
 				}
 				break;
 		}
@@ -1912,6 +1956,7 @@ class Social_Post_Flow_Publish {
 		switch ( $service ) {
 			case 'facebook':
 			case 'instagram':
+			case 'threads':
 			case 'tiktok':
 				// 9 additional images (10 total).
 				$additional_images_limit = min( $status_additional_images_limit, 9 );
@@ -1923,6 +1968,8 @@ class Social_Post_Flow_Publish {
 				break;
 
 			case 'x':
+			case 'mastodon':
+			case 'bluesky':
 				// 3 additional images (4 total).
 				$additional_images_limit = min( $status_additional_images_limit, 3 );
 				break;
@@ -1932,21 +1979,57 @@ class Social_Post_Flow_Publish {
 				return false;
 		}
 
-		// Fetch additional images from Post settings or Post content.
-		$image_additional_setting = ( array_key_exists( 'image_additional', $status ) ? $status['image_additional'] : '' );
-		switch ( $image_additional_setting ) {
-			case '1':
-				// Fetch additional images specified in the Post's settings
-				// and from the Post's content.
-				$images = array_merge(
-					$this->get_images_from_post_settings( $post ),
-					$this->get_images_from_post_content( $post )
-				);
+		// Assume no additional images.
+		$images = false;
+
+		// Depending on the status' image setting, fetch additional images.
+		switch ( $status['post_type'] ) {
+			/**
+			 * Text
+			 * Link
+			 */
+			case 'text':
+			case 'link':
+				// No additional images supported.
 				break;
 
-			default:
-				// Fetch additional images specified in Post's settings only.
-				$images = $this->get_images_from_post_settings( $post );
+			/**
+			 * Image
+			 * Story
+			 * Integrations (e.g. ACF)
+			 */
+			case 'image':
+			case 'story':
+				switch ( $status['image_additional'] ) {
+					case 'post_settings':
+						// Fetch additional images specified in the Post's settings
+						// and from the Post's content.
+						$images = array_merge(
+							$this->get_images_from_post_settings( $post, $service ),
+							$this->get_images_from_post_content( $post, $service )
+						);
+						break;
+
+					case 'post_content':
+						// Fetch additional images specified in Post's settings only.
+						$images = $this->get_images_from_post_settings( $post, $service );
+						break;
+
+					default:
+						/**
+						 * Allows third party integrations to define the additional images to use for the status.
+						 *
+						 * @since   5.3.4
+						 *
+						 * @param   bool|array  $images                     Images.
+						 * @param   int         $additional_images_source   Additional Images Source.
+						 * @param   WP_Post     $post                       Post.
+						 * @param   string      $service                    Service.
+						 * @param   array       $status                     Status Settings.
+						 */
+						$images = apply_filters( 'social_post_flow_publish_get_additional_images', $images, $status['image_additional'], $post, $service, $status );
+						break;
+				}
 				break;
 		}
 
@@ -1956,7 +2039,8 @@ class Social_Post_Flow_Publish {
 		}
 
 		// Remove duplicate images.
-		$images = array_unique( $images );
+		$extra_media = array_unique( array_column( $images, 'id' ) );
+		$images      = array_intersect_key( $images, $extra_media );
 
 		// Re-key the array to a zero based index.
 		$images = array_values( $images );
@@ -1964,18 +2048,11 @@ class Social_Post_Flow_Publish {
 		// Limit the number of additional images based on the social network.
 		$images = array_slice( $images, 0, $additional_images_limit );
 
-		/**
-		 * Defines the additional Post Images to attach to the status.
-		 *
-		 * @since   5.2.2
-		 *
-		 * @param   bool|array  $images     Images.
-		 * @param   WP_Post     $post       Post.
-		 * @param   string      $service    Service.
-		 * @param   array       $status     Status Settings.
-		 * @return  bool|array
-		 */
-		$images = apply_filters( 'social_post_flow_publish_get_additional_images', $images, $post, $service, $status );
+		// Change 'image' key in each image to 'photo'.
+		foreach ( $images as $index => $image ) {
+			$images[ $index ]['photo'] = $image['image'];
+			unset( $images[ $index ]['image'] );
+		}
 
 		// Return.
 		return $images;
@@ -2969,119 +3046,6 @@ class Social_Post_Flow_Publish {
 	}
 
 	/**
-	 * Parses profile mentions, adding entities arguments to the $args array and
-	 * updating the text that's sent to the API
-	 *
-	 * @since   4.5.6
-	 *
-	 * @param   array   $args                       API standardised arguments.
-	 * @param   WP_Post $post                       WordPress Post.
-	 * @param   string  $profile_id                 Social Media Profile ID.
-	 * @param   string  $service                    Social Media Service.
-	 * @param   array   $status                     Parsed Status Message Settings.
-	 * @param   string  $action                     Action (publish|update|repost|bulk_publish).
-	 * @return  array                               Status Arguments
-	 */
-	private function process_profile_mentions( $args, $post, $profile_id, $service, $status, $action ) {
-
-		// Bail if this isn't a service we need to process/link profile mentions for.
-		if ( $service !== 'facebook' ) {
-			return $args;
-		}
-
-		// Find all patterns in the form @string[number] e.g. @WP Zinc[123456789].
-		preg_match_all( '/@(.*?)\[(.*?)\]/', $args['text'], $matches );
-
-		// Bail if no matches found.
-		if ( empty( $matches[0] ) ) {
-			return $args;
-		}
-
-		switch ( $status['image'] ) {
-
-			/**
-			 * Use Feat. Image, Linked to Post
-			 * Use Text to Image, Linked to Post
-			 * - Remove Post URL from the status text, so Buffer doesn't process the URL
-			 * and break the indicies
-			 */
-			case 1:
-			case 3:
-				$args['text'] = str_replace( $this->get_permalink( $post ), '', $args['text'] );
-				break;
-
-		}
-
-		// Iterate through each match, building the entities array and fb_text arguments.
-		$args['entities'] = array();
-		while ( ! empty( $matches[0] ) ) {
-			// Newlines must be removed.
-			$text_without_newlines = str_replace( "\n", '', $args['text'] );
-
-			// Process the first mention.
-			$mention_full            = $matches[0][0];
-			$mention_name            = $matches[1][0]; // e.g. @WP Zinc.
-			$mention_name_without_at = str_replace( '@', '', $mention_name ); // e.g. WP Zinc.
-			$mention_id              = $matches[2][0]; // e.g. 123456789.
-
-			// Get the start and end position of the full mention.
-			$mention_start_pos = strpos( $text_without_newlines, $mention_full );
-			$mention_end_pos   = $mention_start_pos + strlen( $mention_name_without_at );
-
-			// Add mention to entities array.
-			$args['entities'][] = array(
-				'indices' => array( $mention_start_pos, $mention_end_pos ),
-				'content' => (string) $mention_id,
-				'text'    => $mention_name_without_at,
-				'url'     => 'https://www.' . $service . '.com/' . $mention_id,
-			);
-
-			// Replace the full mention with just the mention name, excluding @.
-			$args['text'] = str_replace( $mention_full, $mention_name_without_at, $args['text'] );
-
-			// Find remaining patterns in the form @string[number] e.g. @WP Zinc[123456789].
-			// We do this because the indices will now have changed, because the previous mention will have the @ and [id] removed.
-			preg_match_all( '/@(.*?)\[(.*?)\]/', $args['text'], $matches );
-		}
-
-		// If no entities exist, bail.
-		if ( ! count( $args['entities'] ) ) {
-			unset( $args['entities'] );
-			return $args;
-		}
-
-		// Link shortening must be disabled, otherwise our indicies will be incorrect when a long link is changed to e.g.
-		// http://buff.ly/2k2vfeo by Buffer when this status is added.
-		$args['shorten'] = 'false';
-
-		// Trim the text.
-		$args['text'] = trim( $args['text'] );
-
-		// Add fb_text argument, which is a copy of the text argument.
-		// This is required for Buffer to work and link the entities' text to the FB profiles.
-		$args['fb_text'] = $args['text'];
-
-		/**
-		 * Parses profile mentions, adding entities arguments to the $args array and
-		 * updating the text that's sent to the API
-		 *
-		 * @since   4.5.6
-		 *
-		 * @param   array   $args                       API standardised arguments.
-		 * @param   WP_Post $post                       WordPress Post.
-		 * @param   string  $profile_id                 Social Media Profile ID.
-		 * @param   string  $service                    Social Media Service.
-		 * @param   array   $status                     Parsed Status Message Settings.
-		 * @param   string  $action                     Action (publish|update|repost|bulk_publish).
-		 */
-		$args = apply_filters( 'social_post_flow_process_profile_mentions', $args, $post, $profile_id, $service, $status, $action );
-
-		// Return.
-		return $args;
-
-	}
-
-	/**
 	 * Returns an array comprising of all supported tags and their Post / Author / Taxonomy data replacements.
 	 *
 	 * @since   3.7.8
@@ -3135,13 +3099,9 @@ class Social_Post_Flow_Publish {
 	 */
 	private function register_post_searches_replacements( $searches_replacements, $post ) {
 
-		// Check Plugin Settings to see if the excerpt should fallback to the content if no
-		// Excerpt defined.
-		$excerpt_fallback = ( social_post_flow()->get_class( 'settings' )->get_option( 'disable_excerpt_fallback', false ) ? false : true );
-
 		$searches_replacements['sitename']         = get_bloginfo( 'name' );
 		$searches_replacements['title']            = $this->get_title( $post );
-		$searches_replacements['excerpt']          = $this->get_excerpt( $post, $excerpt_fallback );
+		$searches_replacements['excerpt']          = $this->get_excerpt( $post );
 		$searches_replacements['content']          = $this->get_content( $post );
 		$searches_replacements['content_more_tag'] = $this->get_content( $post, true );
 		$searches_replacements['date']             = $this->get_date( $post );
@@ -3385,18 +3345,13 @@ class Social_Post_Flow_Publish {
 	 * @since   3.7.3
 	 *
 	 * @param   WP_Post $post               WordPress Post.
-	 * @param   bool    $fallback           Use Content if no Excerpt exists.
-	 * @return  string                          Excerpt
+	 * @return  string                      Excerpt
 	 */
-	private function get_excerpt( $post, $fallback = true ) {
+	private function get_excerpt( $post ) {
 
 		// Fetch excerpt.
 		if ( empty( $post->post_excerpt ) ) {
-			if ( $fallback ) {
-				$excerpt = $post->post_content;
-			} else {
-				$excerpt = $post->post_excerpt;
-			}
+			$excerpt = $post->post_content;
 		} else {
 			// Remove some third party Plugin filters that wrongly output content that we don't want in a status.
 			remove_filter( 'get_the_excerpt', 'powerpress_content' );
@@ -3536,22 +3491,7 @@ class Social_Post_Flow_Publish {
 	 */
 	private function get_permalink( $post ) {
 
-		$force_trailing_forwardslash = social_post_flow()->get_class( 'settings' )->get_option( 'force_trailing_forwardslash', false );
-
-		// Define the URL, depending on whether it should end with a forwardslash or not.
-		// This is by design; more users complain that they get 301 redirects from site.com/post/ to site.com/post
-		// than from site.com/post to site.com/post/.
-		// We can't control misconfigured WordPress installs, so this option gives them the choice.
-		if ( $force_trailing_forwardslash ) {
-			$url = get_permalink( $post->ID );
-
-			// If the Permalink doesn't have a forwardslash at the end of it, add it now.
-			if ( substr( $url, -1 ) !== '/' ) {
-				$url .= '/';
-			}
-		} else {
-			$url = rtrim( get_permalink( $post->ID ), '/' );
-		}
+		$url = rtrim( get_permalink( $post->ID ), '/' );
 
 		/**
 		 * Filters the Post's Permalink, including or excluding a trailing slash, depending on the Plugin settings
@@ -3560,9 +3500,8 @@ class Social_Post_Flow_Publish {
 		 *
 		 * @param   string      $url                            WordPress Post Permalink.
 		 * @param   WP_Post     $post                           WordPress Post.
-		 * @param   bool        $force_trailing_forwardslash    Force Trailing Forwardslash.
 		 */
-		$url = apply_filters( 'social_post_flow_publish_get_permalink', $url, $post, $force_trailing_forwardslash );
+		$url = apply_filters( 'social_post_flow_publish_get_permalink', $url, $post );
 
 		// Return.
 		return $url;

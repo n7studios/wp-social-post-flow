@@ -177,62 +177,6 @@
 
 				<div class="wpzinc-option">
 					<div class="left">
-						<label for="force_trailing_forwardslash"><?php esc_html_e( 'Force Trailing Forwardslash?', 'social-post-flow' ); ?></label>
-					</div>
-					<div class="right">
-						<input type="checkbox" name="force_trailing_forwardslash" id="force_trailing_forwardslash" value="1" <?php checked( $this->get_setting( '', 'force_trailing_forwardslash' ), 1 ); ?> />
-
-						<p class="description">
-							<?php
-							esc_html_e( 'If enabled, any URLs in statuses will always end with a forwardslash. This might be required if the wrong image is shared with a status.', 'social-post-flow' );
-							?>
-							<br />
-							<?php
-							printf(
-								'%1$s <a href="options-permalink.php">%2$s</a> %3$s',
-								esc_html__( 'It\'s better to ensure your', 'social-post-flow' ),
-								esc_html__( 'Permalink', 'social-post-flow' ),
-								esc_html__( 'settings end with a forwardslash, but this option is a useful fallback if changing Permalink structure isn\'t possible.', 'social-post-flow' )
-							);
-							?>
-						</p>
-					</div>
-				</div>
-
-				<div class="wpzinc-option">
-					<div class="left">
-						<label for="disable_excerpt_fallback"><?php esc_html_e( 'Disable Fallback to Content if Excerpt Empty?', 'social-post-flow' ); ?></label>
-					</div>
-					<div class="right">
-						<input type="checkbox" name="disable_excerpt_fallback" id="disable_excerpt_fallback" value="1" <?php checked( $this->get_setting( '', 'disable_excerpt_fallback' ), 1 ); ?> />
-
-						<p class="description">
-							<?php
-							esc_html_e( 'If enabled, any excerpt tag used in statuses will be blank if no Excerpt exists', 'social-post-flow' );
-							?>
-						</p>
-					</div>
-				</div>
-
-				<div class="wpzinc-option">
-					<div class="left">
-						<label for="proxy"><?php esc_html_e( 'Use Proxy?', 'social-post-flow' ); ?></label>
-					</div>
-					<div class="right">
-						<input type="checkbox" name="proxy" id="proxy" value="1" <?php checked( $this->get_setting( '', 'proxy' ), 1 ); ?> />
-
-						<p class="description">
-							<?php
-							esc_html_e( 'If enabled, statuses sent to Social Post Flow are performed through our proxy. This is useful if your ISP or host\'s country prevents access to Social Post Flow.', 'social-post-flow' );
-							?>
-							<br />
-							<?php esc_html_e( 'You may still need to use a VPN for initial Authentication when setting up the Plugin for the first time.', 'social-post-flow' ); ?>
-						</p>
-					</div>
-				</div>
-
-				<div class="wpzinc-option">
-					<div class="left">
 						<label for="override"><?php esc_html_e( 'Post Level Default', 'social-post-flow' ); ?></label>
 					</div>
 					<div class="right">

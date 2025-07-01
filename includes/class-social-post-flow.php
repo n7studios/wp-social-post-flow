@@ -136,39 +136,40 @@ class Social_Post_Flow {
 		$this->classes = new stdClass();
 
 		// Initialize required classes.
-		$this->classes->admin         = new Social_Post_Flow_Admin( self::$instance );
-		$this->classes->ajax          = new Social_Post_Flow_AJAX( self::$instance );
-		$this->classes->api           = new Social_Post_Flow_API( self::$instance );
-		$this->classes->bulk_actions  = new Social_Post_Flow_Bulk_Actions( self::$instance );
-		$this->classes->bulk_publish  = new Social_Post_Flow_Bulk_Publish( self::$instance );
-		$this->classes->common        = new Social_Post_Flow_Common( self::$instance );
-		$this->classes->cron          = new Social_Post_Flow_Cron( self::$instance );
-		$this->classes->date          = new Social_Post_Flow_Date( self::$instance );
-		$this->classes->export        = new Social_Post_Flow_Export( self::$instance );
-		$this->classes->image         = new Social_Post_Flow_Image( self::$instance );
-		$this->classes->import        = new Social_Post_Flow_Import( self::$instance );
-		$this->classes->install       = new Social_Post_Flow_Install( self::$instance );
-		$this->classes->media_library = new Social_Post_Flow_Media_Library( self::$instance );
-		$this->classes->log           = new Social_Post_Flow_Log( self::$instance );
-		$this->classes->notices       = new Social_Post_Flow_Notices( self::$instance );
-		$this->classes->post          = new Social_Post_Flow_Post( self::$instance );
-		$this->classes->publish       = new Social_Post_Flow_Publish( self::$instance );
-		$this->classes->screen        = new Social_Post_Flow_Screen( self::$instance );
-		$this->classes->settings      = new Social_Post_Flow_Settings( self::$instance );
-		$this->classes->validation    = new Social_Post_Flow_Validation( self::$instance );
+		$this->classes->admin         = new Social_Post_Flow_Admin();
+		$this->classes->ajax          = new Social_Post_Flow_AJAX();
+		$this->classes->api           = new Social_Post_Flow_API();
+		$this->classes->bulk_actions  = new Social_Post_Flow_Bulk_Actions();
+		$this->classes->bulk_publish  = new Social_Post_Flow_Bulk_Publish();
+		$this->classes->common        = new Social_Post_Flow_Common();
+		$this->classes->cron          = new Social_Post_Flow_Cron();
+		$this->classes->date          = new Social_Post_Flow_Date();
+		$this->classes->export        = new Social_Post_Flow_Export();
+		$this->classes->image         = new Social_Post_Flow_Image();
+		$this->classes->import        = new Social_Post_Flow_Import();
+		$this->classes->install       = new Social_Post_Flow_Install();
+		$this->classes->media_library = new Social_Post_Flow_Media_Library();
+		$this->classes->log           = new Social_Post_Flow_Log();
+		$this->classes->notices       = new Social_Post_Flow_Notices();
+		$this->classes->post          = new Social_Post_Flow_Post();
+		$this->classes->publish       = new Social_Post_Flow_Publish();
+		$this->classes->screen        = new Social_Post_Flow_Screen();
+		$this->classes->settings      = new Social_Post_Flow_Settings();
+		$this->classes->validation    = new Social_Post_Flow_Validation();
 
 		// Integrations.
-		$this->classes->aioseo                 = new Social_Post_Flow_AIOSEO( self::$instance );
-		$this->classes->envira_gallery         = new Social_Post_Flow_Envira_Gallery( self::$instance );
-		$this->classes->events_manager         = new Social_Post_Flow_Events_Manager( self::$instance );
-		$this->classes->featured_image_caption = new Social_Post_Flow_Featured_Image_Caption( self::$instance );
-		$this->classes->modern_events_calendar = new Social_Post_Flow_Modern_Events_Calendar( self::$instance );
-		$this->classes->rank_math              = new Social_Post_Flow_Rank_Math( self::$instance );
-		$this->classes->seopress               = new Social_Post_Flow_SEOPress( self::$instance );
-		$this->classes->the_events_calendar    = new Social_Post_Flow_The_Events_Calendar( self::$instance );
-		$this->classes->woocommerce            = new Social_Post_Flow_WooCommerce( self::$instance );
-		$this->classes->wpml                   = new Social_Post_Flow_WPML( self::$instance );
-		$this->classes->yoast_seo              = new Social_Post_Flow_Yoast_SEO( self::$instance );
+		$this->classes->acf                    = new Social_Post_Flow_ACF();
+		$this->classes->aioseo                 = new Social_Post_Flow_AIOSEO();
+		$this->classes->envira_gallery         = new Social_Post_Flow_Envira_Gallery();
+		$this->classes->events_manager         = new Social_Post_Flow_Events_Manager();
+		$this->classes->featured_image_caption = new Social_Post_Flow_Featured_Image_Caption();
+		$this->classes->modern_events_calendar = new Social_Post_Flow_Modern_Events_Calendar();
+		$this->classes->rank_math              = new Social_Post_Flow_Rank_Math();
+		$this->classes->seopress               = new Social_Post_Flow_SEOPress();
+		$this->classes->the_events_calendar    = new Social_Post_Flow_The_Events_Calendar();
+		$this->classes->woocommerce            = new Social_Post_Flow_WooCommerce();
+		$this->classes->wpml                   = new Social_Post_Flow_WPML();
+		$this->classes->yoast_seo              = new Social_Post_Flow_Yoast_SEO();
 
 	}
 

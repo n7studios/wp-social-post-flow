@@ -1079,11 +1079,6 @@ class Social_Post_Flow_Admin {
 
 				// General Settings.
 				social_post_flow()->get_class( 'settings' )->update_option( 'test_mode', ( isset( $_POST['test_mode'] ) ? 1 : 0 ) );
-				social_post_flow()->get_class( 'settings' )->update_option( 'is_draft', ( isset( $_POST['is_draft'] ) ? 1 : 0 ) );
-				social_post_flow()->get_class( 'settings' )->update_option( 'disable_url_shortening', ( isset( $_POST['disable_url_shortening'] ) ? 1 : 0 ) );
-				social_post_flow()->get_class( 'settings' )->update_option( 'force_trailing_forwardslash', ( isset( $_POST['force_trailing_forwardslash'] ) ? 1 : 0 ) );
-				social_post_flow()->get_class( 'settings' )->update_option( 'disable_excerpt_fallback', ( isset( $_POST['disable_excerpt_fallback'] ) ? 1 : 0 ) );
-				social_post_flow()->get_class( 'settings' )->update_option( 'proxy', ( isset( $_POST['proxy'] ) ? 1 : 0 ) );
 				social_post_flow()->get_class( 'settings' )->update_option( 'cron', ( isset( $_POST['cron'] ) ? 1 : 0 ) );
 				social_post_flow()->get_class( 'settings' )->update_option( 'cron_delay', ( isset( $_POST['cron_delay'] ) ? absint( $_POST['cron_delay'] ) : 30 ) );
 				social_post_flow()->get_class( 'settings' )->update_option( 'override', ( isset( $_POST['override'] ) ? sanitize_text_field( wp_unslash( $_POST['override'] ) ) : 0 ) );

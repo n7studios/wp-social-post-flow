@@ -33,15 +33,15 @@ class Social_Post_Flow_Image {
 	}
 
 	/**
-	 * Helper method to retrieve Featured Image Options
+	 * Helper method to retrieve Image Options
 	 *
-	 * @since   3.4.3
+	 * @since   1.0.0
 	 *
 	 * @param   bool   $network    Network (false = defaults).
 	 * @param   string $post_type  Post Type.
-	 * @return  array               Featured Image Options
+	 * @return  array              Image Options
 	 */
-	public function get_featured_image_options( $network = false, $post_type = false ) {
+	public function get_status_image_options( $network = false, $post_type = false ) {
 
 		// If a Post Type has been specified, get its featured_image label.
 		$label = __( 'Feat. Image', 'social-post-flow' );
@@ -52,20 +52,112 @@ class Social_Post_Flow_Image {
 
 		// Build featured image options.
 		$options = array(
-			'featured_image' => $label,
-			'text_to_image'  => __( 'Text to Image', 'social-post-flow' ),
+			'featured_image' => array(
+				'label'             => $label,
+				'additional_images' => true,
+				'text_to_image'     => false,
+			),
+			'text_to_image'  => array(
+				'label'             => __( 'Text to Image', 'social-post-flow' ),
+				'additional_images' => false,
+				'text_to_image'     => true,
+			),
 		);
 
 		/**
 		 * Defines the available Featured Image select dropdown options on a status, depending
 		 * on the Plugin and Social Network the status message is for.
 		 *
-		 * @since   3.4.3
+		 * @since   1.0.0
 		 *
 		 * @param   array   $options    Featured Image Dropdown Options.
 		 * @param   string  $network    Social Network.
+		 * @param   string  $post_type  Post Type.
 		 */
-		$options = apply_filters( 'social_post_flow_get_featured_image_options', $options, $network );
+		$options = apply_filters( 'social_post_flow_get_status_image_options', $options, $network, $post_type );
+
+		// Return filtered results.
+		return $options;
+
+	}
+
+	/**
+	 * Helper method to retrieve Additional Image Options that are supported by the given network and post type.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   bool   $network    Network (false = defaults).
+	 * @param   string $post_type  Post Type.
+	 * @return  array              Image Options
+	 */
+	public function get_status_image_options_supporting_additional_images( $network = false, $post_type = false ) {
+
+		return array_filter(
+			$this->get_status_image_options( $network, $post_type ),
+			function ( $option ) {
+				return $option['additional_images'];
+			}
+		);
+
+	}
+
+	/**
+	 * Helper method to retrieve Text to Image Options that are supported by the given network and post type.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   bool   $network    Network (false = defaults).
+	 * @param   string $post_type  Post Type.
+	 * @return  array              Image Options
+	 */
+	public function get_status_image_options_supporting_text_to_image( $network = false, $post_type = false ) {
+
+		return array_filter(
+			$this->get_status_image_options( $network, $post_type ),
+			function ( $option ) {
+				return $option['text_to_image'];
+			}
+		);
+
+	}
+
+	/**
+	 * Helper method to retrieve Additional Image Options
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   bool   $network    Network (false = defaults).
+	 * @param   string $post_type  Post Type.
+	 * @return  array              Image Options
+	 */
+	public function get_status_additional_image_options( $network = false, $post_type = false ) {
+
+		// If a Post Type has been specified, get its featured_image label.
+		$label = __( 'Post', 'social-post-flow' );
+		if ( $post_type !== false && $post_type !== 'bulk' ) {
+			$post_type_object = get_post_type_object( $post_type );
+			$label            = $post_type_object->labels->featured_image;
+		}
+
+		$options = array(
+			'post_settings' => __( 'Specified in Post settings', 'social-post-flow' ),
+			'post_content'  => sprintf(
+				/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
+				__( 'Auto populate from %s content', 'social-post-flow' ),
+				$label
+			),
+		);
+
+		/**
+		 * Defines the available Additional Images select dropdown options on a status.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   array   $options    Featured Image Dropdown Options.
+		 * @param   string  $network    Social Network.
+		 * @param   string  $post_type  Post Type.
+		 */
+		$options = apply_filters( 'social_post_flow_get_status_additional_image_options', $options, $network, $post_type );
 
 		// Return filtered results.
 		return $options;
@@ -81,7 +173,7 @@ class Social_Post_Flow_Image {
 	 */
 	public function supports_opengraph() {
 
-		$featured_image_options = $this->get_featured_image_options();
+		$featured_image_options = $this->get_status_image_options();
 
 		if ( isset( $featured_image_options[0] ) ) {
 			return true;
@@ -107,7 +199,7 @@ class Social_Post_Flow_Image {
 		}
 
 		// Fetch OpenGraph supported SEO Plugins and Fetured Image Options.
-		$featured_image_options = array_keys( $this->get_featured_image_options() );
+		$featured_image_options = array_keys( $this->get_status_image_options() );
 
 		// If the Plugin only offers "Use OpenGraph Settings", no need to check for SEO Plugin availability.
 		if ( count( $featured_image_options ) === 1 && ! $featured_image_options[0] ) {
@@ -346,7 +438,7 @@ class Social_Post_Flow_Image {
 	 * @param   int    $image_id   Image ID.
 	 * @param   string $source     Source Image ID was derived from (plugin, featured_image, post_content, text_to_image).
 	 * @param   string $size       WordPress Registered Image Size to return the image as.
-	 * @return  string             Image URL
+	 * @return  array              Image
 	 */
 	public function get_image_source_by_size( $image_id, $source, $size = 'large' ) {
 
@@ -357,7 +449,15 @@ class Social_Post_Flow_Image {
 		$thumbnail = wp_get_attachment_image_src( $image_id, 'thumbnail' );
 
 		// Return URLs only.
-		return ( is_array( $image ) ? strtok( $image[0], '?' ) : false ); // Strip query parameters that might break some APIs.
+		return array(
+			'id'        => $image_id,
+			'image'     => ( is_array( $image ) ? strtok( $image[0], '?' ) : false ), // Strip query parameters that might break some APIs.
+			'thumbnail' => ( is_array( $thumbnail ) ? strtok( $thumbnail[0], '?' ) : false ), // Strip query parameters that might break some APIs.
+			'alt_text'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
+			'source'    => $source,
+			'width'     => ( is_array( $image ) ? $image[1] : '' ),
+			'height'    => ( is_array( $image ) ? $image[2] : '' ),
+		);
 
 	}
 

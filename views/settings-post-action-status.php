@@ -163,16 +163,16 @@
 							<td>
 								<select id="social-post-flow_image" name="social-post-flow_image" size="1" class="image">
 									<?php
-									foreach ( social_post_flow()->get_class( 'image' )->get_featured_image_options( $post_type ) as $value => $label ) {
+									foreach ( social_post_flow()->get_class( 'image' )->get_status_image_options( false, $post_type ) as $value => $image_option ) {
 										?>
-										<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $label ); ?></option>
+										<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $image_option['label'] ); ?></option>
 										<?php
 									}
 									?>
 								</select>
 							</td>
 						</tr>
-						<tr class="additional-images">
+						<tr class="additional-images" data-conditional-value="<?php echo esc_attr( implode( ',', array_keys( social_post_flow()->get_class( 'image' )->get_status_image_options_supporting_additional_images( false, $post_type ) ) ) ); ?>">
 							<td width="20%">
 								<label for="social-post-flow_image_additional">
 									<?php esc_html_e( 'Additional Images', 'social-post-flow' ); ?>
@@ -180,8 +180,13 @@
 							</td>
 							<td>
 								<select id="social-post-flow_image_additional" name="social-post-flow_image_additional" size="1">
-									<option value=""><?php esc_html_e( 'Specified in Post settings', 'social-post-flow' ); ?></option>
-									<option value="1"><?php esc_html_e( 'Auto populate from Post content', 'social-post-flow' ); ?></option>
+									<?php
+									foreach ( social_post_flow()->get_class( 'image' )->get_status_additional_image_options( false, $post_type ) as $value => $label ) {
+										?>
+										<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $label ); ?></option>
+										<?php
+									}
+									?>
 								</select>
 								<p class="description">
 									<?php
@@ -202,7 +207,7 @@
 								</p>
 							</td>
 						</tr>
-						<tr class="additional-images">
+						<tr class="additional-images" data-conditional-value="<?php echo esc_attr( implode( ',', array_keys( social_post_flow()->get_class( 'image' )->get_status_image_options_supporting_additional_images( false, $post_type ) ) ) ); ?>">
 							<td width="20%">
 								<label for="social-post-flow_image_additional_limit">
 									<?php esc_html_e( 'Limit', 'social-post-flow' ); ?>
@@ -217,7 +222,7 @@
 								</p>
 							</td>
 						</tr>
-						<tr class="text-to-image">
+						<tr class="text-to-image" data-conditional-value="<?php echo esc_attr( implode( ',', array_keys( social_post_flow()->get_class( 'image' )->get_status_image_options_supporting_text_to_image( false, $post_type ) ) ) ); ?>">
 							<td width="20%">
 								<label for="social-post-flow_text_to_image">
 									<?php esc_html_e( 'Text to Image', 'social-post-flow' ); ?>
@@ -237,7 +242,7 @@
 								</p>
 							</td>
 						</tr>
-						<tr class="text-to-image">
+						<tr class="text-to-image" data-conditional-value="<?php echo esc_attr( implode( ',', array_keys( social_post_flow()->get_class( 'image' )->get_status_image_options_supporting_text_to_image( false, $post_type ) ) ) ); ?>">
 							<td width="20%">
 								<label for="social-post-flow_text_to_image_background_image">
 									<?php esc_html_e( 'Background Image', 'social-post-flow' ); ?>

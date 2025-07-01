@@ -287,7 +287,7 @@ class Social_Post_Flow_Settings {
 	public function get_status_row( $status, $post_type, $action ) {
 
 		// Get Options.
-		$featured_image_options   = social_post_flow()->get_class( 'image' )->get_featured_image_options( $post_type );
+		$featured_image_options   = social_post_flow()->get_class( 'image' )->get_status_image_options( false, $post_type );
 		$schedule                 = social_post_flow()->get_class( 'common' )->get_schedule_options( $post_type, true );
 		$schedule_relative_days   = social_post_flow()->get_class( 'common' )->get_schedule_relative_days();
 		$schedule_custom_relation = social_post_flow()->get_class( 'common' )->get_schedule_custom_relation_options();
@@ -824,15 +824,11 @@ class Social_Post_Flow_Settings {
 			$this->settings_name . '-access-token',
 			$this->settings_name . '-custom_tags',
 			$this->settings_name . '-cron',
-			$this->settings_name . '-disable_excerpt_fallback',
-			$this->settings_name . '-disable_url_shortening',
-			$this->settings_name . '-force_trailing_forwardslash',
 			$this->settings_name . '-hide_meta_box_by_roles',
 			$this->settings_name . '-image_custom',
 			$this->settings_name . '-image_dimensions',
 			$this->settings_name . '-log',
 			$this->settings_name . '-override',
-			$this->settings_name . '-proxy',
 			$this->settings_name . '-refresh-token',
 			$this->settings_name . '-repost',
 			$this->settings_name . '-repost_disable_cron',

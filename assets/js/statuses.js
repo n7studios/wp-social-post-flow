@@ -428,21 +428,21 @@ function socialPostFlowUpdateImageOptions() {
 			return;
 		}
 
-		switch ( $( 'select.image', $( social_post_flow.status_form ) ).val() ) {
-			case 'featured_image':
-				$( '.additional-images', $( social_post_flow.status_form ) ).show();
-				$( '.text-to-image', $( social_post_flow.status_form ) ).hide();
-				break;
+		// Get selected image option.
+		let selected_image_option = $( 'select.image', $( social_post_flow.status_form ) ).val();
 
-			/**
-			 * Use Text to Image, not linked to Post
-			 */
-			case 'text_to_image':
-				$( '.additional-images', $( social_post_flow.status_form ) ).hide();
-				$( '.text-to-image', $( social_post_flow.status_form ) ).show();
-				break;
+		// Hide additional and text to image options.
+		$( 'tr.additional-images, tr.text-to-image', $( social_post_flow.status_form ) ).hide();
 
-		}
+		// Show additional and text to image options, based on the selected image option.
+		$( 'tr.additional-images, tr.text-to-image', $( social_post_flow.status_form ) ).each(
+			function () {
+				let conditionalValues = $( this ).data( 'conditional-value' ).toString().split( ',' ); // .toString() prevents errors when splitting a single integer e.g. 2.
+				if (conditionalValues.indexOf( selected_image_option ) !== -1) {
+					$( this ).show();
+				}
+			}
+		);
 
 	} )( jQuery );
 

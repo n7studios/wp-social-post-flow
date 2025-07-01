@@ -16,22 +16,13 @@
 class Social_Post_Flow_API {
 
 	/**
-	 * Holds the Proxy endpoint, which might be used to pass requests through
-	 *
-	 * @since   1.0.0
-	 *
-	 * @var     string.
-	 */
-	private $proxy_endpoint = 'https://proxy.wpzinc.net/';
-
-	/**
 	 * Holds the API endpoint
 	 *
 	 * @since   1.0.0
 	 *
 	 * @var     string.
 	 */
-	private $api_endpoint = 'https://socialpostflow.local/api/';
+	private $api_endpoint = 'https://app.socialpostflow.com/api/';
 
 	/**
 	 * Holds the OAuth Authorize URL
@@ -40,7 +31,7 @@ class Social_Post_Flow_API {
 	 *
 	 * @var     string.
 	 */
-	private $oauth_authorize_url = 'https://socialpostflow.local/oauth/authorize';
+	private $oauth_authorize_url = 'https://app.socialpostflow.com/oauth/authorize';
 
 	/**
 	 * Holds the OAuth Redirect URL
@@ -49,7 +40,7 @@ class Social_Post_Flow_API {
 	 *
 	 * @var     string.
 	 */
-	private $oauth_redirect_uri = 'https://socialpostflow.local/oauth/callback';
+	private $oauth_redirect_uri = 'https://app.socialpostflow.com/oauth/callback';
 
 	/**
 	 * Holds the OAuth Token URL
@@ -58,7 +49,7 @@ class Social_Post_Flow_API {
 	 *
 	 * @var     string.
 	 */
-	private $oauth_token_url = 'https://socialpostflow.local/oauth/token';
+	private $oauth_token_url = 'https://app.socialpostflow.com/oauth/token';
 
 	/**
 	 * Holds the OAuth Client ID
@@ -67,7 +58,7 @@ class Social_Post_Flow_API {
 	 *
 	 * @var     string.
 	 */
-	private $client_id = '0196ce3f-f4e8-7316-97f3-347dc3ad060c';
+	private $client_id = '01970fdc-2595-73ed-aebb-88398845bb5b'; // production.
 
 	/**
 	 * Access Token
@@ -96,7 +87,21 @@ class Social_Post_Flow_API {
 	 */
 	public function get_registration_url() {
 
-		return 'https://socialpostflow.local/register';
+		return 'https://app.socialpostflow.com/register';
+
+	}
+
+	/**
+	 * Returns the URL where the user can connect their social media accounts
+	 * to Social Post Flow
+	 *
+	 * @since   1.0.0
+	 *
+	 * @return  string  URL
+	 */
+	public function get_connect_profiles_url() {
+
+		return 'https://app.socialpostflow.com/profiles';
 
 	}
 
@@ -518,57 +523,43 @@ class Social_Post_Flow_API {
 		// Build endpoint URL.
 		$url = $this->api_endpoint . $cmd;
 
-		// If proxy is enabled, send the request to our proxy with the URL, method and parameters.
-		if ( social_post_flow()->get_class( 'settings' )->get_option( 'proxy', false ) ) {
-			$response = wp_remote_get(
-				$this->proxy_endpoint,
-				array(
-					'body' => array(
-						'url'    => $url,
-						'method' => $method,
-						'params' => http_build_query( $params ),
-					),
-				)
-			);
-		} else {
-			// Send request.
-			switch ( $method ) {
-				/**
-				 * GET
-				 */
-				case 'get':
-					$response = wp_remote_get(
-						$url,
-						array(
-							'headers'   => array(
-								'Authorization' => 'Bearer ' . $this->access_token,
-								'Accept'        => 'application/json',
-							),
-							'body'      => $params,
-							'timeout'   => $this->get_timeout(),
-							'sslverify' => $this->enable_ssl_verification(),
-						)
-					);
-					break;
+		// Send request.
+		switch ( $method ) {
+			/**
+			 * GET
+			 */
+			case 'get':
+				$response = wp_remote_get(
+					$url,
+					array(
+						'headers'   => array(
+							'Authorization' => 'Bearer ' . $this->access_token,
+							'Accept'        => 'application/json',
+						),
+						'body'      => $params,
+						'timeout'   => $this->get_timeout(),
+						'sslverify' => $this->enable_ssl_verification(),
+					)
+				);
+				break;
 
-				/**
-				 * POST
-				 */
-				case 'post':
-					$response = wp_remote_post(
-						$url,
-						array(
-							'headers'   => array(
-								'Authorization' => 'Bearer ' . $this->access_token,
-								'Accept'        => 'application/json',
-							),
-							'body'      => $params,
-							'timeout'   => $this->get_timeout(),
-							'sslverify' => $this->enable_ssl_verification(),
-						)
-					);
-					break;
-			}
+			/**
+			 * POST
+			 */
+			case 'post':
+				$response = wp_remote_post(
+					$url,
+					array(
+						'headers'   => array(
+							'Authorization' => 'Bearer ' . $this->access_token,
+							'Accept'        => 'application/json',
+						),
+						'body'      => $params,
+						'timeout'   => $this->get_timeout(),
+						'sslverify' => $this->enable_ssl_verification(),
+					)
+				);
+				break;
 		}
 
 		// If an error occured, return it now.
@@ -647,7 +638,7 @@ class Social_Post_Flow_API {
 	 */
 	private function enable_ssl_verification() {
 
-		$enable_ssl_verification = false;
+		$enable_ssl_verification = true;
 
 		/**
 		 * Defines whether to enable SSL verification for the Social Post Flow API.
