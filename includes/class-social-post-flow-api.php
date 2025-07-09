@@ -58,7 +58,7 @@ class Social_Post_Flow_API {
 	 *
 	 * @var     string.
 	 */
-	private $client_id = '01970fdc-2595-73ed-aebb-88398845bb5b'; // production.
+	private $client_id = '01970fdc-2595-73ed-aebb-88398845bb5b';
 
 	/**
 	 * Access Token
@@ -433,6 +433,9 @@ class Social_Post_Flow_API {
 	 */
 	public function profiles( $force = false, $transient_expiration_time = 43200 ) {
 
+		// Setup profiles array.
+		$profiles = array();
+
 		// Check if our WordPress transient already has this data.
 		// This reduces the number of times we query the API.
 		$profiles = get_transient( 'social_post_flow_api_profiles' );
@@ -448,7 +451,10 @@ class Social_Post_Flow_API {
 				return $results;
 			}
 
-			$profiles = $results['data'];
+			// Build array of profiles, with the profile ID as the key.
+			foreach ( $results['data'] as $profile ) {
+				$profiles[ $profile['id'] ] = $profile;
+			}
 
 			// Store profiles in transient.
 			set_transient( 'social_post_flow_api_profiles', $profiles, $transient_expiration_time );
@@ -470,25 +476,6 @@ class Social_Post_Flow_API {
 	public function create_post( $params ) {
 
 		return $this->post( 'posts', $params );
-
-	}
-
-	/**
-	 * Creates Posts on Social Post Flow.
-	 *
-	 * @since   1.0.0
-	 *
-	 * @param   array $posts     Posts.
-	 * @return  WP_Error|array
-	 */
-	public function create_posts( $posts ) {
-
-		return $this->post(
-			'posts/bulk',
-			array(
-				'posts' => $posts,
-			)
-		);
 
 	}
 
@@ -610,12 +597,7 @@ class Social_Post_Flow_API {
 
 			return new WP_Error(
 				$http_code,
-				sprintf(
-				/* translators: %1$s: API Error Code, %2$s: API Error Message(s) */
-					__( 'Social Post Flow: API Error: #%1$s %2$s', 'social-post-flow' ),
-					$http_code,
-					implode( "\n", $error_message )
-				)
+				implode( "\n", $error_message )
 			);
 		}
 
@@ -657,7 +639,7 @@ class Social_Post_Flow_API {
 	 */
 	private function enable_ssl_verification() {
 
-		$enable_ssl_verification = true;
+		$enable_ssl_verification = false;
 
 		/**
 		 * Defines whether to enable SSL verification for the Social Post Flow API.

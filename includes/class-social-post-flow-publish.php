@@ -920,7 +920,7 @@ class Social_Post_Flow_Publish {
 	 *
 	 * @param   int    $post_id                Post ID.
 	 * @param   string $action                 Action (publish|update).
-	 * @return  mixed                               WP_Error | API Results array
+	 * @return  WP_Error|bool|array
 	 */
 	private function validate( $post_id, $action ) {
 
@@ -2001,6 +2001,10 @@ class Social_Post_Flow_Publish {
 			case 'image':
 			case 'story':
 				switch ( $status['image_additional'] ) {
+					case '':
+						// No additional images.
+						break;
+
 					case 'post_settings':
 						// Fetch additional images specified in the Post's settings
 						// and from the Post's content.

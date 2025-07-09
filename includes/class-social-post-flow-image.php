@@ -140,6 +140,7 @@ class Social_Post_Flow_Image {
 		}
 
 		$options = array(
+			''              => __( 'None', 'social-post-flow' ),
 			'post_settings' => __( 'Specified in Post settings', 'social-post-flow' ),
 			'post_content'  => sprintf(
 				/* translators: Translated name for a Post Type's Featured Image (e.g. for WooCommerce, might be "Product image") */
