@@ -25,10 +25,12 @@ class Social_Post_Flow_Image {
 	 */
 	public function __construct() {
 
-		// Load WordPress image libraries.
-		require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
-		require_once ABSPATH . WPINC . '/class-wp-image-editor-gd.php';
-		require_once ABSPATH . WPINC . '/class-wp-image-editor-imagick.php';
+		// Load WordPress image libraries, if they haven't already been loaded.
+		if ( ! class_exists( 'WP_Image_Editor' ) ) {
+			require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
+			require_once ABSPATH . WPINC . '/class-wp-image-editor-gd.php';
+			require_once ABSPATH . WPINC . '/class-wp-image-editor-imagick.php';
+		}
 
 	}
 
