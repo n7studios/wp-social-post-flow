@@ -863,7 +863,9 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Invalid nonce.
-				if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
+				if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['social_post_flow_nonce'] ), 'social-post-flow-bulk-publish' ) ) {
+					die('invalid nonce');
+
 					// Set error notice.
 					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified.', 'social-post-flow' ) );
 
@@ -982,9 +984,9 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Invalid nonce.
-				if ( ! wp_verify_nonce( sanitize_key( $_POST['social_post_flow_nonce'] ), 'social-post-flow' ) ) {
+				if ( ! wp_verify_nonce( sanitize_key( $_POST['social_post_flow_nonce'] ), 'social-post-flow-bulk-publish' ) ) {
 					// Set error notice.
-					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified. Settings NOT saved.', 'social-post-flow' ) );
+					social_post_flow()->get_class( 'notices' )->add_error_notice( __( 'Invalid nonce specified.', 'social-post-flow' ) );
 
 					// Load view.
 					include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'views/bulk-publish-error.php';
@@ -1054,11 +1056,11 @@ class Social_Post_Flow_Admin {
 	private function get_bulk_publish_stage() {
 
 		// Bail if no nonce.
-		if ( ! array_key_exists( '_wpnonce', $_REQUEST ) ) {
+		if ( ! array_key_exists( 'social_post_flow_nonce', $_REQUEST ) ) {
 			return 0;
 		}
 
-		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'social-post-flow-bulk-publish' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['social_post_flow_nonce'] ), 'social-post-flow-bulk-publish' ) ) {
 			return 0;
 		}
 

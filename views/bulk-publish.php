@@ -71,7 +71,7 @@
 							require_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'views/bulk-publish-' . $stage . '.php';
 
 							// Nonce.
-							wp_nonce_field( 'social-post-flow', 'social_post_flow_nonce' );
+							wp_nonce_field( 'social-post-flow-bulk-publish', 'social_post_flow_nonce' );
 							?>
 						</div>
 						<!-- /normal-sortables -->

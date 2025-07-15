@@ -230,6 +230,5 @@
 <!-- /post_type -->
 
 <!-- Buttons -->
-<?php wp_nonce_field( 'social-post-flow-bulk-publish' ); ?>
 <input type="hidden" name="stage" value="1" />
 <input type="submit" name="submit" value="<?php esc_attr_e( 'Choose Posts', 'social-post-flow' ); ?>" class="button button-primary" />

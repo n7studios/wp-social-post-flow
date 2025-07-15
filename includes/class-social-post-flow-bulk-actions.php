@@ -124,7 +124,7 @@ class Social_Post_Flow_Bulk_Actions {
 					'page'                   => 'social-post-flow-bulk-publish',
 					'post_ids'               => implode( ',', $post_ids ),
 					'type'                   => $screen->post_type,
-					'social_post_flow_nonce' => wp_create_nonce( 'social-post-flow' ),
+					'social_post_flow_nonce' => wp_create_nonce( 'social-post-flow-bulk-publish' ),
 				);
 				$redirect_to = admin_url( add_query_arg( $args, 'admin.php' ) );
 				break;
