@@ -9,7 +9,7 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Auto post Pages, Posts or Custom Post Types to Facebook, X / Twitter, Threads, Instagram and Mastodon using your Social Post Flow (socialpostflow.com) account.
+Auto post Pages, Posts or Custom Post Types to Social Media using your Social Post Flow (socialpostflow.com) account.
 
 == Description ==
 
