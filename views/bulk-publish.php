@@ -63,7 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</h2>
 
 		<!-- Form Start -->
-		<form name="post" method="post" action="<?php echo ( isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '' ); ?>">    
+		<form name="post" method="post" action="<?php echo ( isset( $_SERVER['REQUEST_URI'] ) ? esc_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '' ); ?>">    
 			<div id="poststuff">
 				<div id="post-body" class="metabox-holder columns-1">
 					<!-- Content -->

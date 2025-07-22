@@ -1239,7 +1239,7 @@ class Social_Post_Flow_Admin {
 				}
 
 				// Unslash and decode JSON field.
-				$settings = json_decode( wp_unslash( $_POST['social-post-flow']['statuses'] ), true ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$settings = json_decode( sanitize_text_field( wp_unslash( $_POST['social-post-flow']['statuses'] ) ), true );
 
 				// Save Settings for this Post Type.
 				return social_post_flow()->get_class( 'settings' )->update_settings( $post_type, $settings );

@@ -352,13 +352,13 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 			'request_sent_end_date'   => $this->get_request_sent_end_date(),
 		);
 
-		// Return params if freeform search isn't supplied.
-		if ( ! filter_has_var( INPUT_GET, 's' ) ) {
+		// Get search.
+		$search = $this->get_search();
+
+		// If search is empty, return.
+		if ( empty( $search ) ) {
 			return $params;
 		}
-
-		// Get search.
-		$search = filter_input( INPUT_GET, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 		// If search is a number, add it as the Post ID and return.
 		if ( is_numeric( $search ) ) {
@@ -395,11 +395,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	public function get_search() {
 
-		if ( ! filter_has_var( INPUT_GET, 's' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return urldecode( filter_input( INPUT_GET, 's', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		if ( ! array_key_exists( 's', $_REQUEST ) ) {
+			return '';
+		}
+
+		return urldecode( sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) );
 
 	}
 
@@ -412,11 +417,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_action() {
 
-		if ( ! filter_has_var( INPUT_GET, 'action' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return filter_input( INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'action', $_REQUEST ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['action'] ) );
 
 	}
 
@@ -429,11 +439,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_profile_id() {
 
-		if ( ! filter_has_var( INPUT_GET, 'profile_id' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return filter_input( INPUT_GET, 'profile_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'profile_id', $_REQUEST ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['profile_id'] ) );
 
 	}
 
@@ -446,11 +461,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_result() {
 
-		if ( ! filter_has_var( INPUT_GET, 'result' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return filter_input( INPUT_GET, 'result', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'result', $_REQUEST ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['result'] ) );
 
 	}
 
@@ -463,11 +483,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_request_sent_start_date() {
 
-		if ( ! filter_has_var( INPUT_GET, 'request_sent_start_date' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return filter_input( INPUT_GET, 'request_sent_start_date', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'request_sent_start_date', $_REQUEST ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['request_sent_start_date'] ) );
 
 	}
 
@@ -480,11 +505,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_request_sent_end_date() {
 
-		if ( ! filter_has_var( INPUT_GET, 'request_sent_end_date' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return '';
 		}
 
-		return filter_input( INPUT_GET, 'request_sent_end_date', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'request_sent_end_date', $_REQUEST ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['request_sent_end_date'] ) );
 
 	}
 
@@ -497,11 +527,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_order_by() {
 
-		if ( ! filter_has_var( INPUT_GET, 'orderby' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return 'request_sent';
 		}
 
-		return filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'order_by', $_REQUEST ) ) {
+			return 'request_sent';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['order_by'] ) );
 
 	}
 
@@ -514,11 +549,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_order() {
 
-		if ( ! filter_has_var( INPUT_GET, 'order' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return 'DESC';
 		}
 
-		return filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		if ( ! array_key_exists( 'order', $_REQUEST ) ) {
+			return 'DESC';
+		}
+
+		return sanitize_text_field( wp_unslash( $_REQUEST['order'] ) );
 
 	}
 
@@ -531,11 +571,16 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_page() {
 
-		if ( ! filter_has_var( INPUT_GET, 'paged' ) ) {
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
 			return 1;
 		}
 
-		return absint( filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		if ( ! array_key_exists( 'paged', $_REQUEST ) ) {
+			return 1;
+		}
+
+		return absint( wp_unslash( $_REQUEST['paged'] ) );
 
 	}
 

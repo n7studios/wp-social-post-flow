@@ -61,7 +61,7 @@ body.post-new-php {
 			margin: 0;
 			padding: 0;
 
-			#social-post-flow-pro-override {
+			#social-post-flow-override {
 				display: none;
 				margin-top: -1px;
 				border-bottom: 1px solid #dfdfdf;
@@ -227,6 +227,12 @@ body.block-editor-page {
 			&.instagram {
 				a {
 					background-image: url(../../_modules/dashboard/feather/instagram.svg);
+					background-size: 16px 16px;
+				}
+			}
+			&.linkedin {
+				a {
+					background-image: url(../../_modules/dashboard/feather/linkedin.svg);
 					background-size: 16px 16px;
 				}
 			}
