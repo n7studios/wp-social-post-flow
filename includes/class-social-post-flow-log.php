@@ -290,6 +290,9 @@ class Social_Post_Flow_Log {
 			return;
 		}
 
+		// Add nonce.
+		$params['_wpnonce'] = wp_create_nonce( 'bulk-social-post-flow-log' );
+
 		// Redirect.
 		wp_safe_redirect( 'admin.php?page=social-post-flow-' . $screen['screen'] . '&' . http_build_query( $params ) );
 		die();
