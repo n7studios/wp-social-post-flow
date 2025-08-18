@@ -626,7 +626,7 @@ class Social_Post_Flow_Log {
 			$wpdb->prefix . $this->table,
 			$order_by
 		);
-		$query .= ' ' . $order;
+		$query .= ' ' . ( strtolower( $order ) === 'asc' ? 'ASC' : 'DESC' );
 
 		// Limit.
 		if ( $page > 0 && $per_page > 0 ) {
@@ -685,6 +685,8 @@ class Social_Post_Flow_Log {
 	 */
 	private function build_where_clause( $params ) {
 
+		global $wpdb;
+
 		// Bail if no params.
 		if ( ! $params ) {
 			return false;
@@ -702,34 +704,49 @@ class Social_Post_Flow_Log {
 				// Build condition based on the key.
 				switch ( $key ) {
 					case 'post_title':
-						$where[] = '(' . $key . " LIKE '%" . $value . "%' OR status_text LIKE '%" . $value . "%' OR result_message LIKE '%" . $value . "%')";
+						$where[] = $wpdb->prepare(
+							'(%i LIKE %s OR status_text LIKE %s OR result_message LIKE %s)',
+							$key,
+							'%' . $wpdb->esc_like( $value ) . '%',
+							'%' . $wpdb->esc_like( $value ) . '%',
+							'%' . $wpdb->esc_like( $value ) . '%'
+						);
 						break;
 
 					case 'request_sent_start_date':
 						if ( ! empty( $params['request_sent_end_date'] ) && $params['request_sent_start_date'] > $params['request_sent_end_date'] ) {
-							$where[] = "request_sent <= '" . $value . " 23:59:59'";
+							$where[] = $wpdb->prepare(
+								'request_sent <= %s',
+								$value . ' 23:59:59'
+							);
 						} else {
-							$where[] = "request_sent >= '" . $value . " 00:00:00'";
+							$where[] = $wpdb->prepare(
+								'request_sent >= %s',
+								$value . ' 00:00:00'
+							);
 						}
 						break;
 
 					case 'request_sent_end_date':
 						if ( ! empty( $params['request_sent_start_date'] ) && $params['request_sent_start_date'] > $params['request_sent_end_date'] ) {
-							$where[] = "request_sent >= '" . $value . " 00:00:00'";
+							$where[] = $wpdb->prepare(
+								'request_sent >= %s',
+								$value . ' 00:00:00'
+							);
 						} else {
-							$where[] = "request_sent <= '" . $value . " 23:59:59'";
+							$where[] = $wpdb->prepare(
+								'request_sent <= %s',
+								$value . ' 23:59:59'
+							);
 						}
 						break;
 
-					/**
-					 * Post Title
-					 */
-					case 'post_title':
-						$where[] = $key . " LIKE '%" . $value . "%'";
-						break;
-
 					default:
-						$where[] = $key . " = '" . $value . "'";
+						$where[] = $wpdb->prepare(
+							'%i = %s',
+							$key,
+							$value
+						);
 						break;
 				}
 			}

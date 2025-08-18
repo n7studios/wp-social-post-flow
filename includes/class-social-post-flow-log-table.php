@@ -541,16 +541,12 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_order_by() {
 
-		// Bail if nonce is not valid.
-		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
+		// Don't nonce check because order by may not include a nonce if no search performed.
+		if ( ! filter_has_var( INPUT_GET, 'orderby' ) ) {
 			return 'request_sent';
 		}
 
-		if ( ! array_key_exists( 'orderby', $_REQUEST ) ) {
-			return 'request_sent';
-		}
-
-		return sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) );
+		return filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 	}
 
@@ -563,16 +559,12 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_order() {
 
-		// Bail if nonce is not valid.
-		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
+		// Don't nonce check because order may not include a nonce if no search performed.
+		if ( ! filter_has_var( INPUT_GET, 'order' ) ) {
 			return 'DESC';
 		}
 
-		if ( ! array_key_exists( 'order', $_REQUEST ) ) {
-			return 'DESC';
-		}
-
-		return sanitize_text_field( wp_unslash( $_REQUEST['order'] ) );
+		return filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 	}
 
@@ -585,16 +577,12 @@ class Social_Post_Flow_Log_Table extends WP_List_Table {
 	 */
 	private function get_page() {
 
-		// Bail if nonce is not valid.
-		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-social-post-flow-log' ) ) {
+		// Don't nonce check because pagination may not include a nonce if no search performed.
+		if ( ! filter_has_var( INPUT_GET, 'paged' ) ) {
 			return 1;
 		}
 
-		if ( ! array_key_exists( 'paged', $_REQUEST ) ) {
-			return 1;
-		}
-
-		return absint( wp_unslash( $_REQUEST['paged'] ) );
+		return absint( filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
 
 	}
 

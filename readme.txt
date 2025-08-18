@@ -1,11 +1,11 @@
 === Auto Post, Auto Publish and Schedule to Social Media - Social Post Flow ===
-Contributors: socialpostflow
+Contributors: socialpostflow,wpzinc
 Donate link: https://www.socialpostflow.com/integrations/wordpress
 Tags: auto post, auto publish, social media scheduling, social media automation
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,6 +156,8 @@ LinkedIn, Pinterest and TikTok are coming soon.
 = 1.0.3 (2025-08-18) =
 * Fix: Logs: Use nonce for <select> filter dropdowns
 * Fix: Logs: Honor order by column
+* Fix: Logs: Honor ordering results when no search performed
+* Fix: Logs: Escape where clause when filtering and searching logs
 
 = 1.0.2 (2025-08-15) =
 * Fix: Status: Link: Honor value in Link field, instead of always using the Post's URL
