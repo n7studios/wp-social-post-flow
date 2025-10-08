@@ -71,7 +71,7 @@ class Social_Post_Flow_WPML {
 		// Bail if WPML not active.
 		// Don't use wpml_get_language_information(), as this is defined in Polylang.
 		if ( ! function_exists( 'wpml_get_active_languages_filter' ) ) {
-			return $status;
+			return;
 		}
 
 		// Get list of languages enabled in WPML.
