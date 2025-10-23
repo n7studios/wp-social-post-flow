@@ -591,9 +591,28 @@ class Social_Post_Flow_Admin {
 		if ( is_wp_error( $user ) ) {
 			social_post_flow()->get_class( 'notices' )->add_error_notice( $user->get_error_message() );
 		} elseif ( ! $user['has_access'] ) {
-				social_post_flow()->get_class( 'notices' )->add_error_notice( 'Your trial to Social Post Flow has ended. <a href="https://app.socialpostflow.com/billing" target="_blank">Select a plan</a> to resume posting to social media, or <a href="https://www.socialpostflow.com/support" target="_blank">contact us</a> if you need help.' );
+			social_post_flow()->get_class( 'notices' )->add_error_notice( 'Your trial to Social Post Flow has ended. <a href="https://app.socialpostflow.com/billing" target="_blank">Select a plan</a> to resume posting to social media, or <a href="https://www.socialpostflow.com/support" target="_blank">contact us</a> if you need help.' );
 		} elseif ( $user['stats']['posts'] === 0 ) {
 			social_post_flow()->get_class( 'notices' )->add_warning_notice( 'It looks like you haven\'t posted anything yet. If you need help getting started, <a href="https://www.socialpostflow.com/support" target="_blank">contact us</a>.' );
+		}
+
+		// Embed HelpScout Beacon.
+		if ( ! is_wp_error( $user ) ) {
+			add_action(
+				'admin_footer',
+				function () use ( $user ) {
+					?>
+				<script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
+				<script type="text/javascript">
+					window.Beacon('init', 'e3ecb69c-28b1-4db6-a28d-962251c389f7');
+					window.Beacon('identify', {
+						name: '<?php echo esc_attr( $user['name'] ); ?>',
+						email: '<?php echo esc_attr( $user['email'] ); ?>',
+					});
+				</script>
+					<?php
+				}
+			);
 		}
 
 		// Profiles.

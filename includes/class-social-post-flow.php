@@ -111,6 +111,7 @@ class Social_Post_Flow {
 
 		// Settings.
 		add_menu_page( $this->plugin->displayName, $this->plugin->displayName, $minimum_capability, $this->plugin->name, array( $this->get_class( 'admin' ), 'settings_screen' ), $this->plugin->logo );
+		add_submenu_page( $this->plugin->name, __( 'Settings', 'social-post-flow' ), __( 'Settings', 'social-post-flow' ), $minimum_capability, $this->plugin->name, array( $this->get_class( 'admin' ), 'settings_screen' ) );
 
 		// Only show Bulk Publish and Logs if connected to the API.
 		if ( $this->get_class( 'validation' )->api_connected() ) {
