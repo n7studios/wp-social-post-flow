@@ -436,6 +436,8 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 
 = 1.0.8 (2025-10-23) =
 * Added: Settings: Display notice if trial ended or no Posts sent to Social Post Flow
+* Added: Settings: Support link
+* Updated: Renamed Social Post Flow submenu link to Settings
 
 = 1.0.7 (2025-10-17) =
 * Fix: Status: Text: Taxonomy: Retain non-Latin characters
