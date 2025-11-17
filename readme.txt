@@ -5,7 +5,7 @@ Tags: auto post, social media, twitter, instagram, linkedin
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -433,6 +433,9 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.1.1 (2025-11-17) =
+* Fix: Logs: PHP Warning: Undefined array key `0`
 
 = 1.1.0 (2025-10-29) =
 * Removed: Settings: Status: Add Profile link, as it resulted in settings failing to save

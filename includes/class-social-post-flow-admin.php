@@ -636,10 +636,14 @@ class Social_Post_Flow_Admin {
 
 		// Post Types.
 		$post_types_public = social_post_flow()->get_class( 'common' )->get_post_types();
-		$post_types        = social_post_flow()->get_class( 'common' )->maybe_remove_post_types_by_role(
-			$post_types_public,
-			wp_get_current_user()->roles[0]
-		);
+		if ( wp_get_current_user() && is_array( wp_get_current_user()->roles ) && ! empty( wp_get_current_user()->roles ) ) {
+			$post_types = social_post_flow()->get_class( 'common' )->maybe_remove_post_types_by_role(
+				$post_types_public,
+				wp_get_current_user()->roles[0]
+			);
+		} else {
+			$post_types = $post_types_public;
+		}
 
 		// Depending on the screen we're on, load specific options.
 		switch ( $tab ) {
@@ -704,7 +708,9 @@ class Social_Post_Flow_Admin {
 			 */
 			default:
 				// Run profiles through role restriction.
-				$profiles = social_post_flow()->get_class( 'common' )->maybe_remove_profiles_by_role( $profiles, wp_get_current_user()->roles[0] );
+				if ( wp_get_current_user() && is_array( wp_get_current_user()->roles ) && ! empty( wp_get_current_user()->roles ) ) {
+					$profiles = social_post_flow()->get_class( 'common' )->maybe_remove_profiles_by_role( $profiles, wp_get_current_user()->roles[0] );
+				}
 
 				// Get original statuses that will be stored in a hidden field so they are preserved if the screen is saved
 				// with no changes that trigger an update to the hidden field.
