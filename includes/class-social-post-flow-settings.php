@@ -307,7 +307,7 @@ class Social_Post_Flow_Settings {
 			 */
 			case 'queue_start':
 			case 'queue_end':
-			case 'now':
+			case 'immediate':
 				$row['schedule'] = $schedule[ $status['schedule'] ];
 				break;
 

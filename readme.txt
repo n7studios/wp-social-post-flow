@@ -3,9 +3,9 @@ Contributors: socialpostflow
 Donate link: https://www.socialpostflow.com/integrations/wordpress
 Tags: auto post, social media, twitter, instagram, linkedin
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -433,6 +433,9 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.1.4 (2025-12-03) =
+* Fix: Settings: Status: Show text in Schedule column when changing the Schedule option = Post Immediately
 
 = 1.1.3 (2025-11-28) =
 * Added: Status: Add Profile link
