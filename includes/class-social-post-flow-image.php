@@ -289,6 +289,7 @@ class Social_Post_Flow_Image {
 			'threads'         => array( 1200, 1200 ),
 			'tiktok'          => array( 1080, 1920 ),
 			'mastodon'        => array( 1200, 675 ),
+			'bluesky'         => array( 1200, 675 ),
 		);
 
 		/**

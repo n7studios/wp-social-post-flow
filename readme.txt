@@ -5,15 +5,15 @@ Tags: auto post, social media, twitter, instagram, linkedin
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, and Mastodon.
+Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, Mastodon and Bluesky.
 
 == Description ==
 
-Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, and Mastodon. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
+Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, Mastodon and Bluesky. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
 
 Don't have a Social Post Flow account? Pricing starts at $49/year for 5 social accounts, and you can [sign up for a free 7 day trial](https://app.socialpostflow.com/register)
 
@@ -68,6 +68,9 @@ Share visual content from your WordPress site to Pinterest boards automatically 
 
 **Mastodon Auto Post**
 Connect to any Mastodon instance and auto publish your WordPress posts to the federated social network.
+
+**Bluesky Auto Post**
+Connect to any Bluesky instance and auto publish your WordPress posts to Bluesky.
 
 === Repost Old Content and Evergreen Posts ===
 
@@ -317,6 +320,7 @@ You can auto publish to:
 - LinkedIn Page
 - Pinterest Boards
 - Mastodon
+- Bluesky
 
 = How do I add images to my social media posts? =
 
@@ -433,6 +437,9 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.1.5 (2025-12-23) =
+* Added: Bluesky support
 
 = 1.1.4 (2025-12-03) =
 * Fix: Settings: Status: Show text in Schedule column when changing the Schedule option = Post Immediately
