@@ -593,8 +593,6 @@ class Social_Post_Flow_Admin {
 		} else {
 			if ( ! $user['has_access'] ) {
 				social_post_flow()->get_class( 'notices' )->add_error_notice( 'Your trial to Social Post Flow has ended. <a href="https://app.socialpostflow.com/billing" target="_blank">Select a plan</a> to resume posting to social media, or <a href="https://www.socialpostflow.com/support" target="_blank">contact us</a> if you need help.' );
-			} elseif ( $user['stats']['posts'] === 0 ) {
-				social_post_flow()->get_class( 'notices' )->add_warning_notice( 'It looks like you haven\'t posted anything yet. If you need help getting started, <a href="https://www.socialpostflow.com/support" target="_blank">contact us</a>.' );
 			}
 
 			// Check timezones match.
@@ -628,9 +626,6 @@ class Social_Post_Flow_Admin {
 		if ( is_wp_error( $profiles ) ) {
 			social_post_flow()->get_class( 'notices' )->add_error_notice( $profiles->get_error_message() );
 		} elseif ( empty( $profiles ) ) {
-			// Clear any stored notices.
-			social_post_flow()->get_class( 'notices' )->delete_notices();
-
 			// Add error notice.
 			social_post_flow()->get_class( 'notices' )->add_error_notice(
 				__( 'Connect profiles to Social Post Flow to start sending WordPress content to your social media profiles.', 'social-post-flow' )
