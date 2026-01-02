@@ -438,8 +438,10 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 
 == Changelog ==
 
-= 1.1.6 (2026-01-01) =
-* Added: Improve onboarding to connect profiles and automatically configure status settings
+= 1.1.6 (2026-01-02) =
+* Added: Show Connect Profiles screen when no social media profiles are connected to Social Post Flow
+* Added: Automatically enable publishing to connected social media profiles on new installations
+* Added: Automatically configure publishing to use the 'link' Post Type, to display an OpenGraph / card on published statuses
 
 = 1.1.5 (2025-12-23) =
 * Added: Bluesky support
