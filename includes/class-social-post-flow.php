@@ -94,6 +94,7 @@ class Social_Post_Flow {
 
 		// Defer loading of Plugin Classes.
 		add_action( 'init', array( $this, 'initialize' ), 1 );
+		add_action( 'init', array( $this, 'upgrade' ), 2 );
 
 		// Admin Menus.
 		add_action( 'social_post_flow_admin_admin_menu', array( $this, 'admin_menus' ) );
@@ -180,6 +181,18 @@ class Social_Post_Flow {
 		$this->classes->woocommerce            = new Social_Post_Flow_WooCommerce();
 		$this->classes->wpml                   = new Social_Post_Flow_WPML();
 		$this->classes->yoast_seo              = new Social_Post_Flow_Yoast_SEO();
+
+	}
+
+	/**
+	 * Runs the upgrade routine once the plugin has loaded
+	 *
+	 * @since   1.1.7
+	 */
+	public function upgrade() {
+
+		// Run upgrade routine.
+		$this->get_class( 'install' )->upgrade();
 
 	}
 
