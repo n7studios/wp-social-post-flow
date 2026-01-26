@@ -890,6 +890,9 @@ class Social_Post_Flow_Admin {
 			'mastodon'  => array(
 				'name' => 'Mastodon',
 			),
+			'tiktok'    => array(
+				'name' => 'TikTok',
+			),
 		);
 
 		// Load View.

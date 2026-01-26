@@ -1,19 +1,19 @@
-=== Auto Post to Social Media - Schedule & Publish Posts ===
+=== Social Media Auto Poster - Social Post Flow ===
 Contributors: socialpostflow
 Donate link: https://www.socialpostflow.com/integrations/wordpress
-Tags: auto post, social media, twitter, instagram, linkedin
+Tags: auto post, social media, twitter, instagram, tiktok
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.9
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, Mastodon and Bluesky.
+Auto publish to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, TikTok, Mastodon and Bluesky.
 
 == Description ==
 
-Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, Mastodon and Bluesky. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
+Social Post Flow is a social media auto poster WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, TikTok, Mastodon and Bluesky. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
 
 Don't have a Social Post Flow account? Pricing starts at $49/year for 5 social accounts, and you can [sign up for a free 7 day trial](https://app.socialpostflow.com/register)
 
@@ -65,6 +65,9 @@ Automatically cross-post your WordPress content to Meta's Threads platform with 
 
 **Pinterest Auto Post**
 Share visual content from your WordPress site to Pinterest boards automatically with proper image optimization and pin descriptions.
+
+**TikTok Auto Post**
+Automatically share your WordPress content to TikTok with video and image support optimized for TikTok's vertical format and engagement-focused audience.
 
 **Mastodon Auto Post**
 Connect to any Mastodon instance and auto publish your WordPress posts to the federated social network.
@@ -319,6 +322,7 @@ You can auto publish to:
 - LinkedIn Profile
 - LinkedIn Page
 - Pinterest Boards
+- TikTok
 - Mastodon
 - Bluesky
 
@@ -437,6 +441,9 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.2.0 (2026-01-26) =
+* Added: TikTok support
 
 = 1.1.9 (2026-01-20) =
 * Fix: Validation: `DateTimeZone::__construct(): Unknown or bad timezone` warning notice when account used a UTC offset

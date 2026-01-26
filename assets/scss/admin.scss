@@ -260,6 +260,12 @@ body.block-editor-page {
 					background-size: 16px 16px;
 				}
 			}
+			&.tiktok {
+				a {
+					background-image: url(../../_modules/dashboard/feather/tiktok.svg);
+					background-size: 16px 16px;
+				}
+			}
 			&.external-link {
 				a {
 					background-image: url(../../_modules/dashboard/feather/external-link.svg);
