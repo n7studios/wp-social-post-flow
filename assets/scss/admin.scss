@@ -14,8 +14,10 @@ li.toplevel_page_social-post-flow {
     a {
 		div.wp-menu-image {
 			img {
-				width: 16px;
-				height: 16px;
+				padding: 6px 0 0 0 !important;
+				width: 22px;
+				height: 22px;
+				opacity: 1 !important;
 			}
 		}
 	}
@@ -27,7 +29,7 @@ li.toplevel_page_social-post-flow {
 body.wpzinc.social-post-flow {
 	div.wrap {
 		h1.wp-heading-inline {
-			background-image: url(../images/icons/social-post-flow-dark.svg);
+			background-image: url(../images/icons/logo-dark.svg);
 			background-position: 25px 50%;
 			background-repeat: no-repeat;
 			background-size: 32px 32px;

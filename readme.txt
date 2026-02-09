@@ -444,6 +444,7 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 
 = 1.2.2 (2026-02-07) =
 * Added: Settings: General Settings: Disable Excerpt Fallback. See Docs: https://www.socialpostflow.com/documentation/wordpress-plugin/general-settings/#disable-excerpt-fallback
+* Fix: Menu: Show correct icon color depending on user's admin color scheme
 
 = 1.2.1 (2026-01-29) =
 * Fix: Authorization: Improved reliability of authorization by using unique code identifier
