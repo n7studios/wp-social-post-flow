@@ -32,13 +32,13 @@ If you're looking for a replacement for Jetpack Social, Blog2Social, or NextScri
 === Smart Social Media Automation Features ===
 
 **Multiple Status Messages Per Post Type**
-Configure different status messages for each post type and social profile. Your blog posts can have different messaging than your WooCommerce products or Events Calendar events.
+[Configure different status messages](https://www.socialpostflow.com/documentation/wordpress-plugin/status-configuration-and-types/) for each post type and social profile. Your blog posts can have different messaging than your WooCommerce products or Events Calendar events.
 
 **Dynamic Tags for Unique Content**
 Build truly unique social media posts using dynamic tags that pull in your WordPress Post Title, Content, Excerpt, Custom Fields, Author information, and more. Never send duplicate content to your social media profiles.
 
 **Conditional Publishing Rules**
-Publish posts to social media only when specific conditions are met. Filter by Post Author, Taxonomy Terms, Custom Field Values, or any combination of criteria to ensure only the right content reaches your social audiences.
+Publish posts to social media only when [specific conditions are met](https://www.socialpostflow.com/documentation/wordpress-plugin/status-conditions/). Filter by Post Author, Taxonomy Terms, Custom Field Values, or any combination of criteria to ensure only the right content reaches your social audiences.
 
 **Flexible Scheduling Options**
 Choose to publish immediately when your WordPress post goes live, schedule for a specific date and time, or add to your existing Social Post Flow queue for optimal posting times.
@@ -78,10 +78,10 @@ Connect to any Bluesky instance and auto publish your WordPress posts to Bluesky
 === Repost Old Content and Evergreen Posts ===
 
 **Automatic Content Recycling**
-Automatically revive old posts that haven't been updated recently. Set the time period (days, weeks, or years) and let the plugin resurface your evergreen content to grow your social media engagement.
+Automatically [revive old posts](https://www.socialpostflow.com/documentation/wordpress-plugin/auto-reposting/) that haven't been updated recently. Set the time period (days, weeks, or years) and let the plugin resurface your evergreen content to grow your social media engagement.
 
 **Bulk Publish Old Posts**
-Manually select multiple older posts and republish them to social media in bulk. Perfect for promoting your best evergreen content or filling gaps in your social media calendar.
+[Bulk publish](https://www.socialpostflow.com/documentation/wordpress-plugin/bulk-publishing/) multiple older posts and republish them to social media in bulk. Perfect for promoting your best evergreen content or filling gaps in your social media calendar.
 
 **Smart Duplicate Prevention**
 The plugin tracks which posts have been shared and prevents accidental duplicate posting, ensuring your social media feeds stay fresh and engaging.
@@ -107,13 +107,13 @@ Images are automatically formatted and optimized for each social network's requi
 This social media scheduler works seamlessly with popular WordPress plugins:
 
 **Event Management Plugins**
-- The Events Calendar - Auto post events to social media with dates, times, and locations
-- Event Manager - Share event listings automatically
-- Modern Events Calendar - Publish calendar events to Facebook, Twitter, and more
+- [The Events Calendar](https://www.socialpostflow.com/documentation/wordpress-plugin/the-events-calendar/) - Auto post events to social media with dates, times, and locations
+- [Event Manager](https://www.socialpostflow.com/documentation/wordpress-plugin/events-manager/) - Share event listings automatically
+- [Modern Events Calendar](https://www.socialpostflow.com/documentation/wordpress-plugin/modern-events-calendar/) - Publish calendar events to Facebook, Twitter, and more
 
 **E-Commerce Integrations**
-- WooCommerce - Auto post products with images, prices, and descriptions
-- WP Job Manager - Share job listings to social media automatically
+- [WooCommerce](https://www.socialpostflow.com/documentation/wordpress-plugin/woocommerce/) - Auto post products with images, prices, and descriptions
+- [WP Job Manager](https://www.socialpostflow.com/documentation/wordpress-plugin/frontend-post-submission-autoblogging-plugins/) - Share job listings to social media automatically
 
 **Content and Autoblogging**
 - User Submitted Posts - Auto publish user-generated content
@@ -132,7 +132,7 @@ This social media scheduler works seamlessly with popular WordPress plugins:
 Enable WP-Cron to send status updates via scheduled tasks, improving UI performance and ensuring reliable posting even during high-traffic periods.
 
 **WP-CLI Integration**
-Use WordPress CLI commands to repost old posts, manage social connections, and automate social media tasks from the command line.
+Use [WordPress CLI](https://www.socialpostflow.com/documentation/wordpress-plugin/wp-cli/) commands to repost old posts, manage social connections, and automate social media tasks from the command line.
 
 **Hooks and Filters**
 Extensive action and filter hooks allow developers to customize behavior, integrate custom post types, and extend functionality to meet specific requirements.
@@ -158,7 +158,7 @@ Add posts to your Social Post Flow queue, which distributes them according to yo
 
 == How to Use Dynamic Tags in Social Posts ==
 
-Dynamic tags automatically pull content from your WordPress posts to create unique social media messages:
+[Dynamic tags](https://www.socialpostflow.com/documentation/wordpress-plugin/status-tags/) automatically pull content from your WordPress posts to create unique social media messages:
 
 Available dynamic tags:
 - {title} - Post title
