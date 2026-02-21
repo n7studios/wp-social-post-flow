@@ -1,9 +1,10 @@
 .DS_Store
 .env
 .env.testing
-config.codekit3
 codeception.yml
 composer.lock
+node_modules
+package-lock.json
 phpstan.neon
 tests/_output
 tests/Support/_generated

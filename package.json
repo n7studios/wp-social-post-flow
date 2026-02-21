@@ -1,0 +1,24 @@
+{
+    "name": "wordpress-asset-build",
+    "private": true,
+    "scripts": {
+      "lint:css": "wp-scripts lint-style 'assets/scss/*.scss' --max-warnings=0",
+      "fix:css": "prettier --write 'assets/scss/*.scss' && wp-scripts lint-style 'assets/scss/*.scss --fix",
+      "build:css": "sass assets/scss:assets/css --no-source-map --style=compressed",
+      
+      "lint:js": "wp-scripts lint-js 'assets/js/*.js' --max-warnings=0",
+      "fix:js": "wp-scripts lint-js 'assets/js/*.js' --fix",
+      "build:js": "mkdir -p assets/js/min && for f in assets/js/*.js; do terser \"$f\" --compress --mangle -o \"assets/js/min/$(basename \"$f\" .js)-min.js\"; done",
+      
+      "build": "npm run fix:css && npm run lint:css && npm run fix:js && npm run lint:js && npm run build:css && npm run build:js"
+    },
+    "prettier": "@wordpress/prettier-config",
+    "devDependencies": {
+      "@wordpress/prettier-config": "^4.30.0",
+      "@wordpress/scripts": "^30.23.0",
+      "eslint-config-prettier": "^10.1.8",
+      "sass": "^1.97.3",
+      "stylelint-scss": "^6.14.0",
+      "terser": "^5.31.0"
+    }
+  }
