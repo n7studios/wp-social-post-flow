@@ -5,7 +5,7 @@ Tags: auto post, social media, twitter, instagram, linkedin
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -441,6 +441,12 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.2.3 (2026-02-23) =
+* Added: CSS: WordPress Coding Standards
+* Added: JS: WordPress Coding Standards
+* Fix: Status: First Comment: Show tags when entering opening curly brace `{`
+* Fix: Quick Edit: Remove all hidden inputs when a search is performed, to prevent errors on some nginx configurations
 
 = 1.2.2 (2026-02-07) =
 * Added: Settings: General Settings: Disable Excerpt Fallback. See Docs: https://www.socialpostflow.com/documentation/wordpress-plugin/general-settings/#disable-excerpt-fallback
