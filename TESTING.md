@@ -16,6 +16,38 @@ If you haven't yet set up your local development environment with the Kit Plugin
 
 If you haven't yet created a branch and made any code changes to the Plugin, refer to the [Development Guide](DEVELOPMENT.md)
 
+### Familiar with PHP/CSS Coding Standards, PHPStan, wp-browser and Codeception?
+
+The following Composer commands can be used:
+
+| Command | Description |
+|---------|-------------|
+| `composer phpcs` | Runs WordPress and PHP Coding Standards on the entire plugin codebase |
+| `composer phpcbf` | Fix PHP files to meet WordPress and PHP Coding Standards |
+| `composer phpcs-tests` | Runs PHP Coding Standards on the /tests folder |
+| `composer phpcbf-tests` | Fix PHP files to meet PHP Coding Standards on the /tests folder |
+| `composer lint-css` | Runs WordPress CSS Coding Standards on SCSS files |
+| `composer fix-css` | Fixes SCSS files to meet WordPress CSS Coding Standards |
+| `composer build-css` | Builds CSS files |
+| `composer lint-js` | Runs WordPress JS Coding Standards on JS files |
+| `composer fix-js` | Fixes JS files to meet WordPress JS Coding Standards |
+| `composer build-js` | Builds JS files |
+| `composer build` | Fixes, lints and builds CSS and JS |
+| `composer test` | `composer test` | Builds and runs end-to-end tests with `fail-fast` enabled |
+| `composer test-integration` | `composer test-integration` | Builds and runs integration tests with `fail-fast` enabled |
+
+The following npm commands can be used, if preferred:
+
+| Command | Description |
+|---------|-------------|
+| `npm run lint:css` | Runs WordPress CSS Coding Standards on SCSS files |
+| `npm run fix:css` | Fixes SCSS files to meet WordPress CSS Coding Standards |
+| `npm run build:css` | Builds CSS files |
+| `npm run lint:js` | Runs WordPress JS Coding Standards on JS files |
+| `npm run fix:js` | Fixes JS files to meet WordPress JS Coding Standards |
+| `npm run build:js` | Builds JS files |
+| `npm run build` | Fixes, lints and builds frontend CSS and JS |
+
 ## Write (or modify) a test
 
 If your work creates new functionality, write a test.
@@ -139,6 +171,9 @@ Any errors should be corrected by making applicable code or test changes.
 
 ## Run PHP CodeSniffer
 
+> **Quick Command**  
+> `composer coding-standards`: Run PHP Coding Standards on Plugin files
+
 [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) checks that all Plugin code meets the 
 [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/).
 
@@ -154,6 +189,7 @@ These differ slightly from WordPress' Coding Standards, to ensure that writing t
 in test coding style. 
 `-v` produces verbose output
 `-s` specifies the precise rule that failed
+![Coding Standards Screenshot](/.github/docs/coding-standards-error.png?raw=true)
 
 Any errors should be corrected by either:
 - making applicable code changes
@@ -165,7 +201,55 @@ Need to change the PHP or WordPress coding standard rules applied?  Either:
 
 **Rules should be ignored with caution**, particularly when sanitizing and escaping data.
 
+## Run CSS Linting
+
+> **Quick Command**  
+> `composer lint-css`: Run CSS Coding Standards on Plugin files
+
+In the Plugin's directory, run the following command to run CSS and WordPress Coding Standards on CSS, which will check the code meets WordPress' Coding Standards
+as defined in the `.stylelintrc.json` configuration:
+
+```bash
+npm run lint:css
+```
+
+Any errors should be corrected by either:
+- making applicable code changes
+- (Experimental) running `npm run fix:css` to automatically fix coding standards
+
+Need to change the CSS or WordPress coding standard rules applied?  WordPress' CSS linting uses [stylelint](https://stylelint.io/user-guide/ignore-code). Either:
+- ignore a rule in the affected code, by adding `/* stylelint-disable {rule} */`, where {rule} is the given rule that failed in the above output
+- edit the [.stylelintrc.json](.stylelintrc.json) file.
+
+**Rules should be ignored with caution**.
+
+## Run JS Linting
+
+> **Quick Command**  
+> `composer lint-js`: Run JS Coding Standards on Plugin files
+
+In the Plugin's directory, run the following command to run JS and WordPress Coding Standards on JavaScript, which will check the code meets WordPress' Coding Standards as defined in the `.eslintrc.js` configuration:
+
+```bash
+npm run lint:js
+```
+
+Any errors should be corrected by either:
+- making applicable code changes
+- (Experimental) running `npm run fix:js` to automatically fix coding standards
+
+Need to change the JS or WordPress coding standard rules applied?  WordPress' JS linting uses [eslint](https://eslint.org/docs/latest/rules/). Either:
+- ignore a rule in the affected code, by adding `/* eslint-disable {rule} */`, where {rule} is the given rule that failed in the above output
+- edit the [.eslintrc.js](.eslintrc.js) file.
+
+**Rules should be ignored with caution**.
+
+**Rules should be ignored with caution**.
+
 ## Run PHPStan
+
+> **Quick Command**  
+> `composer static-analysis`: Run PHPStan static analysis on Plugin files
 
 [PHPStan](https://phpstan.org) performs static analysis on the Plugin's PHP code.  This ensures:
 
@@ -187,6 +271,9 @@ Any errors should be corrected by making applicable code changes.
 False positives [can be excluded by configuring](https://phpstan.org/user-guide/ignoring-errors) the `phpstan.neon` file.
 
 ## Run PHP CodeSniffer for Tests
+
+> **Quick Command**  
+> `composer coding-standards-tests`: Run PHP Coding Standards on test files
 
 In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets Coding Standards
 as defined in the `phpcs.tests.xml` configuration:

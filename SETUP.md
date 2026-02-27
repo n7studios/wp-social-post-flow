@@ -30,6 +30,16 @@ sudo mv composer.phar /usr/local/bin/composer
 
 Confirm that installation was successful by entering the `composer` command at the command line
 
+### Node.js + npm
+
+If [npm](https://nodejs.org/en/download/current) is not installed on your local environment, install a package manager to then install node, such as nvm:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+\. "$HOME/.nvm/nvm.sh"
+nvm install 24
+```
+
 ### Clone Repository
 
 Using your preferred Git client or command line, clone this repository into the `wp-content/plugins/` folder of your local WordPress installation.
@@ -44,21 +54,36 @@ Create a blank `test` database in MySQL, with a MySQL user who can read and writ
 
 ### Configure Testing Environment
 
-Copy the `.env.example` file to `.env.testing` in the root of this repository, changing folder and database credentials as necessary.
+Copy the `.env.example` file to `.env.testing` in the root of this repository, changing parameters to match your local development environment as necessary.
 
-Create a `codeception.yml` file in the root of the repository, with the following contents:
-```yaml
-params:
-    - .env.testing
-```
+### Install Packages
 
-This tells Codeception to read the above `.env.testing` file when testing on the local development enviornment.
+In the Plugin's directory, at the command line, run `composer install`.
 
-### Install Testing Suite
+This will install two types of packages:
+- Packages used by the Plugin (none at this time)
+- Packages used in the process of development (i.e. testing, coding standards):
+-- wp-browser
+-- Codeception
+-- PHPStan
+-- PHPUnit
+-- PHP_CodeSniffer
 
-In the Plugin's directory, at the command line, run `composer update`.
+How to use these is covered later on, and in the [Testing Guide](TESTING.md)
 
-This will install the necessary libraries used for testing, including wp-browser, Codeception, PHPUnit and PHP_CodeSniffer, which we'll cover later on.
+### Install npm Packages
+
+In the Plugin's directory, at the command line, run `npm install`.
+
+This sets up:
+- JS linting / coding standards using WordPress recommended configurations (https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/#lint-js)
+- SCSS and CSS linting / coding standards using WordPress recommended configurations (https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/#lint-style)
+- JS compilation and minification
+- SASS compilation and minification
+
+### Build JS and CSS
+
+Run `npm run build` to build the frontend CSS and JS.
 
 ### Configure wp-config.php
 
@@ -119,7 +144,7 @@ vendor/bin/codecept run EndToEnd
 Don't worry if you don't understand these commands; if your output looks similar to the above screenshot, and no test is prefixed with `E`, 
 your environment is setup successfully.
 
-### Running CodeSniffer
+### Running PHP CodeSniffer
 
 In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
 

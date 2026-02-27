@@ -60,6 +60,26 @@ Typically, packages listed in this section would be internal development tools f
 - PHPStan
 - Codeception
 
+### CSS
+
+Run `npm run build:css` to compile CSS.
+
+### JS
+
+Run `npm run build:js` to compile JS.
+
+### Build
+
+Run `npm run build` to:
+- fix CSS to WordPress Coding Standards (`npm run fix:css`)
+- lint CSS to check WordPress Coding Standards met after any fixes (`npm run lint:css`)
+- fix JS to WordPress Coding Standards (`npm run fix:js`)
+- lint JS to check WordPress Coding Standards met after any fixes (`npm run lint:js`)
+- compile CSS from (`npm run build:css`)
+- compile JS from (`npm run build:js`)
+
+If the build process fails, review the terminal and make applicable changes.
+
 ## Committing Work
 
 Remember to commit your changes to your branch relatively frequently, with a meaningful, short summary that explains what the change(s) do.
