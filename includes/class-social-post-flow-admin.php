@@ -666,20 +666,6 @@ class Social_Post_Flow_Admin {
 			if ( is_wp_error( $timezones_match ) ) {
 				social_post_flow()->get_class( 'notices' )->add_warning_notice( $timezones_match->get_error_message() );
 			}
-
-			// If the user is in a trial, show a notice.
-			if ( ! $user['subscribed'] && $user['trial_days_remaining'] > 0 && $user['trial_days_remaining'] < 5 ) {
-				social_post_flow()->get_class( 'notices' )->add_warning_notice(
-					sprintf(
-						'%s %s %s <a href="%s" target="_blank">%s</a>',
-						__( 'Your trial ends in', 'social-post-flow' ),
-						$user['trial_days_remaining'],
-						__( 'days. To ensure uninterrupted posting,', 'social-post-flow' ),
-						social_post_flow()->get_class( 'api' )->get_billing_url(),
-						__( 'upgrade to a paid plan', 'social-post-flow' )
-					)
-				);
-			}
 		}
 
 		// Embed HelpScout Beacon.

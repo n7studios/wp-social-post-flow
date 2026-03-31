@@ -5,7 +5,7 @@ Tags: auto post, social media, twitter, instagram, linkedin
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,7 +15,7 @@ Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedI
 
 Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, TikTok, Mastodon and Bluesky. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
 
-Don't have a Social Post Flow account? Pricing starts at $49/year for 5 social accounts, and you can [sign up for a free 7 day trial](https://app.socialpostflow.com/register)
+Don't have a Social Post Flow account? [Pricing starts at $49/year for 5 social accounts](https://www.socialpostflow.com)
 
 See our quick start tutorial to auto publish your WordPress content:
 
@@ -306,7 +306,8 @@ Support for this WordPress Plugin can be requested on the <a href="https://wordp
 
 = Do I need a paid Social Post Flow account? =
 
-Yes - pricing starts from $49/year to post to up to 5 connected social profiles. We offer a 7 day free trial so you can test all features before committing. Register at https://app.socialpostflow.com.
+Yes - pricing starts from $49/year to post to up to 5 connected social profiles.
+Register at https://www.socialpostflow.com/#pricing
 
 = Can I still auto publish to Twitter / X? =
 
@@ -431,7 +432,7 @@ When you update a WordPress post that was previously shared, you can choose whet
 
 = What's the refund policy? =
 
-Social Post Flow offers a 7-day free trial so you can test all features before paying. Refund policies are managed through your Social Post Flow account. Check https://www.socialpostflow.com/terms-and-conditions/ for complete details.
+Social Post Flow offers a 14 day no-risk money back guarantee. If this isn't the best fit, simply reach out and we'll refund 100% of your money. No questions asked.
 
 == Screenshots ==
 
@@ -441,6 +442,9 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.2.6 (2026-03-31) =
+* Updated: Settings: Wording of notice if subscription expired
 
 = 1.2.5 (2026-03-24) =
 * Fix: Post: Log: Ensure `No log entries exist` spans table columns

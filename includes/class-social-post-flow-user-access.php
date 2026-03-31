@@ -163,7 +163,7 @@ class Social_Post_Flow_User_Access {
 		return sprintf(
 			'<strong>%s:</strong> %s <a href="%s" target="_blank">%s</a> %s<br /><a href="%s">%s</a>',
 			__( 'Social Post Flow', 'social-post-flow' ),
-			__( 'Your trial has ended.', 'social-post-flow' ),
+			__( 'Your subscription has ended.', 'social-post-flow' ),
 			social_post_flow()->get_class( 'api' )->get_billing_url(),
 			__( 'Purchase a plan', 'social-post-flow' ),
 			__( 'to resume posting to social media.', 'social-post-flow' ),
