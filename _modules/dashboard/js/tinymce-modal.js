@@ -55,8 +55,8 @@ jQuery( document ).ready(
 				var form = $( 'form.wpzinc-tinymce-popup' );
 
 				// Build Shortcode.
-				var shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
-				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() == '1' ? true : false );
+				var shortcode                = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
+					shortcodeEnclosedContent = false;
 
 				$( 'input, select, textarea', $( form ) ).each(
 					function ( i ) {
@@ -113,6 +113,12 @@ jQuery( document ).ready(
 							val = val.trim();
 						}
 
+						// Skip if the shortcode attribute will be enclosed in the shortcode content.
+						if ( $( this ).data( 'enclose' ) == '1' ) {
+							shortcodeEnclosedContent = val;
+							return true;
+						}
+
 						// Append attribute and value to shortcode string.
 						shortcode += ' ' + key.trim() + '="' + val + '"';
 					}
@@ -121,9 +127,9 @@ jQuery( document ).ready(
 				// Close Shortcode.
 				shortcode += ']';
 
-				// If the shortcode includes a closing element, append it now.
-				if ( shortcodeClose ) {
-					shortcode += '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
+				// If the shortcode includes enclosed content, append it now and close the shortcode.
+				if ( shortcodeEnclosedContent ) {
+					shortcode += shortcodeEnclosedContent + '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
 				}
 
 				// Depending on the editor type, insert the shortcode.

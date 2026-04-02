@@ -138,6 +138,11 @@ class WPZincDashboardWidget {
 			add_filter( 'admin_footer_text', array( $this, 'maybe_display_footer_review_request' ) );
 		}
 
+		// About.
+		if ( isset( $this->plugin->about_hook ) && $this->plugin->about_hook !== false ) {
+			add_action( $this->plugin->about_hook, array( $this, 'about_section' ) );
+		}
+
 		// Export and Redirects.
 		add_action( 'init', array( $this, 'export' ), 9999 );
 		add_action( 'init', array( $this, 'maybe_redirect' ), 2 );
@@ -785,11 +790,31 @@ class WPZincDashboardWidget {
 			return false;
 		}
 
-		// Build URL.
-		$url = $this->plugin->upgrade_url . '?utm_source=' . $this->plugin->name . '&utm_medium=link&utm_content=' . $utm_content . '&utm_campaign=general';
+		// Return upgrade URL with UTM parameters appended.
+		return $this->append_utm_params_to_url( $this->plugin->upgrade_url, $utm_content );
 
-		// Return.
-		return $url;
+	}
+
+	/**
+	 * Appends UTM parameters to a given URL.
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   string $url            URL to append UTM parameters to.
+	 * @param   string $utm_content    UTM Content Value.
+	 * @return  string
+	 */
+	public function append_utm_params_to_url( $url, $utm_content = '' ) {
+
+		return add_query_arg(
+			array(
+				'utm_source'   => $this->plugin->name,
+				'utm_medium'   => 'link',
+				'utm_content'  => $utm_content,
+				'utm_campaign' => 'general',
+			),
+			$url
+		);
 
 	}
 
@@ -933,6 +958,67 @@ class WPZincDashboardWidget {
 	 */
 	public function upgrade_screen() {
 		// We never reach here, as we redirect earlier in the process.
+	}
+
+	/**
+	 * About Section
+	 *
+	 * @since   1.0.0
+	 */
+	public function about_section() {
+
+		// Define products.
+		$products = array(
+			array(
+				'name'        => 'Page Generator Pro',
+				'url'         => $this->append_utm_params_to_url( 'https://www.wpzinc.com/plugins/page-generator-pro/' ),
+				'icon'        => 'https://www.wpzinc.com/wp-content/uploads/2025/01/page-generator-pro-logo-256x256-1.png',
+				'description' => 'Automatically mass build local SEO, programmatic SEO, GEO sites, directories or content at scale with one-click deployment. Save 40 hours per site.',
+				'price'       => 99,
+			),
+			array(
+				'name'        => 'Social Post Flow',
+				'url'         => $this->append_utm_params_to_url( 'https://www.socialpostflow.com' ),
+				'install_url' => admin_url(
+					add_query_arg(
+						array(
+							'tab'  => 'search',
+							'type' => 'term',
+							's'    => 'socialpostflow',
+						),
+						'plugin-install.php'
+					)
+				),
+				'icon'        => 'https://www.socialpostflow.com/wp-content/uploads/2025/05/logo.png',
+				'description' => 'Automatically send content to your Social Post Flow account for scheduled publishing to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, Mastodon and Bluesky.',
+				'price'       => 49,
+			),
+			array(
+				'name'        => 'WordPress to Buffer Pro',
+				'url'         => $this->append_utm_params_to_url( 'https://www.wpzinc.com/plugins/wordpress-to-buffer-pro/' ),
+				'icon'        => 'https://www.wpzinc.com/wp-content/uploads/2025/11/buffer-square.png',
+				'description' => 'Automatically send content to your Buffer account for scheduled publishing to Facebook, X, Instagram, Threads, LinkedIn, Pinterest, Mastodon, Bluesky, TikTok and Google Business.',
+				'price'       => 39,
+			),
+			array(
+				'name'        => 'WordPress to Hootsuite Pro',
+				'url'         => $this->append_utm_params_to_url( 'https://www.wpzinc.com/plugins/wordpress-to-hootsuite-pro/' ),
+				'icon'        => 'https://www.wpzinc.com/wp-content/uploads/2018/03/hootsuite-logo-1.png',
+				'description' => 'Automatically send content to your Hootsuite account for scheduled publishing to Facebook, X / Twitter, LinkedIn, Pinterest and Threads.',
+				'price'       => 39,
+			),
+			array(
+				'name'        => 'WordPress to SocialPilot Pro',
+				'url'         => $this->append_utm_params_to_url( 'https://www.wpzinc.com/plugins/wordpress-to-socialpilot-pro/' ),
+				'icon'        => 'https://www.wpzinc.com/wp-content/uploads/2019/05/socialpilot-logo.png',
+				'description' => 'Automatically send content to your SocialPilot account for scheduled publishing to Facebook, Twitter, Instagram, Pinterest, LinkedIn and more.',
+				'price'       => 39,
+			),
+		);
+
+		// Load view.
+		include $this->dashboard_folder . '/views/about.php';
+
 	}
 
 	/**
