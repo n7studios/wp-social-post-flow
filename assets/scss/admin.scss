@@ -310,6 +310,14 @@ body.block-editor-page {
 				}
 			}
 
+			&.telegram {
+
+				a {
+					background-image: url(../../_modules/dashboard/feather/telegram.svg);
+					background-size: 16px 16px;
+				}
+			}
+
 			&.pinterest {
 
 				a {
