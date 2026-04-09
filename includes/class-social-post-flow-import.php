@@ -37,6 +37,32 @@ class Social_Post_Flow_Import {
 	 */
 	public function import( $success, $import ) {
 
+		/*
+		// Fetch data.
+		$data = $import['data'];
+
+		// Keywords.
+		if ( isset( $data['keywords'] ) && is_array( $data['keywords'] ) ) {
+			$this->import_keywords( $data['keywords'] );
+		}
+
+		// Groups.
+		if ( isset( $data['groups'] ) && is_array( $data['groups'] ) ) {
+			$this->import_content_groups( $data['groups'] );
+		}
+
+		// Terms.
+		if ( isset( $data['terms'] ) && is_array( $data['terms'] ) ) {
+			$this->import_term_groups( $data['terms'] );
+		}
+
+		// Settings.
+		$this->import_settings( $data );
+
+		// Return.
+		return $success;
+		*/
+
 		foreach ( $import['data'] as $key => $value ) {
 			update_option( $key, $value );
 		}
