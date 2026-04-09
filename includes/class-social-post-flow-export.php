@@ -39,32 +39,32 @@ class Social_Post_Flow_Export {
 		// Get Settings Sections, Post Types and Profiles.
 		$settings_sections = array(
 			array(
-				'id' => 'general',
+				'id'    => 'general',
 				'label' => __( 'General', 'social-post-flow' ),
 			),
 			array(
-				'id' => 'text_to_image',
+				'id'    => 'text_to_image',
 				'label' => __( 'Text to Image', 'social-post-flow' ),
 			),
 			array(
-				'id' => 'log',
+				'id'    => 'log',
 				'label' => __( 'Log', 'social-post-flow' ),
 			),
 			array(
-				'id' => 'repost',
+				'id'    => 'repost',
 				'label' => __( 'Repost', 'social-post-flow' ),
 			),
 			array(
-				'id' => 'user_access',
+				'id'    => 'user_access',
 				'label' => __( 'User Access', 'social-post-flow' ),
 			),
 			array(
-				'id' => 'custom_tags',
+				'id'    => 'custom_tags',
 				'label' => __( 'Custom Tags', 'social-post-flow' ),
 			),
 		);
-		$post_types = social_post_flow()->get_class( 'common' )->get_post_types();
-		$profiles = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
+		$post_types        = social_post_flow()->get_class( 'common' )->get_post_types();
+		$profiles          = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
 
 		// Load view.
 		include_once SOCIAL_POST_FLOW_PLUGIN_PATH . 'views/export.php';
@@ -86,12 +86,16 @@ class Social_Post_Flow_Export {
 		$settings = social_post_flow()->get_class( 'settings' )->get_all();
 
 		// Get Post Types and Profiles.
-		$post_types = social_post_flow()->get_class( 'common' )->get_post_types();
-		$profiles = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
+		$post_types  = social_post_flow()->get_class( 'common' )->get_post_types();
+		$profiles    = social_post_flow()->get_class( 'api' )->profiles( false, social_post_flow()->get_class( 'common' )->get_transient_expiration_time() );
 		$profile_ids = array_keys( $profiles );
 
+		// Calculate which Profile IDs to exclude.
+		$profile_ids_to_include = array_key_exists( 'profiles', $params ) ? array_keys( $params['profiles'] ) : array();
+		$profile_ids_to_exclude = array_diff( $profile_ids, $profile_ids_to_include );
+
 		// Depending on the Export sections selected, remove settings.
-		
+
 		// Authentication.
 		if ( ! array_key_exists( 'access_token', $params ) ) {
 			unset( $settings['social-post-flow-access-token'] );
@@ -140,6 +144,11 @@ class Social_Post_Flow_Export {
 			// Text to Image.
 			if ( ! array_key_exists( 'text_to_image', $params['settings'] ) ) {
 				unset( $settings['social-post-flow-text_to_image'] );
+			} elseif ( count( $profile_ids_to_exclude ) > 0 ) {
+				// Remove Profile specific Text to Image settings.
+				foreach ( $profile_ids_to_exclude as $profile_id ) {
+					unset( $settings['social-post-flow-text_to_image']['type'][ $profile_id ] );
+				}
 			}
 
 			// Log Settings.
@@ -153,7 +162,7 @@ class Social_Post_Flow_Export {
 				unset( $settings['social-post-flow-repost_disable_cron'] );
 				unset( $settings['social-post-flow-repost_time'] );
 			}
-			
+
 			// User Access.
 			if ( ! array_key_exists( 'user_access', $params['settings'] ) ) {
 				unset( $settings['social-post-flow-hide_meta_box_by_roles'] );
@@ -161,7 +170,7 @@ class Social_Post_Flow_Export {
 				unset( $settings['social-post-flow-restrict_roles'] );
 				unset( $settings['social-post-flow-roles'] );
 			}
-			
+
 			// Custom Tags.
 			if ( ! array_key_exists( 'custom_tags', $params['settings'] ) ) {
 				unset( $settings['social-post-flow-custom_tags'] );
@@ -176,60 +185,40 @@ class Social_Post_Flow_Export {
 
 			// Return the settings.
 			// Removing Profiles from Post Type settings isn't needed, as there are no Post Type settings.
-			die('no post types to return');
 			return $settings;
 		}
 
 		// Remove some Post Type settings based on the selected Post Types.
 		foreach ( $post_types as $post_type ) {
 			if ( ! array_key_exists( $post_type->name, $params['post_types'] ) ) {
-				var_dump( $post_type->name . ' excluded in export' );
 				unset( $settings[ 'social-post-flow-' . $post_type->name ] );
 			}
 		}
 
-		// Profiles.
-		// Removes Post Type Settings by Profile.
-		if ( ! array_key_exists( 'profiles', $params ) ) {
-			// Remove all Post Type Profile settings.
-			foreach ( $post_types as $post_type ) {
-				// Skip if the settings for this Post Type were not included
-				// in the export.
-				if ( ! array_key_exists( 'social-post-flow-' . $post_type->name, $settings ) ) {
-					var_dump( $post_type->name . ' excluded in export' );
-					continue;
-				}
-
-				// Skip if the settings for this Post Type are false.
-				// This means no settings have been set for this Post Type.
-				if ( ! $settings[ 'social-post-flow-' . $post_type->name ] ) {
-					var_dump( $post_type->name . ' no settings' );
-					continue;
-				}
-
-				// Remove settings for all Profiles for this Post Type.
-				foreach( $profile_ids as $profile_id ) {
-					unset( $settings[ 'social-post-flow-' . $post_type->name ][ $profile_id ] );
-				}
-			}
-
+		// If no Profiles need to be excluded, return the settings.
+		if ( count( $profile_ids_to_exclude ) === 0 ) {
 			return $settings;
 		}
-		
+
 		// Remove some Post Type Profile settings based on the selected Profiles.
 		foreach ( $post_types as $post_type ) {
+			// Skip if the settings for this Post Type were not included
+			// in the export.
+			if ( ! array_key_exists( 'social-post-flow-' . $post_type->name, $settings ) ) {
+				continue;
+			}
+
 			// Skip if the settings for this Post Type are false.
 			// This means no settings have been set for this Post Type.
 			if ( ! $settings[ 'social-post-flow-' . $post_type->name ] ) {
 				continue;
 			}
 
-			// @TODO.
+			// Remove settings for all Profiles for this Post Type.
+			foreach ( $profile_ids_to_exclude as $profile_id ) {
+				unset( $settings[ 'social-post-flow-' . $post_type->name ][ $profile_id ] );
+			}
 		}
-		
-
-		var_dump( $settings );
-		die();
 
 		return $settings;
 
