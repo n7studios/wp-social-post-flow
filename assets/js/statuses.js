@@ -266,6 +266,36 @@ function socialPostFlowReindexStatuses(statuses_container) {
 }
 
 /**
+ * Show/hide first comment option based on the chosen profile provider
+ *
+ * @since 	1.3.2
+ *
+ * @param {Object} profile Profile.
+ */
+function socialPostFlowUpdateFirstCommentOption(profile) {
+	(function ($) {
+		// Show the first comment option.
+		$('div.first-comment', $(social_post_flow.status_form)).show();
+
+		// If no profile is provided, we're on the Default tab. Bail.
+		if (!profile) {
+			return;
+		}
+
+		// Hide the first comment option if the profile provider is not supported.
+		switch (profile.provider) {
+			case 'mastodon':
+			case 'tiktok':
+			case 'telegram':
+			case 'google':
+				// First comment is not supported for these services.
+				$('div.first-comment', $(social_post_flow.status_form)).hide();
+				break;
+		}
+	})(jQuery);
+}
+
+/**
  * Show/hide schedule options based on the chosen schedule
  *
  * @since 	1.0.0
@@ -713,6 +743,9 @@ function socialPostFlowEditStatus(
 
 	// Update post type options.
 	socialPostFlowUpdatePostTypeOptions(profile);
+
+	// Update first comment option.
+	socialPostFlowUpdateFirstCommentOption(profile);
 
 	// Update schedule options.
 	socialPostFlowUpdateScheduleOptions(action);

@@ -1607,11 +1607,25 @@ class Social_Post_Flow_Publish {
 
 		// Build API compatible arguments.
 		$args = array(
-			'post_type'     => $status['post_type'],
-			'profile_ids'   => array( $profile_id ),
-			'text'          => $this->parse_text( $post, $status['text'], ( $service === 'instagram' ? true : false ) ),
-			'first_comment' => ( $service !== 'mastodon' ? $this->parse_text( $post, $status['first_comment'], ( $service === 'instagram' ? true : false ) ) : null ),
+			'post_type'   => $status['post_type'],
+			'profile_ids' => array( $profile_id ),
+			'text'        => $this->parse_text( $post, $status['text'], ( $service === 'instagram' ? true : false ) ),
 		);
+
+		// First Comment.
+		switch ( $service ) {
+			case 'mastodon':
+			case 'tiktok':
+			case 'telegram':
+			case 'google':
+				// First comment is not supported for these services.
+				break;
+
+			default:
+				// First comment is supported for these services.
+				$args['first_comment'] = $this->parse_text( $post, $status['first_comment'], ( $service === 'instagram' ? true : false ) );
+				break;
+		}
 
 		// URL.
 		switch ( $args['post_type'] ) {
@@ -1995,6 +2009,8 @@ class Social_Post_Flow_Publish {
 				$additional_images_limit = min( $status_additional_images_limit, 3 );
 				break;
 
+			case 'google':
+			case 'telegram':
 			default:
 				// A network that does not support additional images.
 				return false;

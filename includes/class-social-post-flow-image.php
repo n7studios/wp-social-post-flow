@@ -272,6 +272,7 @@ class Social_Post_Flow_Image {
 			'mastodon'        => array( 1200, 675 ),
 			'bluesky'         => array( 1200, 675 ),
 			'telegram'        => array( 1080, 1080 ),
+			'google'          => array( 1200, 900 ),
 		);
 
 		/**

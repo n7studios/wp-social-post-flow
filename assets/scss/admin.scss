@@ -326,6 +326,14 @@ body.block-editor-page {
 				}
 			}
 
+			&.google {
+
+				a {
+					background-image: url(../../_modules/dashboard/feather/google.svg);
+					background-size: 16px 16px;
+				}
+			}
+
 			&.tiktok {
 
 				a {

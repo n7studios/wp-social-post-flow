@@ -1,19 +1,19 @@
 === Social Media Auto Poster - Schedule & Publish to Social Post Flow ===
 Contributors: socialpostflow
 Donate link: https://www.socialpostflow.com/integrations/wordpress
-Tags: auto post, social media, telegram, instagram, linkedin
+Tags: auto post, social media, google business, instagram, linkedin
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, TikTok, Mastodon, Bluesky and Telegram.
+Auto publish WordPress posts to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Google Business, Pinterest, TikTok, Mastodon, Bluesky and Telegram.
 
 == Description ==
 
-Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Pinterest, TikTok, Mastodon, Bluesky and Telegram. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
+Auto Post to Social Media is a powerful WordPress plugin that automatically publishes your Posts, Pages, Events, Products and Custom Post Types to Facebook, X/Twitter, Threads, Instagram, LinkedIn, Google Business, Pinterest, TikTok, Mastodon, Bluesky and Telegram. Connect your social media accounts in minutes and start scheduling posts with unique, dynamic content for each platform.
 
 Don't have a Social Post Flow account? Pricing starts at $49/year for 5 social accounts, and you can [sign up for a free 7 day trial](https://app.socialpostflow.com/register)
 
@@ -59,6 +59,9 @@ Share your WordPress content to Instagram with image optimization and caption fo
 
 **LinkedIn Auto Post**
 Publish professional content to LinkedIn company pages and personal profiles with full image and link preview support.
+
+**Google Business Profile Auto Post**
+Automatically publish your WordPress content to your Google Business Profile, keeping your business listing fresh with updates that appear directly in Google Search and Maps.
 
 **Threads Auto Post**
 Automatically cross-post your WordPress content to Meta's Threads platform with optimized formatting for the Threads audience.
@@ -324,6 +327,7 @@ You can auto publish to:
 - Instagram
 - LinkedIn Profile
 - LinkedIn Page
+- Google Business Profile
 - Pinterest Boards
 - TikTok
 - Mastodon
@@ -445,6 +449,10 @@ Social Post Flow offers a 7-day free trial so you can test all features before p
 4. Post-level Logging.
 
 == Changelog ==
+
+= 1.3.2 (2026-05-22) =
+* Added: Google Business Profile support
+* Fix: Status: First Comment: Don't display field if overriding status settings and the profile does not support this feature (Mastodon, Telegram, TikTok and Google)
 
 = 1.3.1 (2026-05-20) =
 * Fix: Status: Defaults
